@@ -1,0 +1,31 @@
+@import '../../../../styles/variables';
+
+.time-indicator-container {
+  display: flex;
+  height: 100%;
+
+  padding: 1rem 0;
+  padding-top: 1rem + $day-title-height;
+  padding-bottom: 4rem;
+
+  border-right: 1px solid rgb(211, 218, 233);
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
+    tr {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+      height: 1 / $hours-amount * 100%;
+
+      color: rgb(147, 157, 179);
+
+      padding: 0 1.5rem;
+    }
+  }
+}

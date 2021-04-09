@@ -1,0 +1,106 @@
+@import '../../styles/variables';
+
+.login {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .sub-title {
+    font-size: 1rem;
+    font-weight: 400;
+
+    color: $blue;
+    text-decoration: none;
+
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    position: relative;
+    margin-top: 1em;
+  }
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: calc(100% - 0.5rem - 1rem);
+
+    transform: translate(-50%, -50%);
+
+    stroke-width: 1.5px;
+    color: darken($border-darker, 30%);
+
+    cursor: pointer;
+  }
+
+  .input {
+    font-size: 1rem;
+    font: small-caption;
+
+    padding: 0.5rem 0.75rem;
+
+    width: 23rem;
+
+    border: 1px solid $border-darker;
+    transition: box-shadow 0.3s;
+
+    outline: none;
+    appearance: none;
+    -moz-appearance: none;
+  }
+
+  .input:focus {
+    box-shadow: 0 0 0 3px $border;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+    font-weight: 400;
+
+    margin-top: 1em;
+    padding: 0.5rem 0.75rem;
+
+    align-self: flex-end;
+
+    background: rgb(32, 90, 199);
+    color: white;
+
+    outline: none;
+    border: none;
+    appearance: none;
+    -moz-appearance: none;
+
+    cursor: pointer;
+
+    transition: box-shadow 0.3s;
+  }
+
+  .submit-button:focus {
+    box-shadow: 0 0 0 3px rgb(150, 173, 216);
+  }
+
+  .error {
+    position: absolute;
+    top: 100%;
+
+    display: block;
+
+    font-size: 1rem;
+
+    margin-top: 2rem;
+    padding: 0.75rem;
+
+    width: 100%;
+
+    background: lighten($red, 36%);
+    border: 1px solid $red;
+    color: $red;
+  }
+}

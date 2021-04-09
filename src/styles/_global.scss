@@ -1,0 +1,21 @@
+@import './variables';
+@import './typography';
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+input {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
