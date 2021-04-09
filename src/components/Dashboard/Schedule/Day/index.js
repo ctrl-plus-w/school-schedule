@@ -77,8 +77,6 @@ const Day = (props) => {
       }
     }
 
-    console.log('normal');
-
     return (
       <div className={`end ${defaultClasses}`} key={curr.id}>
         <h3 className='subject'>{curr.subject}</h3>

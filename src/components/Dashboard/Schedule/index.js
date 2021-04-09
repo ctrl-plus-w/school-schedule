@@ -15,15 +15,8 @@ import TimeIndicator from './TimeIndicator';
 import './index.scss';
 
 const Schedule = () => {
-  const [translation, setTranslation] = useState(0);
-
-  const daysElRef = createRef();
-
-  const DAY_AMOUNT = 12;
-  const INCREMENTER = 100;
-
   const eventsContext = useContext(EventsContext);
-  const next14days = getConsecutiveDays(DAY_AMOUNT);
+  const next14days = getConsecutiveDays(14);
 
   const events = eventsContext.map((event) => ({
     id: event.id,
@@ -39,43 +32,10 @@ const Schedule = () => {
     return [...acc, { id: uuidv4(), date: curr, events: dayEvents }];
   }, []);
 
-  const getChildInHierachy = (parent, className) => {
-    const childs = Array.from(parent.children);
-    for (const child of childs) {
-      if (Array.from(child.classList).includes(className)) return child;
-      return getChildInHierachy(child, className);
-    }
-  };
-
-  const handleWheel = async (e) => {
-    const delta = e.deltaY;
-    const totalWidth = daysElRef.current.clientWidth;
-
-    const oneDayEl = getChildInHierachy(daysElRef.current, 'day');
-    const daysWidth = oneDayEl.clientWidth * DAY_AMOUNT;
-
-    if (daysWidth < totalWidth) return;
-
-    // TODO : [ ] Handle horizontal scroll.
-
-    // const decrementTranslation = (amount) => {
-    //   // if (translation - amount < daysWidth) return setTranslation(0);
-    //   setTranslation(translation - amount);
-    // };
-
-    // const incrementTranslation = (amount) => {
-    //   // if (translation + amount > 0) return setTranslation(0);
-    //   setTranslation(translation + amount);
-    // };
-
-    // if (delta > 0) decrementTranslation(INCREMENTER);
-    // else incrementTranslation(INCREMENTER);
-  };
-
   return (
-    <div className='schedule' onWheel={handleWheel}>
+    <div className='schedule'>
       <TimeIndicator />
-      <Days elRef={daysElRef} translation={translation} days={days} />
+      <Days days={days} />
     </div>
   );
 };

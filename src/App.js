@@ -16,6 +16,7 @@ import { AuthProvider } from './context/auth-context';
 
 // TODO : [ ] Create the login page.
 // TODO : [ ] Create the auth system (logic).
+// TODO : [ ] Bug! Days scroll doesn't show a part of the last day.
 
 const App = () => {
   const [token, setToken] = useState('');
