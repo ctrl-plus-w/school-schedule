@@ -9,7 +9,7 @@ import { getWeekDay } from '../../../../utils/Calendar';
 import './index.scss';
 
 // TODO : [ ] Refactor getEventElement function.
-// TODO : [ ] Handle event click.
+// TODO : [ ] Handle event click.
 
 const Day = (props) => {
   const nineArray = new Array(9).fill(0);

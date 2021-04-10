@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
@@ -69,6 +69,8 @@ const App = () => {
             ) : (
               <>
                 <Redirect from='/' to='/auth' exact />
+                <Redirect from='/dashboard' to='/auth' exact />
+
                 <Route path='/auth' component={Auth} />
                 <Route path='/missed-password' component={MissedPassword} />
               </>

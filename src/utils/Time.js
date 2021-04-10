@@ -20,23 +20,23 @@ export default class Time {
     return `${this.oneDigitToTwo(this.hours)}:${this.oneDigitToTwo(this.mins)}`;
   }
 
-  static getLocalDate = (date) => {
+  static getLocalDate(date) {
     return date.toLocaleString('fr', { timeZone: 'Europe/Paris' });
-  };
+  }
 
-  static getLocalDateDate = (date) => {
+  static getLocalDateDate(date) {
     return this.getLocalDate(date).split(' ')[0].split('/');
-  };
+  }
 
-  static getLocalDateTime = (date) => {
+  static getLocalDateTime(date) {
     return this.getLocalDate(date).split(' ')[2].split(':');
-  };
+  }
 
-  static getLocalHours = (date) => {
+  static getLocalHours(date) {
     return parseInt(this.getLocalDateTime(date)[0]);
-  };
+  }
 
-  static getLocalMins = (date) => {
+  static getLocalMins(date) {
     return parseInt(this.getLocalDateTime(date)[1]);
-  };
+  }
 }

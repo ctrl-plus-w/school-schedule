@@ -10,3 +10,28 @@
   -o-filter: $filter-type + unquote('(#{$filter-amount})');
   filter: $filter-type + unquote('(#{$filter-amount})');
 }
+
+@mixin hover-effect {
+  display: inline;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 0%;
+    height: 2px;
+
+    background: rgb(9, 6, 41);
+
+    transition: width 0.3s;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}

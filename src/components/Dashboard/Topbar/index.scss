@@ -8,25 +8,62 @@
   width: 100%;
   height: $topbar-height;
 
-  padding: 1.5rem;
-  padding-left: 3rem;
+  padding: 1.5rem 3rem;
 
   border-bottom: 0.1rem solid rgb(231, 231, 231);
-}
 
-.text {
-  display: flex;
-  flex-direction: column;
-}
+  .text {
+    display: flex;
+    flex-direction: column;
 
-.name {
-  color: rgb(9, 6, 41);
-  font-size: 1.4rem;
-  font-weight: 600;
-}
+    .name {
+      color: rgb(9, 6, 41);
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
 
-.role {
-  color: rgb(51, 51, 61);
-  font-size: 1rem;
-  font-weight: 400;
+    .role {
+      color: rgb(51, 51, 61);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+  }
+
+  .label-selector {
+    margin-left: 3rem;
+  }
+
+  .logout {
+    margin-left: auto;
+
+    a {
+      position: relative;
+
+      color: rgb(9, 6, 41);
+      font-size: 1.1rem;
+      font-weight: 600;
+
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        display: block;
+
+        position: absolute;
+        top: 100%;
+        left: 0;
+
+        width: 0%;
+        height: 2px;
+
+        background: rgb(9, 6, 41);
+
+        transition: width 0.3s;
+      }
+
+      &:hover::after {
+        width: 100%;
+      }
+    }
+  }
 }

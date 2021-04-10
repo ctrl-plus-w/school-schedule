@@ -1,0 +1,14 @@
+@import '../../../../styles/mixins';
+@import '../../../../styles/variables';
+
+.label-picker {
+  display: flex;
+  padding: 0.5rem;
+
+  color: darken($border-darker, 30%);
+
+  border: 1px solid $border;
+  border-radius: 0.2rem;
+
+  cursor: pointer;
+}
