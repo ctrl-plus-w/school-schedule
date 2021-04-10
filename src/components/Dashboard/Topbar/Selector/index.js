@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
 
 import ModalContext from '../../../../context/modal-context';
-import LabelsContext from '../../../../context/labels-context';
-import EventsContext from '../../../../context/events-context';
-
-import { useLazyQuery } from '@apollo/client';
+import DatabaseContext from '../../../../context/database-context';
 
 import { LABEL_EVENTS } from '../../../../graphql/events';
 
@@ -14,17 +12,19 @@ const Selector = () => {
   const [label, setLabel] = useState('Choisir un groupe.');
   const [labelId, setLabelId] = useState('');
 
-  const modalContext = useContext(ModalContext);
-  const labelsContext = useContext(LabelsContext);
-  const eventsContext = useContext(EventsContext);
+  const { hideModal, showModal, setModalTitle, setModalContent } = useContext(ModalContext);
+  const { setEvents, labels } = useContext(DatabaseContext);
 
   const [getEvents, { error, data }] = useLazyQuery(LABEL_EVENTS, { variables: { label_id: labelId } });
 
   useEffect(() => {
     if (data) {
-      modalContext.hide();
-      eventsContext.setEvents(data.labelEvents);
-      console.log(data.labelEvents);
+      hideModal();
+      setEvents(data.labelEvents);
+
+      console.log(data);
+
+      // Handle data.
     }
   }, [data]);
 
@@ -39,12 +39,12 @@ const Selector = () => {
   };
 
   const handleClick = () => {
-    modalContext.setTitle('Choisir un groupe.');
+    setModalTitle('Choisir un groupe.');
 
-    modalContext.setContent(
+    setModalContent(
       <div className='container'>
         <div className='table'>
-          {labelsContext.map((label) => (
+          {labels.map((label) => (
             <div key={label.id}>
               <p onClick={() => handleChangeScheduleLabel(label)}>{label.label_name}</p>
             </div>
@@ -53,7 +53,7 @@ const Selector = () => {
       </div>
     );
 
-    modalContext.show();
+    showModal();
   };
 
   return (

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getConsecutiveDays, sameDay } from '../../../utils/Calendar';
 import Time from '../../../utils/Time';
 
-import EventsContext from '../../../context/events-context';
+import DatabaseContext from '../../../context/database-context';
 
 import TimeIndicator from './TimeIndicator';
 import Days from './Days';
@@ -12,10 +12,10 @@ import Days from './Days';
 import './index.scss';
 
 const Schedule = () => {
-  const eventsContext = useContext(EventsContext);
+  const databaseContext = useContext(DatabaseContext);
   const next14days = getConsecutiveDays(14);
 
-  const events = eventsContext.events.map((event) => ({
+  const events = databaseContext.events.map((event) => ({
     id: event.id,
     start: new Date(event.start),
     subject: event.subject.subject_name,
