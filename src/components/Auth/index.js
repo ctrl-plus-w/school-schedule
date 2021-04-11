@@ -42,7 +42,7 @@ const Auth = (props) => {
 
   useEffect(() => {
     defaultFocusField && defaultFocusField.current.focus();
-  }, [defaultFocusField]);
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
