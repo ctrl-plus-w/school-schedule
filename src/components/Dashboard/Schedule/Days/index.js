@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, createRef } from 'react';
 import LocomotiveScroll from 'locomotive-scroll';
 
@@ -28,6 +29,10 @@ const Days = (props) => {
       </div>
     </div>
   );
+};
+
+Days.propTypes = {
+  days: PropTypes.array,
 };
 
 export default Days;

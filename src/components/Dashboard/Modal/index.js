@@ -5,7 +5,7 @@ import './index.scss';
 
 import ModalContext from '../../../context/modal-context';
 
-const Modal = (props) => {
+const Modal = () => {
   const modalContext = useContext(ModalContext);
 
   return (

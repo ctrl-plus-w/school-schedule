@@ -1,5 +1,5 @@
-import { getElementError } from '@testing-library/dom';
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -93,6 +93,10 @@ const Day = (props) => {
       <div className='events'>{events.map((el, i) => getEventElement(events, i))}</div>
     </div>
   );
+};
+
+Day.propTypes = {
+  infos: PropTypes.object,
 };
 
 export default Day;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState, useContext, createRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
@@ -109,6 +110,10 @@ const Auth = (props) => {
       </form>
     </div>
   );
+};
+
+Auth.propTypes = {
+  history: PropTypes.any,
 };
 
 export default Auth;
