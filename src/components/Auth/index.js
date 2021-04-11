@@ -33,7 +33,7 @@ const Auth = () => {
       authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
       history.push('/dashboard');
 
-      // TODO : [ ] Redirect.
+      // TODO : [x] Redirect.
       // TODO : [ ] Save token and more in the local storage or session.
     },
   });

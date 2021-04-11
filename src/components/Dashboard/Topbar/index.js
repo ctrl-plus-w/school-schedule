@@ -15,7 +15,7 @@ const Topbar = () => {
   const history = useHistory();
 
   // TODO : [x] Add groups under name.
-  // TODO : [ ] Add a selector for the groups.
+  // TODO : [x] Add a selector for the groups / labels.
   // TODO : [ ] Show selector only for users with professor role.
 
   const logout = () => {

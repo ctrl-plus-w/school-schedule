@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
@@ -14,53 +14,26 @@ import MissedPassword from './components/MissedPassword';
 
 import { AuthProvider } from './context/auth-context';
 
-// TODO : [ ] Create the login page.
-// TODO : [ ] Create the auth system (logic).
-// TODO : [ ] Bug! Days scroll doesn't show a part of the last day.
+import useAuth from './hooks/useAuth';
+
+// TODO : [x] Create the login page.
+// TODO : [x] Create the auth system (logic).
+// TODO : [x] Bug! Days scroll doesn't show a part of the last day.
 
 const App = () => {
-  const [token, setToken] = useState('');
-  const [userId, setUserId] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [role, setRole] = useState({});
+  const auth = useAuth();
 
-  const login = (token, tokenExpiration, userId, role, fullName) => {
-    setToken(token);
-    setUserId(userId);
-    setFullName(fullName);
-    setRole(role);
-  };
+  const setAuthContext = (_op, prevCtx) => ({ ...prevCtx, headers: { ...prevCtx.headers, Authorization: auth.token ? `Bearer ${auth.token}` : '' } });
 
-  const logout = () => {
-    setToken('');
-    setUserId('');
-    setRole({});
-  };
-
-  const httpLink = new createHttpLink({
-    uri: 'http://localhost:5000/graphql',
-  });
-
-  const testLink = setContext((operation, previousContext) => ({
-    ...previousContext,
-
-    headers: {
-      ...previousContext.headers,
-      Authorization: token ? `Bearer ${token}` : '',
-    },
-  }));
-
-  const client = new ApolloClient({
-    link: ApolloLink.from([testLink, httpLink]),
-    cache: new InMemoryCache(),
-  });
+  const httpLink = new createHttpLink({ uri: 'http://localhost:5000/graphql' });
+  const client = new ApolloClient({ link: ApolloLink.from([setContext(setAuthContext), httpLink]), cache: new InMemoryCache() });
 
   return (
     <ApolloProvider client={client}>
-      <AuthProvider value={{ token, userId, fullName, role, login, logout }}>
+      <AuthProvider value={auth}>
         <BrowserRouter>
           <Switch>
-            {token ? (
+            {auth.token ? (
               <>
                 <Redirect from='/' to='/dashboard' exact />
                 <Route path='/admin' component={Admin} />
