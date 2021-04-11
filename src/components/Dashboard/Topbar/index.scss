@@ -36,14 +36,15 @@
   .logout {
     margin-left: auto;
 
-    a {
+    p {
       position: relative;
 
       color: rgb(9, 6, 41);
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 400;
 
       text-decoration: none;
+      cursor: pointer;
 
       &::after {
         content: '';

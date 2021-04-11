@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 
 import AuthContext from '../../../context/auth-context';
 import EventsContext from '../../../context/events-context';
@@ -7,14 +6,22 @@ import EventsContext from '../../../context/events-context';
 import Selector from './Selector';
 
 import './index.scss';
+import { useHistory } from 'react-router';
 
 const Topbar = () => {
   const authContext = useContext(AuthContext);
   const eventsContext = useContext(EventsContext);
 
+  const history = useHistory();
+
   // TODO : [x] Add groups under name.
   // TODO : [ ] Add a selector for the groups.
   // TODO : [ ] Show selector only for users with professor role.
+
+  const logout = () => {
+    history.push('/auth');
+    authContext.logout();
+  };
 
   return (
     <div className='topbar-container'>
@@ -28,9 +35,7 @@ const Topbar = () => {
       </div>
 
       <div className='logout'>
-        <Link to='/auth' onClick={() => authContext.logout()}>
-          Se déconnecter
-        </Link>
+        <p onClick={logout}>Se déconnecter</p>
       </div>
     </div>
   );
