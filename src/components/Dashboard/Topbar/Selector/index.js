@@ -22,8 +22,6 @@ const Selector = () => {
       hideModal();
       setEvents(data.labelEvents);
 
-      console.log(data);
-
       // Handle data.
     }
   }, [data]);

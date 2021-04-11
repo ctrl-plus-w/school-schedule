@@ -24,12 +24,14 @@ const Auth = (props) => {
 
   const [login] = useMutation(LOGIN, {
     variables: {
-      username: usernameInput,
-      password: passwordInput,
+      username: usernameInput.trim(),
+      password: passwordInput.trim(),
     },
+
     onError: (error) => {
       setErrorMessage(error.message);
     },
+
     onCompleted: async (data) => {
       if (!data) return setErrorMessage('Un problème est servenue.');
       authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
@@ -48,7 +50,7 @@ const Auth = (props) => {
     e.preventDefault();
 
     // Check if fields are empty.
-    if (usernameInput === '' || passwordInput === '') return setErrorMessage('Vous devez remplir tout les champs.');
+    if (usernameInput.trim() === '' || passwordInput.trim() === '') return setErrorMessage('Vous devez remplir tout les champs.');
 
     // Reset error message and fetch the login data.
     setErrorMessage('');
