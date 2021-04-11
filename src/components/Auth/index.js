@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useState, useContext, createRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
 
 import AuthContext from '../../context/auth-context';
@@ -10,8 +9,11 @@ import { LOGIN } from '../../graphql/auth';
 
 import './index.scss';
 
-const Auth = (props) => {
+// TODO : [ ] Make a hook for the auth.
+
+const Auth = () => {
   const defaultFocusField = createRef();
+  const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -23,19 +25,13 @@ const Auth = (props) => {
   const authContext = useContext(AuthContext);
 
   const [login] = useMutation(LOGIN, {
-    variables: {
-      username: usernameInput.trim(),
-      password: passwordInput.trim(),
-    },
-
-    onError: (error) => {
-      setErrorMessage(error.message);
-    },
-
+    variables: { username: usernameInput.trim(), password: passwordInput.trim() },
+    onError: (error) => setErrorMessage(error.message),
     onCompleted: async (data) => {
-      if (!data) return setErrorMessage('Un problème est servenue.');
+      if (!data) return setErrorMessage('Un problème est survenu.');
+
       authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
-      props.history.push('/dashboard');
+      history.push('/dashboard');
 
       // TODO : [ ] Redirect.
       // TODO : [ ] Save token and more in the local storage or session.
@@ -112,10 +108,6 @@ const Auth = (props) => {
       </form>
     </div>
   );
-};
-
-Auth.propTypes = {
-  history: PropTypes.any,
 };
 
 export default Auth;

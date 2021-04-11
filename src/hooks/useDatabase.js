@@ -14,8 +14,10 @@ const useDatabase = () => {
 
   useEffect(() => {
     // TODO : [ ] Handle errors.
-    eventsError && console.log(eventsError);
-    labels && console.log(labelsError);
+    if (eventsError || labelsError) {
+      console.error('EventsError :', eventsError);
+      console.error('LabelsError :', labelsError);
+    }
   }, [eventsError, labelsError]);
 
   useEffect(() => {

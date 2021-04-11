@@ -1,28 +1,52 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, createRef } from 'react';
-import LocomotiveScroll from 'locomotive-scroll';
+import React, { useEffect } from 'react';
 
 import Day from '../Day';
 
 import './index.scss';
 
-// TODO : Add drag to go through days.
+// TODO : [ ] Add drag to go through days.
+// TODO : [ ] Refactor and create context / hooks.
 
 const Days = (props) => {
-  const scrollRef = createRef();
+  // const [sliderWidth, setSliderWidth] = useState(0);
 
   useEffect(() => {
-    if (scrollRef)
-      new LocomotiveScroll({
-        el: scrollRef.current,
-        smooth: true,
-        direction: 'horizontal',
-      });
+    const days = document.querySelector('.days');
+    const slider = document.querySelector('.slider');
+
+    const sliderWidth = slider.getBoundingClientRect().width;
+
+    document.body.style.height = `${sliderWidth}px`;
+
+    let current = 0;
+    let target = 0;
+    let ease = 0.3;
+
+    const lerp = (start, end, t) => {
+      return start * (1 - t) + end * t;
+    };
+
+    const animate = () => {
+      current = parseFloat(lerp(current, target, ease)).toFixed(0);
+      target = window.scrollY;
+
+      days.style.transform = `translateX(-${current}px)`;
+      requestAnimationFrame(animate);
+    };
+
+    const animation = requestAnimationFrame(animate);
+
+    () => {
+      console.log('stop render');
+      cancelAnimationFrame(animation);
+      document.body.style.height = '';
+    };
   }, []);
 
   return (
-    <div className='days' ref={scrollRef}>
-      <div>
+    <div className='days'>
+      <div className='slider'>
         {props.days.map((day) => {
           return <Day infos={day} key={day.id} />;
         })}
