@@ -6,7 +6,7 @@ import Time from '../../../../utils/Time';
 
 import DatabaseContext from '../../../../context/database-context';
 
-import TimeIndicator from './TimeIndicator';
+import TimeIndicator from '../../TimeIndicator';
 import Days from './Days';
 
 const Schedule = () => {

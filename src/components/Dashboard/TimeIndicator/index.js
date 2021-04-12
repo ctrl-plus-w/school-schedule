@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // import './index.scss';
 
-import Time from '../../../../../utils/Time';
+import Time from '../../../utils/Time';
 
 class TimeIndicator extends Component {
   constructor() {
