@@ -13,6 +13,13 @@
 
   cursor: pointer;
 
+  p::selection,
+  p::-moz-selection,
+  li::selection,
+  li::-moz-selection {
+    background: none;
+  }
+
   .label-header {
     display: flex;
     flex-direction: row;
