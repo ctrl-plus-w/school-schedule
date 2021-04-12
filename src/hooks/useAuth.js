@@ -27,6 +27,9 @@ const useAuth = () => {
     fullName,
     role,
 
+    isProfessor: role === 'Enseignant',
+    isStudent: role === 'Élève',
+
     login,
     logout,
   };

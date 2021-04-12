@@ -30,9 +30,11 @@ const Topbar = () => {
         <h3 className='role'>{authContext.role}</h3>
       </div>
 
-      <div className='label-selector'>
-        <Selector list={[]} setEvents={eventsContext.setEvents} />
-      </div>
+      {authContext.isProfessor && (
+        <div className='label-selector'>
+          <Selector list={[]} setEvents={eventsContext.setEvents} />
+        </div>
+      )}
 
       <div className='logout'>
         <p onClick={logout}>Se déconnecter</p>

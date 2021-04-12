@@ -7,6 +7,7 @@ import Time from '../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../utils/Calendar';
 
 import ModalContext from '../../../../context/modal-context';
+import AuthContext from '../../../../context/auth-context';
 
 import './index.scss';
 
@@ -16,8 +17,7 @@ import './index.scss';
 
 const Day = (props) => {
   const modalContext = useContext(ModalContext);
-
-  modalContext;
+  const authContext = useContext(AuthContext);
 
   const nineArray = new Array(9).fill(0);
 
@@ -30,7 +30,8 @@ const Day = (props) => {
   );
 
   const selectEvent = (_event, id) => {
-    setEvents((prevEvents) => prevEvents.map((event) => ({ ...event, selected: event.id === id ? !event.selected : event.selected })));
+    if (authContext.isProfessor)
+      setEvents((prevEvents) => prevEvents.map((event) => ({ ...event, selected: event.id === id ? !event.selected : event.selected })));
   };
 
   const handleEventClick = (_event, event) => {
@@ -101,7 +102,7 @@ const Day = (props) => {
           {getWeekDay(props.infos.date)} {props.infos.date.getDate()} {getMonth(props.infos.date)}
         </h3>
       </div>
-      <div className='events'>{events.map((el, i) => getEventElement(events, i))}</div>
+      <div className={`events ${authContext.isProfessor ? 'professor' : 'student'}`}>{events.map((el, i) => getEventElement(events, i))}</div>
     </div>
   );
 };
