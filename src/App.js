@@ -6,13 +6,14 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, ApolloLink
 import { setContext } from '@apollo/client/link/context';
 
 import './main.scss';
+import './components/Dashboard/index.scss';
 
 import Auth from './components/Auth';
 import Admin from './components/Admin';
 import MissedPassword from './components/MissedPassword';
 
-import ProfessorDashboard from './components/ProfessorDashboard';
-import StudentDashboard from './components/StudentDashboard';
+import ProfessorDashboard from './components/Dashboard/Professor';
+import StudentDashboard from './components/Dashboard/Student';
 
 import { AuthProvider } from './context/auth-context';
 

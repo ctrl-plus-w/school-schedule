@@ -107,3 +107,34 @@
     box-shadow: 0 0 0 3px $input-shadow;
   }
 }
+
+@mixin link {
+  position: relative;
+
+  color: rgb(9, 6, 41);
+  font-size: 1.1rem;
+  font-weight: 400;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    display: block;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 0%;
+    height: 2px;
+
+    background: rgb(9, 6, 41);
+
+    transition: width 0.3s;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
