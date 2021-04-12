@@ -50,6 +50,8 @@
 
     $radius: 0.6rem;
 
+    cursor: pointer;
+
     &.normal,
     &.start,
     &.middle,
@@ -79,8 +81,6 @@
       border-color: lighten($black, 35%);
       background-color: lighten($black, 80%);
       color: lighten($black, 20%);
-
-      cursor: pointer;
     }
 
     &.normal:not(.unselected) {

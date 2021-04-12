@@ -1,4 +1,4 @@
-export default class Time {
+class Time {
   constructor(hours, mins) {
     this._hours = hours;
     this._mins = mins;
@@ -40,3 +40,5 @@ export default class Time {
     return parseInt(this.getLocalDateTime(date)[1]);
   }
 }
+
+export default Time;

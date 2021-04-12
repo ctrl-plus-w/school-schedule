@@ -1,17 +1,24 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../utils/Calendar';
 
+import ModalContext from '../../../../context/modal-context';
+
 import './index.scss';
 
-// TODO : [ ] Refactor getEventElement function.
+// TODO : [-] Refactor getEventElement function (try grouping events into one element).
 // TODO : [ ] Handle event click.
+// TODO : [ ] Get more infos when fetching events.
 
 const Day = (props) => {
+  const modalContext = useContext(ModalContext);
+
+  modalContext;
+
   const nineArray = new Array(9).fill(0);
 
   const [events, setEvents] = useState(
@@ -24,6 +31,20 @@ const Day = (props) => {
 
   const selectEvent = (_event, id) => {
     setEvents((prevEvents) => prevEvents.map((event) => ({ ...event, selected: event.id === id ? !event.selected : event.selected })));
+  };
+
+  const handleEventClick = (_event, event) => {
+    // TODO : [ ] Handle click event.
+
+    modalContext.config({
+      title: event.subject,
+      link: event.link,
+      description: event.description,
+      start: event.start.toString,
+      pin: event.obligatory ? 'Obligatoire' : '',
+      pinColor: 'red',
+      subjectOwner: event.owner,
+    });
   };
 
   const getEventElement = (eventsArray, i) => {
@@ -42,7 +63,7 @@ const Day = (props) => {
     );
 
     const cell = (type, content = false) => (
-      <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id}>
+      <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
         {content && <h3 className='subject'>{curr.subject}</h3>}
         {content && <p className='description'>{curr.start.toString}</p>}
       </div>

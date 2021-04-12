@@ -6,10 +6,11 @@ export const EVENTS = gql`
       id
       start
       description
+      obligatory
       link
       owner {
         id
-        username
+        full_name
       }
       label {
         label_name
@@ -27,10 +28,11 @@ export const LABEL_EVENTS = gql`
       id
       start
       description
+      obligatory
       link
       owner {
         id
-        username
+        full_name
       }
       label {
         label_name

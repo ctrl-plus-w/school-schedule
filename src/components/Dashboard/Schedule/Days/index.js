@@ -13,8 +13,6 @@ const Days = (props) => {
   // const [sliderWidth, setSliderWidth] = useState(0);
 
   useEffect(() => {
-    console.log('render');
-
     const days = document.querySelector('.days');
     const slider = document.querySelector('.slider');
 

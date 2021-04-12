@@ -16,6 +16,18 @@ const useModal = () => {
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
+  const config = (args) => {
+    setModalTitle(args.title);
+    setModalLink(args.link);
+    setModalDescription(args.description);
+    setModalStart(args.start);
+    setModalPin(args.pin);
+    setModalPinColor(args.pinColor);
+    setModalSubjectOwner(args.subjectOwner);
+
+    showModal();
+  };
+
   return {
     visible: modalVisible,
     title: modalTitle,
@@ -29,17 +41,7 @@ const useModal = () => {
     showModal: showModal,
     hideModal: hideModal,
 
-    setModalTitle: setModalTitle,
-
-    setModalDescription: setModalDescription,
-    setModalStart: setModalStart,
-
-    setModalSubjectOwner: setModalSubjectOwner,
-
-    setModalPin: setModalPin,
-    setModalPinColor: setModalPinColor,
-
-    setModalLink: setModalLink,
+    config: config,
   };
 };
 

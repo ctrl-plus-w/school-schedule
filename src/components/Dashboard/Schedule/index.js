@@ -18,10 +18,12 @@ const Schedule = () => {
   const events = databaseContext.events.map((event) => ({
     id: event.id,
     start: new Date(event.start),
+    description: event.description,
+    link: event.link,
+    obligatory: event.obligatory,
     subject: event.subject.subject_name,
+    owner: event.owner.full_name,
   }));
-
-  console.log(events);
 
   const days = next14days.reduce((acc, curr) => {
     const dayEvents = events
