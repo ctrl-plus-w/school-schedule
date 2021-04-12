@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,11 +14,17 @@ import './index.scss';
 const Day = (props) => {
   const nineArray = new Array(9).fill(0);
 
-  const events = nineArray.reduce((acc, curr, i) => {
-    const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-    if (event) return [...acc, event];
-    else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true }];
-  }, []);
+  const [events, setEvents] = useState(
+    nineArray.reduce((acc, curr, i) => {
+      const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
+      if (event) return [...acc, event];
+      else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true, selected: false }];
+    }, [])
+  );
+
+  const selectEvent = (_event, id) => {
+    setEvents((prevEvents) => prevEvents.map((event) => ({ ...event, selected: event.id === id ? !event.selected : event.selected })));
+  };
 
   const getEventElement = (eventsArray, i) => {
     const prev = eventsArray[i - 1];
@@ -27,9 +33,13 @@ const Day = (props) => {
 
     const isOneSelected = eventsArray.filter((event) => event?.selected).length > 0;
 
-    if (curr.empty) {
-      return <div className={`event empty ${curr.selected ? 'selected' : ''}`} key={curr.id}></div>;
-    }
+    const emptyCell = (type) => (
+      <div
+        className={`event ${type} empty ${curr.selected ? 'selected' : 'unselected'}`}
+        key={curr.id}
+        onClick={(e) => selectEvent(e, curr.id)}
+      ></div>
+    );
 
     const cell = (type, content = false) => (
       <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id}>
@@ -37,6 +47,13 @@ const Day = (props) => {
         {content && <p className='description'>{curr.start.toString}</p>}
       </div>
     );
+
+    if (curr.empty) {
+      if (prev && prev.empty && prev.selected && next && next.empty && next.selected) return emptyCell('middle');
+      if (prev && prev.empty && prev.selected) return emptyCell('end');
+      if (next && next.empty && next.selected) return emptyCell('start');
+      return emptyCell('normal');
+    }
 
     if (!prev || prev.empty) {
       if (next?.subject === curr?.subject) return cell('start', true);

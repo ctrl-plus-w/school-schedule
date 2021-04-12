@@ -73,12 +73,22 @@
       }
     }
 
-    &.normal {
+    &.selected {
+      border-width: 0;
+      border-radius: 0;
+      border-color: lighten($black, 35%);
+      background-color: lighten($black, 80%);
+      color: lighten($black, 20%);
+
+      cursor: pointer;
+    }
+
+    &.normal:not(.unselected) {
       border-width: 1px;
       border-radius: $radius;
     }
 
-    &.start {
+    &.start:not(.unselected) {
       border-top-left-radius: $radius;
       border-top-right-radius: $radius;
 
@@ -87,12 +97,12 @@
       border-top-width: 1px;
     }
 
-    &.middle {
+    &.middle:not(.unselected) {
       border-left-width: 1px;
       border-right-width: 1px;
     }
 
-    &.end {
+    &.end:not(.unselected) {
       border-bottom-left-radius: $radius;
       border-bottom-right-radius: $radius;
 
@@ -129,17 +139,6 @@
 
       opacity: 0.2;
       background: repeating-linear-gradient(45deg, black, black 5px, #e5e5f7 5px, #e5e5f7 25px);
-
-      cursor: pointer;
-    }
-
-    &.selected {
-      border-width: 1px;
-      border-radius: $radius;
-
-      border-color: lighten($black, 35%);
-      background-color: lighten($black, 80%);
-      color: lighten($black, 20%);
 
       cursor: pointer;
     }
