@@ -1,3 +1,6 @@
+const WEEK_DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
+
 export const getConsecutiveDays = (days = 14) => {
   let today = new Date();
 
@@ -13,20 +16,9 @@ export const sameDay = (day1, day2) => {
 };
 
 export const getWeekDay = (date) => {
-  switch (date.getDay()) {
-    case 0:
-      return 'Dimanche';
-    case 1:
-      return 'Lundi';
-    case 2:
-      return 'Mardi';
-    case 3:
-      return 'Mercredi';
-    case 4:
-      return 'Jeudi';
-    case 5:
-      return 'Vendredi';
-    default:
-      return 'Samedi';
-  }
+  return WEEK_DAYS[date.getDay()];
+};
+
+export const getMonth = (date) => {
+  return MONTHS[date.getDay()];
 };

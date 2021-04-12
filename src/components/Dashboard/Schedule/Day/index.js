@@ -4,7 +4,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../../utils/Time';
-import { getWeekDay } from '../../../../utils/Calendar';
+import { getWeekDay, getMonth } from '../../../../utils/Calendar';
 
 import './index.scss';
 
@@ -88,7 +88,9 @@ const Day = (props) => {
   return (
     <div className='day'>
       <div className='header'>
-        <h3 className='title'>{getWeekDay(props.infos.date)}</h3>
+        <h3 className='title'>
+          {getWeekDay(props.infos.date)} {props.infos.date.getDate()} {getMonth(props.infos.date)}
+        </h3>
       </div>
       <div className='events'>{events.map((el, i) => getEventElement(events, i))}</div>
     </div>
