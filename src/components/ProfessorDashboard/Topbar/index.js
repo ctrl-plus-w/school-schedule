@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import AuthContext from '../../../context/auth-context';
-import EventsContext from '../../../context/events-context';
 
 import Selector from './Selector';
 
 import './index.scss';
-import { useHistory } from 'react-router';
 
 const Topbar = () => {
   const authContext = useContext(AuthContext);
-  const eventsContext = useContext(EventsContext);
 
   const history = useHistory();
 
@@ -30,11 +28,9 @@ const Topbar = () => {
         <h3 className='role'>{authContext.role}</h3>
       </div>
 
-      {authContext.isProfessor && (
-        <div className='label-selector'>
-          <Selector list={[]} setEvents={eventsContext.setEvents} />
-        </div>
-      )}
+      <div className='label-selector'>
+        <Selector list={[]} />
+      </div>
 
       <div className='logout'>
         <p onClick={logout}>Se déconnecter</p>

@@ -9,8 +9,10 @@ import './main.scss';
 
 import Auth from './components/Auth';
 import Admin from './components/Admin';
-import Dashboard from './components/Dashboard';
 import MissedPassword from './components/MissedPassword';
+
+import ProfessorDashboard from './components/ProfessorDashboard';
+import StudentDashboard from './components/StudentDashboard';
 
 import { AuthProvider } from './context/auth-context';
 
@@ -33,21 +35,14 @@ const App = () => {
       <AuthProvider value={auth}>
         <BrowserRouter>
           <Switch>
-            {auth.token ? (
-              <>
-                <Redirect from='/' to='/dashboard' exact />
-                <Route path='/admin' component={Admin} />
-                <Route path='/dashboard' component={Dashboard} />
-              </>
-            ) : (
-              <>
-                <Redirect from='/' to='/auth' exact />
-                <Redirect from='/dashboard' to='/auth' exact />
+            <Redirect from='/' to='/auth' exact />
+            <Route path='/admin' component={Admin} />
+            <Route path='/auth' component={Auth} />
+            <Route path='/missed-password' component={MissedPassword} />
+            {auth.isProfessor && <Route path='/dashboard' component={ProfessorDashboard} />}
+            {auth.isStudent && <Route path='/dashboard' component={StudentDashboard} />}
 
-                <Route path='/auth' component={Auth} />
-                <Route path='/missed-password' component={MissedPassword} />
-              </>
-            )}
+            <Redirect to='/auth' />
           </Switch>
         </BrowserRouter>
       </AuthProvider>

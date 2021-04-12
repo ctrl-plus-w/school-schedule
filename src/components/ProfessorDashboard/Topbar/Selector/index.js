@@ -9,12 +9,10 @@ import { LABEL_EVENTS } from '../../../../graphql/events';
 import './index.scss';
 
 const Selector = () => {
+  const { setEvents, labels, label, setLabel } = useContext(DatabaseContext);
+
   const [visible, setVisible] = useState(false);
-
-  const [label, setLabel] = useState('Choisir un groupe.');
   const [labelId, setLabelId] = useState('');
-
-  const { setEvents, labels } = useContext(DatabaseContext);
 
   const [getEvents, { data }] = useLazyQuery(LABEL_EVENTS, { variables: { label_id: labelId } });
 
@@ -34,7 +32,7 @@ const Selector = () => {
   return (
     <div className='label-picker'>
       <div className={`label-header ${visible ? 'active' : ''}`} onClick={switchVisibility}>
-        <p>{label}</p>
+        <p>{label ? label : 'Choisir un groupe.'}</p>
         <ChevronDown />
       </div>
 
