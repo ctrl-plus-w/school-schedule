@@ -9,6 +9,10 @@
   flex-direction: column;
 }
 
+.blurred {
+  filter: blur(3px);
+}
+
 .center-content {
   justify-content: center;
   align-items: center;

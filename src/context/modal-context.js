@@ -1,15 +1,25 @@
-import React, { createContext } from 'react';
+import { createContext } from 'react';
 
 const ModalContext = createContext({
-  show: () => {},
-  hide: () => {},
+  showModal: () => {},
+  hideModal: () => {},
 
-  setTitle: () => {},
-  setContent: () => {},
+  setModalTitle: () => {},
+  setModalContent: () => {},
+  setModalSubjectOwner: () => {},
+  setModalPin: () => {},
+  setModalStart: () => {},
+  setModalPinColor: () => {},
+  setModalLink: () => {},
 
   visible: false,
   title: '',
-  content: <></>,
+  description: '',
+  subjectOwner: '',
+  start: '',
+  link: '',
+  pin: '',
+  pinColor: '',
 });
 
 export const ModalProvider = ModalContext.Provider;

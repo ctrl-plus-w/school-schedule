@@ -9,7 +9,7 @@ import { LABEL_EVENTS } from '../../../../graphql/events';
 import './index.scss';
 
 const Selector = () => {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const [label, setLabel] = useState('Choisir un groupe.');
   const [labelId, setLabelId] = useState('');

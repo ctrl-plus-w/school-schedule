@@ -61,12 +61,25 @@
 
   transition: box-shadow 0.3s, transform 0.3s;
 
-  &:hover,
-  &:focus {
+  &.disabled {
+    color: darken($button-color, 20%);
+
+    background: darken($button-background, 10%);
+
+    cursor: not-allowed;
+
+    &::selection,
+    &::-moz-selection {
+      background: none;
+    }
+  }
+
+  &:not(.disabled):hover,
+  &:not(.disabled):focus {
     box-shadow: 0 0 0 3px $button-shadow;
   }
 
-  &:active {
+  &:not(.disabled):active {
     box-shadow: 0 0 0 3px $button-shadow;
     transform: scale(0.92);
   }

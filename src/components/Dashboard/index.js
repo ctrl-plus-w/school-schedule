@@ -23,8 +23,8 @@ const Dashboard = () => {
   ) : (
     <ModalContext.Provider value={modal}>
       <DatabaseContext.Provider value={database}>
-        <div className='container'>
-          <Modal />
+        <Modal />
+        <div className={`container ${modal.visible ? 'blurred' : ''}`}>
           <Topbar />
           <Schedule />
         </div>

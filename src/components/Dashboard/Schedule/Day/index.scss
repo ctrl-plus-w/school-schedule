@@ -48,7 +48,7 @@
 
     padding: 0.7rem 1rem;
 
-    $radius: 0.3rem;
+    $radius: 0.6rem;
 
     &.normal,
     &.start,
@@ -75,7 +75,7 @@
 
     &.normal {
       border-width: 1px;
-      // border-radius: $radius;
+      border-radius: $radius;
     }
 
     &.start {
@@ -125,7 +125,7 @@
       height: 100%;
 
       border-width: 1px;
-      // border-radius: $radius;
+      border-radius: $radius;
 
       opacity: 0.2;
       background: repeating-linear-gradient(45deg, black, black 5px, #e5e5f7 5px, #e5e5f7 25px);
@@ -135,7 +135,7 @@
 
     &.selected {
       border-width: 1px;
-      // border-radius: $radius;
+      border-radius: $radius;
 
       border-color: lighten($black, 35%);
       background-color: lighten($black, 80%);

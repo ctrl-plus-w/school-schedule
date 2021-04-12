@@ -7,6 +7,7 @@ import './index.scss';
 
 // TODO : [ ] Add drag to go through days.
 // TODO : [ ] Refactor and create context / hooks.
+// TODO : [ ] Set bodyHeight to 0 when modals shows.
 
 const Days = (props) => {
   // const [sliderWidth, setSliderWidth] = useState(0);

@@ -21,6 +21,8 @@ const Schedule = () => {
     subject: event.subject.subject_name,
   }));
 
+  console.log(events);
+
   const days = next14days.reduce((acc, curr) => {
     const dayEvents = events
       .filter((e) => sameDay(e.start, curr))
