@@ -161,7 +161,7 @@
   align-items: center;
 
   width: 100%;
-  height: $topbar-height;
+  height: auto;
 
   padding: 1.5rem 3rem;
 
@@ -193,8 +193,6 @@
   }
 }
 
-// TODO : [ ] Remove fixed width of timeindicator.
-
 .schedule {
   display: flex;
   flex-direction: row;
@@ -213,7 +211,7 @@
 
   height: 100%;
 
-  padding: 1rem 0;
+  padding: 1rem;
   padding-top: 1rem + $day-title-height;
   padding-bottom: 4rem;
 
@@ -226,7 +224,7 @@
     flex-direction: column;
 
     height: 100%;
-    width: $timeindicator-width;
+    width: auto;
 
     tr {
       display: flex;

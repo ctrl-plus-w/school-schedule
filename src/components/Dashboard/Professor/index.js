@@ -14,6 +14,7 @@ import { LABELS } from '../../../graphql/labels';
 import { OWNED_EVENTS } from '../../../graphql/events';
 
 // TODO : [x] Optimise into custom hooks and one context.
+// TODO : [ ] Handle event creation.
 
 const ProfessorDashboard = () => {
   const modal = useModal();

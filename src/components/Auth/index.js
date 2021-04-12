@@ -9,8 +9,6 @@ import { LOGIN } from '../../graphql/auth';
 
 import './index.scss';
 
-// TODO : [ ] Make a hook for the auth.
-
 const Auth = () => {
   const defaultFocusField = createRef();
   const history = useHistory();
