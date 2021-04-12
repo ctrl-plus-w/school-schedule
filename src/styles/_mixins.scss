@@ -1,4 +1,5 @@
 @import './variables';
+@import './animations';
 
 @mixin full-size {
   width: 100%;
@@ -82,6 +83,8 @@
   border: 1px solid $input-border;
   border-radius: 0.6rem;
   transition: box-shadow 0.3s;
+
+  color: $input-color;
 
   outline: none;
   appearance: none;
