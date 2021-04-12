@@ -20,6 +20,7 @@ const useDatabase = () => {
     }
   }, [eventsError, labelsError]);
 
+  // TODO : [ ] Sort labels by name.
   useEffect(() => {
     if (eventsData) setEvents(eventsData.userEvents);
     if (labelsData) setLabels(labelsData.labels);

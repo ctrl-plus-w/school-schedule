@@ -5,6 +5,7 @@ export const EVENTS = gql`
     userEvents {
       id
       start
+      description
       link
       owner {
         id
@@ -25,6 +26,7 @@ export const LABEL_EVENTS = gql`
     labelEvents(label_id: $label_id) {
       id
       start
+      description
       link
       owner {
         id

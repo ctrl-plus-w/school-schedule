@@ -31,58 +31,29 @@ const Day = (props) => {
       return <div className={`event empty ${curr.selected ? 'selected' : ''}`} key={curr.id}></div>;
     }
 
-    const defaultClasses = `event ${curr.color}${isOneSelected ? ' blur' : ''}`;
+    const cell = (type, content = false) => (
+      <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id}>
+        {content && <h3 className='subject'>{curr.subject}</h3>}
+        {content && <p className='description'>{curr.start.toString}</p>}
+      </div>
+    );
 
     if (!prev || prev.empty) {
-      if (next?.subject === curr.subject) {
-        return (
-          <div className={`start ${defaultClasses}`} key={curr.id}>
-            <h3 className='subject'>{curr.subject}</h3>
-            <p className='description'>{curr.start.toString}</p>
-          </div>
-        );
-      }
-
-      return (
-        <div className={`normal ${defaultClasses}`} key={curr.id}>
-          <h3 className='subject'>{curr.subject}</h3>
-          <p className='description'>{curr.start.toString}</p>
-        </div>
-      );
+      if (next?.subject === curr?.subject) return cell('start', true);
+      return cell('normal', true);
     }
 
-    if (!next || next.empty) {
-      if (prev.subject === curr.subject) {
-        return <div className={`end ${defaultClasses}`} key={curr.id}></div>;
-      }
-    }
+    if ((!next || next.empty) && prev.subject === curr.subject) return cell('end');
 
     // If next is an event and prev as well.
     if (!next.empty && !prev.empty) {
-      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) {
-        return <div className={`middle ${defaultClasses}`} key={curr.id}></div>;
-      }
+      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
+      if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
 
-      if (prev.subject === curr.subject && curr.subject !== next.subject) {
-        return <div className={`end ${defaultClasses}`} key={curr.id}></div>;
-      }
-
-      if (prev.subject !== curr.subject && curr.subject === next.subject) {
-        return (
-          <div className={`middle ${defaultClasses}`} key={curr.id}>
-            <h3 className='subject'>{curr.subject}</h3>
-            <p className='description'>{curr.start.toString}</p>
-          </div>
-        );
-      }
+      if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
     }
 
-    return (
-      <div className={`end ${defaultClasses}`} key={curr.id}>
-        <h3 className='subject'>{curr.subject}</h3>
-        <p className='description'>{curr.start.toString}</p>
-      </div>
-    );
+    return cell('end', true);
   };
 
   return (
