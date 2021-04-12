@@ -34,7 +34,7 @@ const App = () => {
         <BrowserRouter>
           <Switch>
             {auth.token ? (
-              <>
+              <>  
                 <Redirect from='/' to='/dashboard' exact />
                 <Route path='/admin' component={Admin} />
                 <Route path='/dashboard' component={Dashboard} />

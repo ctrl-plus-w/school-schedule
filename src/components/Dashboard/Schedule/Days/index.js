@@ -18,8 +18,10 @@ const Days = (props) => {
     const slider = document.querySelector('.slider');
 
     const sliderWidth = slider.getBoundingClientRect().width;
+    const daysWidth = days.getBoundingClientRect().width;
 
-    document.body.style.height = `${sliderWidth}px`;
+    const bodyHeight = sliderWidth - (daysWidth - window.innerHeight);
+    document.body.style.height = `${bodyHeight}px`;
 
     let current = 0;
     let target = 0;
