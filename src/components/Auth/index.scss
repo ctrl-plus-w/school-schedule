@@ -1,11 +1,15 @@
 @import '../../styles/variables';
+@import '../../styles/mixins';
 
 .login {
   position: relative;
+
   display: flex;
   flex-direction: column;
 
   align-items: flex-start;
+
+  width: 23rem;
 
   .title {
     font-size: 2rem;
@@ -25,65 +29,53 @@
   label {
     position: relative;
     margin-top: 1em;
-  }
 
-  .icon {
-    position: absolute;
-    top: 50%;
-    left: calc(100% - 0.5rem - 1rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    transform: translate(-50%, -50%);
+    width: 100%;
 
-    stroke-width: 1.5px;
-    color: darken($border-darker, 30%);
+    .input {
+      @include input;
+    }
 
-    cursor: pointer;
-  }
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 100%;
 
-  .input {
-    font-size: 1rem;
-    font: small-caption;
+      transform: translate(-100%, -50%);
 
-    padding: 0.5rem 0.75rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    width: 23rem;
+      height: 100%;
 
-    border: 1px solid $border-darker;
-    transition: box-shadow 0.3s;
+      padding: 0 0.75rem;
 
-    outline: none;
-    appearance: none;
-    -moz-appearance: none;
-  }
+      border-top-right-radius: 0.6rem;
+      border-bottom-right-radius: 0.6rem;
 
-  .input:focus {
-    box-shadow: 0 0 0 3px $border;
+      appearance: none;
+      -moz-appearance: none;
+      border: none;
+      background: none;
+
+      cursor: pointer;
+
+      svg {
+        stroke-width: 1.5px;
+        color: darken($border-darker, 30%);
+      }
+    }
   }
 
   .submit-button {
-    font-size: 1rem;
-    font-weight: 400;
+    @include button;
 
     margin-top: 1em;
-    padding: 0.5rem 0.75rem;
-
-    align-self: flex-end;
-
-    background: rgb(32, 90, 199);
-    color: white;
-
-    outline: none;
-    border: none;
-    appearance: none;
-    -moz-appearance: none;
-
-    cursor: pointer;
-
-    transition: box-shadow 0.3s;
-  }
-
-  .submit-button:focus {
-    box-shadow: 0 0 0 3px rgb(150, 173, 216);
   }
 
   .error {
@@ -100,7 +92,10 @@
     width: 100%;
 
     background: lighten($red, 36%);
+
     border: 1px solid $red;
+    border-radius: 0.6rem;
+
     color: $red;
   }
 }

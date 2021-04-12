@@ -91,11 +91,10 @@ const Auth = () => {
             value={passwordInput}
             onChange={(e) => setPasswordInput(e.target.value)}
           />
-          {passwordHidden ? (
-            <EyeOff size={18} className='icon' onClick={handleIconSwitch} />
-          ) : (
-            <Eye size={18} className='icon' onClick={handleIconSwitch} />
-          )}
+
+          <button type='button' className='icon' onClick={handleIconSwitch}>
+            {passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
         </label>
 
         <button type='submit' className='submit-button'>

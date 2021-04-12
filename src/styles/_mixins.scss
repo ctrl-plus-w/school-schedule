@@ -1,3 +1,5 @@
+@import './variables';
+
 @mixin full-size {
   width: 100%;
   height: 100%;
@@ -33,5 +35,59 @@
 
   &:hover::after {
     width: 100%;
+  }
+}
+
+@mixin button {
+  width: 100%;
+
+  padding: 0.65rem 1rem;
+
+  background: $button-background;
+
+  font-size: 1rem;
+  font-weight: 400;
+  color: $button-color;
+
+  border-radius: 0.6rem;
+
+  outline: none;
+  border: none;
+  appearance: none;
+  -moz-appearance: none;
+
+  cursor: pointer;
+
+  transition: box-shadow 0.3s, transform 0.3s;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 0 3px $button-shadow;
+  }
+
+  &:active {
+    box-shadow: 0 0 0 3px $button-shadow;
+    transform: scale(0.92);
+  }
+}
+
+@mixin input {
+  font-size: 1rem;
+  font: small-caption;
+
+  padding: 0.65rem 1rem;
+
+  width: 100%;
+
+  border: 1px solid $input-border;
+  border-radius: 0.6rem;
+  transition: box-shadow 0.3s;
+
+  outline: none;
+  appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
+    box-shadow: 0 0 0 3px $input-shadow;
   }
 }
