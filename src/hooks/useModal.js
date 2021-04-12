@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const useModal = () => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
 
   const [modalLink, setModalLink] = useState('');
