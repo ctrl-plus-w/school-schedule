@@ -9,8 +9,9 @@ import './main.scss';
 import './components/Dashboard/index.scss';
 
 import Auth from './components/Auth';
-import Admin from './components/Admin';
 import MissedPassword from './components/MissedPassword';
+
+import Admin from './components/Admin';
 
 import ProfessorDashboard from './components/Dashboard/Professor';
 import StudentDashboard from './components/Dashboard/Student';
@@ -41,9 +42,23 @@ const App = () => {
             <Route path='/auth' component={Auth} />
             <Route path='/missed-password' component={MissedPassword} />
 
-            {auth.isProfessor && <Route path='/dashboard' component={ProfessorDashboard} />}
-            {auth.isStudent && <Route path='/dashboard' component={StudentDashboard} />}
-            {auth.isAdmin && <Route path='/admin' component={Admin} />}
+            {auth.isProfessor && (
+              <>
+                <Route path='/dashboard' component={ProfessorDashboard} />
+              </>
+            )}
+
+            {auth.isStudent && (
+              <>
+                <Route path='/dashboard' component={StudentDashboard} />
+              </>
+            )}
+
+            {auth.isAdmin && (
+              <>
+                <Route path='/admin' component={Admin} />
+              </>
+            )}
 
             <Redirect to='/' />
           </Switch>

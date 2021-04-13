@@ -1,0 +1,106 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.selector {
+  position: relative;
+
+  display: flex;
+
+  background: white;
+  color: $input-color;
+
+  cursor: pointer;
+
+  p::selection,
+  p::-moz-selection,
+  li::selection,
+  li::-moz-selection {
+    background: none;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.65rem 1rem;
+
+    min-width: 12rem;
+    width: 100%;
+
+    font-size: 1rem;
+    font: small-caption;
+
+    border: 1px solid $input-border;
+    border-radius: 0.6rem;
+
+    transition: box-shadow 0.3s, transform 0.3s;
+
+    &:focus,
+    &:active,
+    &.active {
+      box-shadow: 0 0 0 3px $input-shadow;
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    svg {
+      position: relative;
+
+      margin-left: 0.5rem;
+
+      color: $input-color;
+      stroke-width: 2px;
+    }
+  }
+
+  .selector-list {
+    z-index: 9999;
+
+    position: absolute;
+    top: calc(100% + 1rem);
+    left: 0;
+
+    border: 1px solid $input-border;
+    border-radius: 0.6rem;
+
+    padding: 0.65rem;
+    margin: 0;
+
+    background: white;
+
+    width: 100%;
+    list-style-type: none;
+
+    transition: visibility 0.3s;
+
+    &.visible {
+      display: block;
+    }
+
+    &.hidden {
+      display: none;
+    }
+
+    .item {
+      padding: 0.25rem 0.57rem;
+      border-radius: 0.3rem;
+
+      transition: all 0.1s;
+
+      &:hover {
+        color: $input-hover;
+        background: $input-background-hover;
+      }
+
+      &.selected {
+        color: $input-color-selected;
+        background: $input-background-selected;
+      }
+    }
+  }
+}

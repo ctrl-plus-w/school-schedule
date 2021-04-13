@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 
-export const LABELS = gql`
+export const SUBJECTS = gql`
   query {
-    labels {
+    subjects {
       id
-      label_name
+      subject_name
     }
   }
 `;
