@@ -37,12 +37,15 @@ const App = () => {
         <AuthProvider value={auth}>
           <Switch>
             <Redirect from='/' to='/auth' exact />
+
             <Route path='/auth' component={Auth} />
             <Route path='/missed-password' component={MissedPassword} />
 
             {auth.isProfessor && <Route path='/dashboard' component={ProfessorDashboard} />}
             {auth.isStudent && <Route path='/dashboard' component={StudentDashboard} />}
             {auth.isAdmin && <Route path='/admin' component={Admin} />}
+
+            <Redirect to='/' />
           </Switch>
         </AuthProvider>
       </ApolloProvider>
