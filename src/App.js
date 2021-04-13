@@ -15,7 +15,7 @@ import MissedPassword from './components/MissedPassword';
 import ProfessorDashboard from './components/Dashboard/Professor';
 import StudentDashboard from './components/Dashboard/Student';
 
-import { AuthProvider } from './context/auth-context';
+import { AuthProvider } from './components/MissedPassword/context/auth-context';
 
 import useAuth from './hooks/useAuth';
 
@@ -32,22 +32,21 @@ const App = () => {
   const client = new ApolloClient({ link: ApolloLink.from([setContext(setAuthContext), httpLink]), cache: new InMemoryCache() });
 
   return (
-    <ApolloProvider client={client}>
-      <AuthProvider value={auth}>
-        <BrowserRouter>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
+        <AuthProvider value={auth}>
           <Switch>
             <Redirect from='/' to='/auth' exact />
-            <Route path='/admin' component={Admin} />
             <Route path='/auth' component={Auth} />
             <Route path='/missed-password' component={MissedPassword} />
+
             {auth.isProfessor && <Route path='/dashboard' component={ProfessorDashboard} />}
             {auth.isStudent && <Route path='/dashboard' component={StudentDashboard} />}
-
-            <Redirect to='/auth' />
+            {auth.isAdmin && <Route path='/admin' component={Admin} />}
           </Switch>
-        </BrowserRouter>
-      </AuthProvider>
-    </ApolloProvider>
+        </AuthProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   );
 };
 

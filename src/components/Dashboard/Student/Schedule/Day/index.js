@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
-import ModalContext from '../../../../../context/modal-context';
+import ModalContext from '../../../../MissedPassword/context/modal-context';
 
 // import './index.scss';
 

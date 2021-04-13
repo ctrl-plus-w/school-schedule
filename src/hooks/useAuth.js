@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
 const useAuth = () => {
+  const ROLES = {
+    PROFESSOR: 'Enseignant',
+    STUDENT: 'Élève',
+    ADMIN: 'Admin',
+  };
+
   const [token, setToken] = useState('');
   const [userId, setUserId] = useState('');
   const [fullName, setFullName] = useState('');
@@ -11,6 +17,10 @@ const useAuth = () => {
     setUserId(userId);
     setFullName(fullName);
     setRole(role);
+
+    if (role === ROLES.PROFESSOR) return '/dashboard';
+    if (role === ROLES.STUDENT) return '/dashboard';
+    if (role === ROLES.ADMIN) return '/admin';
   };
 
   const logout = () => {
@@ -27,8 +37,9 @@ const useAuth = () => {
     fullName,
     role,
 
-    isProfessor: role === 'Enseignant',
-    isStudent: role === 'Élève',
+    isProfessor: role === ROLES.PROFESSOR,
+    isStudent: role === ROLES.STUDENT,
+    isAdmin: role === ROLES.ADMIN,
 
     login,
     logout,

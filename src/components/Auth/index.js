@@ -2,7 +2,7 @@ import React, { useState, useContext, createRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
 
-import AuthContext from '../../context/auth-context';
+import AuthContext from '../MissedPassword/context/auth-context';
 import { useMutation } from '@apollo/client';
 
 import { LOGIN } from '../../graphql/auth';
@@ -10,8 +10,9 @@ import { LOGIN } from '../../graphql/auth';
 import './index.scss';
 
 const Auth = () => {
-  const defaultFocusField = createRef();
   const history = useHistory();
+
+  const defaultFocusField = createRef();
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -28,10 +29,8 @@ const Auth = () => {
     onCompleted: async (data) => {
       if (!data) return setErrorMessage('Un problème est survenu.');
 
-      authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
-      history.push('/dashboard');
-
-      // TODO : [x] Redirect.
+      const path = authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
+      history.push(path);
       // TODO : [ ] Save token and more in the local storage or session.
     },
   });

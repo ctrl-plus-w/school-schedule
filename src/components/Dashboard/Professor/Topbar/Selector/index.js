@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ChevronDown } from 'react-feather';
 import { useLazyQuery } from '@apollo/client';
 
-import DatabaseContext from '../../../../../context/database-context';
+import DatabaseContext from '../../../../MissedPassword/context/database-context';
 
 import { LABEL_EVENTS, OWNED_EVENTS } from '../../../../../graphql/events';
 
