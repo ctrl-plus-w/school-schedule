@@ -53,7 +53,9 @@ const Day = (props) => {
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
 
-    const isOneSelected = dayId in selectedEvents && selectedEvents[dayId].size > 0;
+    if (dayId in selectedEvents) console.log(selectedEvents[dayId]);
+
+    const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
     const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
 
     const emptyCell = (type) => (
