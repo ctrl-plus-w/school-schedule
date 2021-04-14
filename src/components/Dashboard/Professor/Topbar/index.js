@@ -23,17 +23,18 @@ const Topbar = () => {
     onCompleted: (data) => setEvents(data.labelEvents),
   });
 
-  // const [getOwnedEvents, { data: ownedEvents }] = useLazyQuery(OWNED_EVENTS);
-
   const logout = () => {
     history.push('/auth');
     authContext.logout();
   };
 
-  const handleChange = (label) => {
-    setSelected(label);
-    setLabelId(labels.find((l) => l.label_name === label).id);
+  const handleChange = (labelName) => {
+    setSelected(labelName);
 
+    const label = labels.find((l) => l.label_name === labelName);
+    if (!label) return;
+
+    setLabelId(label.id);
     getEvents();
   };
 
