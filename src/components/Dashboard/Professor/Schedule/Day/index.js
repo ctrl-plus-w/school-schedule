@@ -8,6 +8,7 @@ import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
 import ModalContext from '../../../../../context/modal-context';
 import DatabaseContext from '../../../../../context/database-context';
+import SelectedEventsContext from '../../../../../context/selected-events-context';
 
 // import './index.scss';
 
@@ -16,21 +17,26 @@ import DatabaseContext from '../../../../../context/database-context';
 // TODO : [ ] Get more infos when fetching events.
 
 const Day = (props) => {
+  const dayId = props.index;
+
   const modalContext = useContext(ModalContext);
   const databaseContext = useContext(DatabaseContext);
 
+  const { selectedEvents, addEvent, removeEvent } = useContext(SelectedEventsContext);
+
   const nineArray = new Array(9).fill(0);
 
-  const [events, setEvents] = useState(
+  const [events] = useState(
     nineArray.reduce((acc, curr, i) => {
       const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
       if (event) return [...acc, event];
-      else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true, selected: false }];
+      else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true }];
     }, [])
   );
 
-  const selectEvent = (_event, id) => {
-    setEvents((prevEvents) => prevEvents.map((event) => ({ ...event, selected: event.id === id ? !event.selected : event.selected })));
+  const selectEvent = (_event, event) => {
+    if (dayId in selectedEvents && event.id in selectedEvents[dayId]) removeEvent(event.id, dayId);
+    else addEvent(event, dayId);
   };
 
   const handleEventClick = (_event, event) => {
@@ -52,13 +58,15 @@ const Day = (props) => {
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
 
-    const isOneSelected = eventsArray.filter((event) => event?.selected).length > 0;
+    const isOneSelected = dayId in selectedEvents && selectedEvents[dayId].size > 0;
+
+    const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
 
     const emptyCell = (type) => (
       <div
-        className={`event ${type} empty ${curr.selected ? 'selected' : 'unselected'}`}
+        className={`event ${type} empty ${isSelected(curr.id) ? 'selected' : 'unselected'}`}
         key={curr.id}
-        onClick={(e) => selectEvent(e, curr.id)}
+        onClick={(e) => selectEvent(e, curr)}
       ></div>
     );
 
@@ -70,9 +78,9 @@ const Day = (props) => {
     );
 
     if (curr.empty) {
-      if (prev && prev.empty && prev.selected && next && next.empty && next.selected) return emptyCell('middle');
-      if (prev && prev.empty && prev.selected) return emptyCell('end');
-      if (next && next.empty && next.selected) return emptyCell('start');
+      if (prev && prev.empty && isSelected(prev.id) && next && next.empty && isSelected(next.id)) return emptyCell('middle');
+      if (prev && prev.empty && isSelected(prev.id)) return emptyCell('end');
+      if (next && next.empty && isSelected(next.id)) return emptyCell('start');
       return emptyCell('normal');
     }
 
@@ -108,6 +116,7 @@ const Day = (props) => {
 
 Day.propTypes = {
   infos: PropTypes.object,
+  index: PropTypes.string,
 };
 
 export default Day;
