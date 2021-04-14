@@ -2,7 +2,7 @@ import React, { useState, useContext, createRef, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Eye, EyeOff } from 'react-feather';
 
-import AuthContext from '../MissedPassword/context/auth-context';
+import AuthContext from '../../context/auth-context';
 import { useMutation } from '@apollo/client';
 
 import { LOGIN } from '../../graphql/auth';
@@ -25,7 +25,9 @@ const Auth = () => {
 
   const [login] = useMutation(LOGIN, {
     variables: { username: usernameInput.trim(), password: passwordInput.trim() },
-    onError: (error) => setErrorMessage(error.message),
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
     onCompleted: async (data) => {
       if (!data) return setErrorMessage('Un problème est survenu.');
 

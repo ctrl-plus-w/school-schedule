@@ -3,7 +3,7 @@ import { X } from 'react-feather';
 
 import ExternalLink from '../../ExternalLink';
 
-import ModalContext from '../../MissedPassword/context/modal-context';
+import ModalContext from '../../../context/modal-context';
 
 const Modal = () => {
   const modalContext = useContext(ModalContext);

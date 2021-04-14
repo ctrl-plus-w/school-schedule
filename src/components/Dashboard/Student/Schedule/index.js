@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getConsecutiveDays, sameDay } from '../../../../utils/Calendar';
 import Time from '../../../../utils/Time';
 
-import DatabaseContext from '../../../MissedPassword/context/database-context';
+import DatabaseContext from '../../../../context/database-context';
 
 import TimeIndicator from '../../TimeIndicator';
 import Days from './Days';

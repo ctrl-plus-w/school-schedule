@@ -16,9 +16,13 @@ import Admin from './components/Admin';
 import ProfessorDashboard from './components/Dashboard/Professor';
 import StudentDashboard from './components/Dashboard/Student';
 
-import { AuthProvider } from './components/MissedPassword/context/auth-context';
+import ErrorModal from './components/ErrorModal';
+
+import { AuthProvider } from './context/auth-context';
+import { ErrorsProvider } from './context/errors-context';
 
 import useAuth from './hooks/useAuth';
+import useError from './hooks/useError';
 
 // TODO : [x] Create the login page.
 // TODO : [x] Create the auth system (logic).
@@ -26,6 +30,7 @@ import useAuth from './hooks/useAuth';
 
 const App = () => {
   const auth = useAuth();
+  const error = useError();
 
   const setAuthContext = (_op, prevCtx) => ({ ...prevCtx, headers: { ...prevCtx.headers, Authorization: auth.token ? `Bearer ${auth.token}` : '' } });
 
@@ -35,34 +40,38 @@ const App = () => {
   return (
     <BrowserRouter>
       <ApolloProvider client={client}>
-        <AuthProvider value={auth}>
-          <Switch>
-            <Redirect from='/' to='/auth' exact />
+        <ErrorsProvider value={error}>
+          <AuthProvider value={auth}>
+            <ErrorModal />
 
-            <Route path='/auth' component={Auth} />
-            <Route path='/missed-password' component={MissedPassword} />
+            <Switch>
+              <Redirect from='/' to='/auth' exact />
 
-            {auth.isProfessor && (
-              <>
-                <Route path='/dashboard' component={ProfessorDashboard} />
-              </>
-            )}
+              <Route path='/auth' component={Auth} />
+              <Route path='/missed-password' component={MissedPassword} />
 
-            {auth.isStudent && (
-              <>
-                <Route path='/dashboard' component={StudentDashboard} />
-              </>
-            )}
+              {auth.isProfessor && (
+                <>
+                  <Route path='/dashboard' component={ProfessorDashboard} />
+                </>
+              )}
 
-            {auth.isAdmin && (
-              <>
-                <Route path='/admin' component={Admin} />
-              </>
-            )}
+              {auth.isStudent && (
+                <>
+                  <Route path='/dashboard' component={StudentDashboard} />
+                </>
+              )}
 
-            <Redirect to='/' />
-          </Switch>
-        </AuthProvider>
+              {auth.isAdmin && (
+                <>
+                  <Route path='/admin' component={Admin} />
+                </>
+              )}
+
+              <Redirect to='/' />
+            </Switch>
+          </AuthProvider>
+        </ErrorsProvider>
       </ApolloProvider>
     </BrowserRouter>
   );

@@ -5,6 +5,8 @@ import { ChevronDown } from 'react-feather';
 
 import './index.scss';
 
+// TODO : [ ] Don't show the dropdown if the list is empty.
+
 const Selector = ({ items, selected, setSelected, placeholder, many, className }) => {
   const [visible, setVisible] = useState(false);
 

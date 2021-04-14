@@ -5,8 +5,8 @@ import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
 
-import ModalContext from '../../MissedPassword/context/modal-context';
-import DatabaseContext from '../../MissedPassword/context/database-context';
+import ModalContext from '../../../context/modal-context';
+import DatabaseContext from '../../../context/database-context';
 
 import useModal from '../../../hooks/useModal';
 

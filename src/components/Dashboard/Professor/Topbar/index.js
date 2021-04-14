@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AuthContext from '../../../MissedPassword/context/auth-context';
+import AuthContext from '../../../../context/auth-context';
 
 import Selector from './Selector';
 
@@ -9,10 +9,6 @@ const Topbar = () => {
   const authContext = useContext(AuthContext);
 
   const history = useHistory();
-
-  // TODO : [x] Add groups under name.
-  // TODO : [x] Add a selector for the groups / labels.
-  // TODO : [ ] Show selector only for users with professor role.
 
   const logout = () => {
     history.push('/auth');
