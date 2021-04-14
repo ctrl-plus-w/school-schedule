@@ -21,7 +21,6 @@ const Days = (props) => {
   };
 
   const removeEvent = (eventId, dayId) => {
-    console.log(eventId, dayId);
     // eslint-disable-next-line no-unused-vars
     setSelectedEvents(({ [dayId]: { [eventId]: _, ...eventsRest }, ...daysRest }) => ({ ...daysRest, [dayId]: { ...eventsRest } }));
   };
