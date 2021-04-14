@@ -34,8 +34,6 @@ const ProfessorDashboard = () => {
   useEffect(() => {
     labelsData && setLabels(labelsData.labels);
     eventsData && setEvents(eventsData.ownedEvents);
-
-    eventsData && console.log(eventsData);
   }, [labelsData, eventsData]);
 
   return labelsLoading || eventsLoading ? (
