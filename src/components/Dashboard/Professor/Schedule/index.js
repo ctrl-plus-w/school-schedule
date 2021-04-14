@@ -5,6 +5,9 @@ import { getConsecutiveDays, sameDay } from '../../../../utils/Calendar';
 import Time from '../../../../utils/Time';
 
 import DatabaseContext from '../../../../context/database-context';
+import SelectedEventsContext from '../../../../context/selected-events-context';
+
+import useSelectedEvents from '../../../../hooks/useSelectedEvents';
 
 import TimeIndicator from '../../TimeIndicator';
 import Days from './Days';
@@ -31,16 +34,20 @@ const daysMapper = (events) => {
 };
 
 const Schedule = () => {
+  const selectedEvents = useSelectedEvents();
+
   const databaseContext = useContext(DatabaseContext);
 
   const events = databaseContext.events.map(eventMapper);
   const days = daysMapper(events);
 
   return (
-    <div className='schedule'>
-      <TimeIndicator />
-      <Days days={days} />
-    </div>
+    <SelectedEventsContext.Provider value={selectedEvents}>
+      <div className='schedule'>
+        <TimeIndicator />
+        <Days days={days} />
+      </div>
+    </SelectedEventsContext.Provider>
   );
 };
 

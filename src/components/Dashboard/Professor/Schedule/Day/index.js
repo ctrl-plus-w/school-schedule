@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
 import ModalContext from '../../../../../context/modal-context';
 import DatabaseContext from '../../../../../context/database-context';
 import SelectedEventsContext from '../../../../../context/selected-events-context';
-
-// import './index.scss';
 
 // TODO : [-] Refactor getEventElement function (try grouping events into one element).
 // TODO : [ ] Handle event click.
@@ -29,8 +25,7 @@ const Day = (props) => {
   const [events] = useState(
     nineArray.reduce((acc, curr, i) => {
       const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-      if (event) return [...acc, event];
-      else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true }];
+      return event ? [...acc, event] : [...acc, { id: `${dayId}#start${i + 8}`, start: new Time(i + 8, 0), empty: true }];
     }, [])
   );
 
@@ -59,7 +54,6 @@ const Day = (props) => {
     const next = eventsArray[i + 1];
 
     const isOneSelected = dayId in selectedEvents && selectedEvents[dayId].size > 0;
-
     const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
 
     const emptyCell = (type) => (

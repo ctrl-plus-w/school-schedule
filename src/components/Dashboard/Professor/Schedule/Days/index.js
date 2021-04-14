@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Day from '../Day';
-
-import SelectedEventsContext from '../../../../../context/selected-events-context';
 
 import useHorizontalScroll from '../../../../../hooks/useHorizontalScroll';
 
@@ -14,27 +12,14 @@ import useHorizontalScroll from '../../../../../hooks/useHorizontalScroll';
 const Days = (props) => {
   const { container, slider } = useHorizontalScroll();
 
-  const [selectedEvents, setSelectedEvents] = useState({});
-
-  const addEvent = (event, dayId) => {
-    setSelectedEvents((prev) => ({ ...prev, [dayId]: { ...prev[dayId], [event.id]: event } }));
-  };
-
-  const removeEvent = (eventId, dayId) => {
-    // eslint-disable-next-line no-unused-vars
-    setSelectedEvents(({ [dayId]: { [eventId]: _, ...eventsRest }, ...daysRest }) => ({ ...daysRest, [dayId]: { ...eventsRest } }));
-  };
-
   return (
-    <SelectedEventsContext.Provider value={{ selectedEvents, addEvent, removeEvent }}>
-      <div className='days' ref={container}>
-        <div className='slider' ref={slider}>
-          {props.days.map((day, index) => {
-            return <Day infos={day} index={`day${index}`} key={day.id} />;
-          })}
-        </div>
+    <div className='days' ref={container}>
+      <div className='slider' ref={slider}>
+        {props.days.map((day, index) => {
+          return <Day infos={day} index={`day${index}`} key={day.id} />;
+        })}
       </div>
-    </SelectedEventsContext.Provider>
+    </div>
   );
 };
 
