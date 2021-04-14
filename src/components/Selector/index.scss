@@ -18,89 +18,95 @@
     background: none;
   }
 
-  .header {
-    display: flex;
-    flex-direction: row;
+  &.invalid {
+    color: $red !important;
+  }
 
-    justify-content: space-between;
-    align-items: center;
+  .selector-field-container {
+    position: relative;
 
-    padding: 0.65rem 1rem;
+    .selector-field {
+      display: block;
 
-    min-width: 12rem;
-    width: 100%;
+      padding: 0.65rem 1rem;
 
-    font-size: 1rem;
-    font: small-caption;
+      min-width: 12rem;
+      width: 100%;
 
-    border: 1px solid $input-border;
-    border-radius: 0.6rem;
+      font-family: inherit !important;
+      font-size: 1rem !important;
+      color: inherit !important;
 
-    transition: box-shadow 0.3s, transform 0.3s;
+      border: 1px solid $input-border;
+      border-radius: 0.6rem;
 
-    &:focus,
-    &:active,
-    &.active {
-      box-shadow: 0 0 0 3px $input-shadow;
+      transition: box-shadow 0.3s, transform 0.3s;
+
+      &:focus,
+      &:active,
+      &.active {
+        box-shadow: 0 0 0 3px $input-shadow;
+        outline: none;
+      }
+
+      .placeholder {
+        color: gray;
+      }
     }
 
-    &:active {
-      transform: scale(0.92);
-    }
+    .submit-button {
+      position: absolute;
+      top: 50%;
+      left: calc(100%);
 
-    svg {
-      position: relative;
+      transform: translate(-100%, -50%);
 
-      margin-left: 0.5rem;
+      height: 100%;
+      padding: 0 0.5rem;
 
-      color: $input-color;
-      stroke-width: 2px;
+      background: none;
+      border: none;
+
+      border-top-right-radius: 0.6rem;
+      border-bottom-right-radius: 0.6rem;
+
+      cursor: pointer;
+
+      outline: none;
+
+      // To keep the visual balance.
+      svg {
+        position: relative;
+        top: 3px;
+      }
     }
   }
 
-  .selector-list {
-    z-index: 9999;
-
+  .completion-container {
     position: absolute;
-    top: calc(100% + 1rem);
+    top: 0;
     left: 0;
 
-    border: 1px solid $input-border;
-    border-radius: 0.6rem;
-
-    padding: 0.65rem;
-    margin: 0;
-
-    background: white;
+    display: flex;
+    flex-direction: row;
 
     width: 100%;
-    list-style-type: none;
+    height: 100%;
 
-    transition: visibility 0.3s;
+    padding: 0.65rem 1rem;
 
-    &.visible {
-      display: block;
+    font-size: 1rem;
+
+    border: 1px solid transparent;
+
+    pointer-events: none;
+
+    .user-input {
+      visibility: hidden;
     }
 
-    &.hidden {
-      display: none;
-    }
-
-    .item {
-      padding: 0.25rem 0.57rem;
-      border-radius: 0.3rem;
-
-      transition: all 0.1s;
-
-      &:hover {
-        color: $input-hover;
-        background: $input-background-hover;
-      }
-
-      &.selected {
-        color: $input-color-selected;
-        background: $input-background-selected;
-      }
+    .completion {
+      color: rgb(121, 119, 129);
     }
   }
 }

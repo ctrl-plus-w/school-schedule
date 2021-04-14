@@ -1,55 +1,57 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { ChevronDown } from 'react-feather';
+import { Check } from 'react-feather';
 
 import './index.scss';
 
 // TODO : [ ] Don't show the dropdown if the list is empty.
 
-const Selector = ({ items, selected, setSelected, placeholder, many, className }) => {
-  const [visible, setVisible] = useState(false);
+const Selector = ({ items, setSelected, placeholder, many, className }) => {
+  const [value, setValue] = useState('');
+  const [completion, setCompletion] = useState('');
+  const [invalid, setInvalid] = useState(false);
 
-  // eslint-disable-next-line no-unused-vars
-  const removeKey = (key, { [key]: _, ...rest }) => rest;
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
 
-  const switchVisibility = () => setVisible((prev) => !prev);
+    setValue(inputValue);
 
-  const select = (id, name) => {
-    if (id in selected) setSelected((prev) => removeKey(id, prev));
-    else setSelected((prev) => ({ [id]: name, ...prev }));
+    setInvalid(items.some((i) => i.name.startsWith(inputValue)) ? false : true);
+
+    const item = items.find((i) => i.name.startsWith(inputValue));
+    if (!item || inputValue === '') setCompletion('');
+    else setCompletion(item.name.slice(inputValue.length));
   };
 
-  const selectOne = (name) => {
-    setSelected(name);
-    setVisible(false);
+  const handleKeyPress = (event) => {
+    if (event.key !== 'Tab') return;
+
+    event.preventDefault();
+
+    setValue(value + completion);
+    setCompletion();
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSelected(value);
   };
 
   return (
-    <div className={`selector ${className}`}>
-      <div className={`header ${visible ? 'active' : ''}`} onClick={switchVisibility}>
-        <p>{placeholder}</p>
-        <ChevronDown size={16} />
+    <form className={`selector ${className ? className : ''} ${invalid ? 'invalid' : 'valid'}`} onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
+      <div className='selector-field-container'>
+        <input type='text' className='selector-field' onChange={handleInputChange} value={value} />
+        <button type='submit' className='submit-button'>
+          <Check className='icon' />
+        </button>
       </div>
-
-      {many ? (
-        <ul className={`selector-list ${visible ? 'visible' : 'hidden'}`}>
-          {items.map(({ id, name }) => (
-            <li className={`item ${id in selected && 'selected'}`} key={id} onClick={() => select(id, name)}>
-              {name}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <ul className={`selector-list ${visible ? 'visible' : 'hidden'}`}>
-          {items.map(({ id, name }) => (
-            <li className='item' key={id} onClick={() => selectOne(name)}>
-              {name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <div className={`completion-container`}>
+        <p className='user-input'>{value}</p>
+        <p className='completion'>{completion}</p>
+      </div>
+    </form>
   );
 };
 
