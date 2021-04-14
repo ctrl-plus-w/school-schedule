@@ -28,7 +28,7 @@ const Selector = ({ items, selected, setSelected, placeholder, many, className }
   return (
     <div className={`selector ${className}`}>
       <div className={`header ${visible ? 'active' : ''}`} onClick={switchVisibility}>
-        <p>{many ? placeholder : selected}</p>
+        <p>{placeholder}</p>
         <ChevronDown size={16} />
       </div>
 

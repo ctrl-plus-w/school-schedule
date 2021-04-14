@@ -1,18 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useLazyQuery } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import AuthContext from '../../../../context/auth-context';
+import DatabaseContext from '../../../../context/database-context';
 
-import Selector from './Selector';
+import Selector from '../../../Selector';
+
+import { LABEL_EVENTS } from '../../../../graphql/events';
 
 const Topbar = () => {
+  const history = useHistory();
+
+  const { setEvents, labels } = useContext(DatabaseContext);
   const authContext = useContext(AuthContext);
 
-  const history = useHistory();
+  const [selected, setSelected] = useState('');
+  const [labelId, setLabelId] = useState('');
+
+  const [getEvents] = useLazyQuery(LABEL_EVENTS, {
+    variables: { label_id: labelId },
+    onCompleted: (data) => setEvents(data.labelEvents),
+  });
+
+  // const [getOwnedEvents, { data: ownedEvents }] = useLazyQuery(OWNED_EVENTS);
 
   const logout = () => {
     history.push('/auth');
     authContext.logout();
+  };
+
+  const handleChange = (label) => {
+    setSelected(label);
+    setLabelId(labels.find((l) => l.label_name === label).id);
+
+    getEvents();
   };
 
   return (
@@ -23,7 +45,12 @@ const Topbar = () => {
       </div>
 
       <div className='label-selector'>
-        <Selector list={[]} />
+        <Selector
+          items={labels.map((l) => ({ id: l.id, name: l.label_name }))}
+          selected={selected}
+          setSelected={handleChange}
+          placeholder='Choisir un groupe.'
+        />
       </div>
 
       <div className='logout'>
