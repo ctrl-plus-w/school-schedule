@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import './main.scss';
@@ -14,10 +15,10 @@ import StudentDashboard from '../components/Dashboard/Student';
 
 import ErrorModal from '../components/ErrorModal';
 
-import { AuthProvider } from '../context/auth-context';
+import { selectRole } from '../features/database/authSlice';
+
 import { ErrorsProvider } from '../context/errors-context';
 
-import useAuth from '../hooks/useAuth';
 import useError from '../hooks/useError';
 
 // TODO : [x] Create the login page.
@@ -25,42 +26,42 @@ import useError from '../hooks/useError';
 // TODO : [x] Bug! Days scroll doesn't show a part of the last day.
 
 const App = () => {
-  const auth = useAuth();
+  const { isAdmin, isStudent, isProfessor } = useSelector(selectRole);
   const error = useError();
+
+  console.log(isStudent, isProfessor);
 
   return (
     <BrowserRouter>
       <ErrorsProvider value={error}>
-        <AuthProvider value={auth}>
-          <ErrorModal />
+        <ErrorModal />
 
-          <Switch>
-            <Redirect from='/' to='/auth' exact />
+        <Switch>
+          <Redirect from='/' to='/auth' exact />
 
-            <Route path='/auth' component={Auth} />
-            <Route path='/missed-password' component={MissedPassword} />
+          <Route path='/auth' component={Auth} />
+          <Route path='/missed-password' component={MissedPassword} />
 
-            {auth.isProfessor && (
-              <>
-                <Route path='/dashboard' component={ProfessorDashboard} />
-              </>
-            )}
+          {isProfessor && (
+            <>
+              <Route path='/dashboard' component={ProfessorDashboard} />
+            </>
+          )}
 
-            {auth.isStudent && (
-              <>
-                <Route path='/dashboard' component={StudentDashboard} />
-              </>
-            )}
+          {isStudent && (
+            <>
+              <Route path='/dashboard' component={StudentDashboard} />
+            </>
+          )}
 
-            {auth.isAdmin && (
-              <>
-                <Route path='/admin' component={Admin} />
-              </>
-            )}
+          {isAdmin && (
+            <>
+              <Route path='/admin' component={Admin} />
+            </>
+          )}
 
-            <Redirect to='/' />
-          </Switch>
-        </AuthProvider>
+          <Redirect to='/' />
+        </Switch>
       </ErrorsProvider>
     </BrowserRouter>
   );

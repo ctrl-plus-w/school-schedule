@@ -4,6 +4,12 @@ import client from '../../app/database';
 
 import { LOGIN } from '../../graphql/auth';
 
+const ROLES = {
+  ADMIN: 'Admin',
+  PROFESSOR: 'Enseignant',
+  STUDENT: 'Élève',
+};
+
 const slice = createSlice({
   name: 'auth',
 
@@ -40,6 +46,13 @@ const slice = createSlice({
 });
 
 export const { loginLoading, loginSuccess, loginFailed } = slice.actions;
+
+export const selectRole = (state) => ({
+  isAdmin: state.auth.role === ROLES.ADMIN,
+  isProfessor: state.auth.role === ROLES.PROFESSOR,
+  isStudent: state.auth.role === ROLES.STUDENT,
+});
+
 export default slice.reducer;
 
 export const login = async (dispatch, params) => {
