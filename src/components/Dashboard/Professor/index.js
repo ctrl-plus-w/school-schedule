@@ -1,55 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
 
-import ModalContext from '../../../context/modal-context';
-import DatabaseContext from '../../../context/database-context';
+import { isLoggedIn } from '../../../features/database/authSlice';
+import { isLoading, fetchOwnedEvents } from '../../../features/database/eventsSlice';
 
-import useModal from '../../../hooks/useModal';
-
-import { LABELS } from '../../../graphql/labels';
-import { OWNED_EVENTS } from '../../../graphql/events';
-
-// TODO : [x] Optimise into custom hooks and one context.
 // TODO : [ ] Handle event creation.
 
 const ProfessorDashboard = () => {
-  const modal = useModal();
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [label, setLabel] = useState();
-  const [labels, setLabels] = useState([]);
-  const [events, setEvents] = useState([]);
-
-  const { data: labelsData, error: labelsError, loading: labelsLoading } = useQuery(LABELS);
-  const { data: eventsData, error: eventsError, loading: eventsLoading } = useQuery(OWNED_EVENTS);
+  const logged = useSelector(isLoggedIn);
+  if (!logged) history.push('/auth');
 
   useEffect(() => {
-    labelsError && console.error('LabelsError :', labelsError);
-    eventsError && console.error('EventsError :', eventsError);
-  }, [labelsError, eventsError]);
+    dispatch(fetchOwnedEvents());
+  }, []);
 
-  useEffect(() => {
-    labelsData && setLabels(labelsData.labels);
-    eventsData && setEvents(eventsData.ownedEvents);
-  }, [labelsData, eventsData]);
+  const loading = useSelector(isLoading);
 
-  return labelsLoading || eventsLoading ? (
+  // temp
+  let visible = false;
+
+  return loading ? (
     <div className='container center-content'>
       <h1>Loading...</h1>
     </div>
   ) : (
-    <ModalContext.Provider value={modal}>
-      <DatabaseContext.Provider value={{ labels, events, setEvents, label, setLabel }}>
-        <Modal />
-        <div className={`container ${modal.visible ? 'blurred' : ''}`}>
-          <Topbar />
-          <Schedule />
-        </div>
-      </DatabaseContext.Provider>
-    </ModalContext.Provider>
+    <>
+      <Modal />
+      <div className={`container ${visible ? 'blurred' : ''}`}>
+        <Topbar />
+        <Schedule />
+      </div>
+    </>
   );
 };
 

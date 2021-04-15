@@ -1,61 +1,55 @@
-import React, { useContext, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import AuthContext from '../../../../context/auth-context';
-import DatabaseContext from '../../../../context/database-context';
-
-import Selector from '../../../Selector';
-
-import { LABEL_EVENTS } from '../../../../graphql/events';
+import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 
 const Topbar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { setEvents, labels } = useContext(DatabaseContext);
-  const authContext = useContext(AuthContext);
+  const fullName = useSelector(selectName);
+  const role = useSelector(selectRole);
 
-  const [selected, setSelected] = useState('');
-  const [labelId, setLabelId] = useState('');
+  // TODO : [ ] Create a labels slice and handle everything.
 
-  const [getEvents] = useLazyQuery(LABEL_EVENTS, {
-    variables: { label_id: labelId },
-    onCompleted: (data) => setEvents(data.labelEvents),
-  });
+  // const [selected, setSelected] = useState('');
+  // const [labelId, setLabelId] = useState('');
 
-  const logout = () => {
+  const handleLogout = () => {
+    dispatch(logout());
     history.push('/auth');
-    authContext.logout();
   };
 
-  const handleChange = (labelName) => {
-    setSelected(labelName);
+  // const handleChange = (labelName) => {
+  //   setSelected(labelName);
 
-    const label = labels.find((l) => l.label_name === labelName);
-    if (!label) return;
+  // const label = labels.find((l) => l.label_name === labelName);
+  // if (!label) return;
 
-    setLabelId(label.id);
-    getEvents();
-  };
+  // setLabelId(label.id);
+
+  // Fetch events of the id in the database. (redux)
+  // };
 
   return (
     <div className='topbar'>
       <div className='text'>
-        <h2 className='name'>{authContext.fullName}</h2>
-        <h3 className='role'>{authContext.role}</h3>
+        <h2 className='name'>{fullName}</h2>
+        <h3 className='role'>{role}</h3>
       </div>
 
       <div className='label-selector'>
-        <Selector
+        {/* <Selector
           items={labels.map((l) => ({ id: l.id, name: l.label_name }))}
           selected={selected}
           setSelected={handleChange}
           placeholder='Choisir un groupe.'
-        />
+        /> */}
       </div>
 
       <div className='logout'>
-        <p onClick={logout}>Se déconnecter</p>
+        <p onClick={handleLogout}>Se déconnecter</p>
       </div>
     </div>
   );
