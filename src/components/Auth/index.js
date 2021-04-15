@@ -1,17 +1,14 @@
-import React, { useState, useContext, createRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, createRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
+import { Link } from 'react-router-dom';
 
-import AuthContext from '../../context/auth-context';
-import { useMutation } from '@apollo/client';
-
-import { LOGIN } from '../../graphql/auth';
+import { login } from '../../features/database/authSlice';
 
 import './index.scss';
 
 const Auth = () => {
-  const history = useHistory();
-
+  const dispatch = useDispatch();
   const defaultFocusField = createRef();
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -20,22 +17,6 @@ const Auth = () => {
   const [passwordInput, setPasswordInput] = useState('');
 
   const [passwordHidden, setPasswordHidden] = useState(true);
-
-  const authContext = useContext(AuthContext);
-
-  const [login] = useMutation(LOGIN, {
-    variables: { username: usernameInput.trim(), password: passwordInput.trim() },
-    onError: (error) => {
-      setErrorMessage(error.message);
-    },
-    onCompleted: async (data) => {
-      if (!data) return setErrorMessage('Un problème est survenu.');
-
-      const path = authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
-      history.push(path);
-      // TODO : [ ] Save token and more in the local storage or session.
-    },
-  });
 
   useEffect(() => {
     defaultFocusField && defaultFocusField.current.focus();
@@ -49,7 +30,7 @@ const Auth = () => {
 
     // Reset error message and fetch the login data.
     setErrorMessage('');
-    login();
+    login(dispatch, { username: usernameInput, password: passwordInput });
   };
 
   const handleIconSwitch = (e) => {

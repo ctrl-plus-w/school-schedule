@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import databaseReducer from '../features/database/databaseSlice';
+import authReducer from '../features/database/authSlice';
 
 export default configureStore({
   reducer: {
-    database: databaseReducer,
+    auth: authReducer,
   },
 });
