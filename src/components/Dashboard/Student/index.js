@@ -24,10 +24,6 @@ const StudentDashboard = () => {
 
   const loading = useSelector(isLoading);
 
-  useEffect(() => {
-    console.log(loading);
-  }, [loading]);
-
   // temp
   const visible = false;
 
