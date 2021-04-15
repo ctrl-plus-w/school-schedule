@@ -6,23 +6,23 @@ import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink, ApolloLink
 import { setContext } from '@apollo/client/link/context';
 
 import './main.scss';
-import './components/Dashboard/index.scss';
+import '../components/Dashboard/index.scss';
 
-import Auth from './components/Auth';
-import MissedPassword from './components/MissedPassword';
+import Auth from '../components/Auth';
+import MissedPassword from '../components/MissedPassword';
 
-import Admin from './components/Admin';
+import Admin from '../components/Admin';
 
-import ProfessorDashboard from './components/Dashboard/Professor';
-import StudentDashboard from './components/Dashboard/Student';
+import ProfessorDashboard from '../components/Dashboard/Professor';
+import StudentDashboard from '../components/Dashboard/Student';
 
-import ErrorModal from './components/ErrorModal';
+import ErrorModal from '../components/ErrorModal';
 
-import { AuthProvider } from './context/auth-context';
-import { ErrorsProvider } from './context/errors-context';
+import { AuthProvider } from '../context/auth-context';
+import { ErrorsProvider } from '../context/errors-context';
 
-import useAuth from './hooks/useAuth';
-import useError from './hooks/useError';
+import useAuth from '../hooks/useAuth';
+import useError from '../hooks/useError';
 
 // TODO : [x] Create the login page.
 // TODO : [x] Create the auth system (logic).
