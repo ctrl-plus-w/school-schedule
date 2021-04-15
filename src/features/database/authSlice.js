@@ -34,6 +34,17 @@ const slice = createSlice({
     token: '',
   },
 
+  reducers: {
+    logout: (state) => ({
+      ...state,
+
+      userId: '',
+      fullName: '',
+      role: '',
+      token: '',
+    }),
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => ({
@@ -55,16 +66,19 @@ const slice = createSlice({
   },
 });
 
-export const { loginLoading, loginSuccess, loginFailed } = slice.actions;
+export const { logout } = slice.actions;
 
 export const isLoading = (state) => state.auth.loading;
 
+export const isLoggedIn = (state) => state.auth.token !== '';
 export const selectToken = (state) => state.auth.token;
+export const selectName = (state) => state.auth.fullName;
+export const selectRole = (state) => state.auth.role;
 
-export const selectRole = ({ auth: { role } }) => ({
-  isAdmin: role === ROLES.ADMIN,
-  isProfessor: role === ROLES.PROFESSOR,
-  isStudent: role === ROLES.STUDENT,
+export const isRole = (state) => ({
+  isAdmin: state.auth.role === ROLES.ADMIN,
+  isProfessor: state.auth.role === ROLES.PROFESSOR,
+  isStudent: state.auth.role === ROLES.STUDENT,
 });
 
 export default slice.reducer;
