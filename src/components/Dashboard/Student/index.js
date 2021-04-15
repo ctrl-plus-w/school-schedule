@@ -36,10 +36,13 @@ const StudentDashboard = () => {
       <h1>Loading...</h1>
     </div>
   ) : (
-    <div className={`container ${visible ? 'blurred' : ''}`}>
-      <Topbar />
-      <Schedule />
-    </div>
+    <>
+      <Modal />
+      <div className={`container ${visible ? 'blurred' : ''}`}>
+        <Topbar />
+        <Schedule />
+      </div>
+    </>
   );
 };
 
