@@ -1,5 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import databaseReducer from '../features/database/databaseSlice';
+
 export default configureStore({
-  reducer: {},
+  reducer: {
+    database: databaseReducer,
+  },
 });
