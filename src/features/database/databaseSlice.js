@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { GraphQLClient } from 'graphql-request';
 
 const slice = createSlice({
   name: 'database',
@@ -8,7 +9,12 @@ const slice = createSlice({
     client: null,
   },
 
-  reducers: {},
+  reducers: {
+    setClient: (state) => ({
+      ...state,
+      client: new GraphQLClient(state.endpoint),
+    }),
+  },
 });
 
 export default slice.reducer;
