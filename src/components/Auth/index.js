@@ -1,7 +1,7 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { login } from '../../features/database/authSlice';
 
@@ -12,7 +12,7 @@ import './index.scss';
 const Auth = () => {
   const dispatch = useDispatch();
   const defaultFocusField = createRef();
-  const history = useHistory();
+  // const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -35,7 +35,6 @@ const Auth = () => {
     setErrorMessage('');
 
     dispatch(login({ username: usernameInput, password: passwordInput }));
-    history.push('/dashboard');
   };
 
   const handleIconSwitch = (e) => {

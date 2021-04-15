@@ -15,7 +15,7 @@ import StudentDashboard from '../components/Dashboard/Student';
 
 import ErrorModal from '../components/ErrorModal';
 
-import { selectRole } from '../features/database/authSlice';
+import { selectRole, isLoading, selectToken } from '../features/database/authSlice';
 
 import { ErrorsProvider } from '../context/errors-context';
 
@@ -27,6 +27,8 @@ import useError from '../hooks/useError';
 
 const App = () => {
   const { isAdmin, isStudent, isProfessor } = useSelector(selectRole);
+  const loading = useSelector(isLoading);
+  const token = useSelector(selectToken);
 
   const error = useError();
 
@@ -36,6 +38,8 @@ const App = () => {
         <ErrorModal />
 
         <Switch>
+          {!loading && token && <Redirect from='/auth' to='/dashboard' exact />}
+
           <Redirect from='/' to='/auth' exact />
 
           <Route path='/auth' component={Auth} />
