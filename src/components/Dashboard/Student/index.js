@@ -1,36 +1,38 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
 
-import ModalContext from '../../../context/modal-context';
-import DatabaseContext from '../../../context/database-context';
-
-import useModal from '../../../hooks/useModal';
+import { fetchEvents, isLoading } from '../../../features/database/eventsSlice';
 
 const StudentDashboard = () => {
-  const modal = useModal();
+  const dispatch = useDispatch();
 
-  const [events] = useState([]);
+  useEffect(() => {
+    dispatch(fetchEvents());
+  }, []);
 
-  let loading = false;
+  const loading = useSelector(isLoading);
+
+  // temp
+  const visible = false;
 
   return loading ? (
     <div className='container center-content'>
       <h1>Loading...</h1>
     </div>
   ) : (
-    <ModalContext.Provider value={modal}>
-      <DatabaseContext.Provider value={{ events }}>
-        <Modal />
-        <div className={`container ${modal.visible ? 'blurred' : ''}`}>
-          <Topbar />
-          <Schedule />
-        </div>
-      </DatabaseContext.Provider>
-    </ModalContext.Provider>
+    <>
+      <Modal />
+      <div className={`container ${visible ? 'blurred' : ''}`}>
+        <Topbar />
+        <Schedule />
+      </div>
+    </>
   );
 };
 
