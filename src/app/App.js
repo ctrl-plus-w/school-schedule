@@ -27,9 +27,8 @@ import useError from '../hooks/useError';
 
 const App = () => {
   const { isAdmin, isStudent, isProfessor } = useSelector(selectRole);
-  const error = useError();
 
-  console.log(isStudent, isProfessor);
+  const error = useError();
 
   return (
     <BrowserRouter>

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import client from '../../app/database';
 
@@ -9,6 +9,17 @@ const ROLES = {
   PROFESSOR: 'Enseignant',
   STUDENT: 'Élève',
 };
+
+export const login = createAsyncThunk('auth/login', async (args) => {
+  try {
+    const request = await client.rawRequest(LOGIN, args);
+    client.setHeader('Authorization', `Bearer ${request.data.login.token}`);
+
+    return { id: request.data.login.id, fullName: request.data.login.full_name, role: request.data.login.role, token: request.data.login.token };
+  } catch (err) {
+    throw new Error(err?.response?.errors[0]?.message);
+  }
+});
 
 const slice = createSlice({
   name: 'auth',
@@ -23,25 +34,24 @@ const slice = createSlice({
     token: '',
   },
 
-  reducers: {
-    loginLoading: (state) => ({
-      ...state,
-      loading: true,
-    }),
-
-    loginSuccess: (state, action) => {
-      return {
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.pending, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(login.fulfilled, (state, action) => ({
         ...state,
         ...action.payload,
         loading: false,
-      };
-    },
-
-    loginFailed: (state, action) => ({
-      ...state,
-      error: action.payload,
-      loading: false,
-    }),
+      }))
+      .addCase(login.rejected, (state, action) => {
+        return {
+          ...state,
+          error: action.error,
+          loading: false,
+        };
+      });
   },
 });
 
@@ -54,14 +64,3 @@ export const selectRole = (state) => ({
 });
 
 export default slice.reducer;
-
-export const login = async (dispatch, params) => {
-  dispatch(loginLoading());
-
-  try {
-    const { data } = await client.rawRequest(LOGIN, params);
-    dispatch(loginSuccess({ id: data.login.id, fullName: data.login.full_name, role: data.login.role, token: data.login.token }));
-  } catch (data) {
-    if (data.response) console.error(loginFailed(data?.response?.errors[0]?.message));
-  }
-};

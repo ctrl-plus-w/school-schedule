@@ -34,7 +34,7 @@ const Auth = () => {
     // Reset error message and fetch the login data.
     setErrorMessage('');
 
-    await login(dispatch, { username: usernameInput, password: passwordInput });
+    dispatch(login({ username: usernameInput, password: passwordInput }));
     history.push('/dashboard');
   };
 

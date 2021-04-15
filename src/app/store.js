@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import authReducer from '../features/database/authSlice';
+import logger from 'redux-logger';
 
-export default configureStore({
-  reducer: {
-    auth: authReducer,
-  },
+import databaseReducer from '../features/database';
+
+const store = configureStore({
+  reducer: databaseReducer,
+  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), logger],
+  devTools: true,
 });
+
+export default store;

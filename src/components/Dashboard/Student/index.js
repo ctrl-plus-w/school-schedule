@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 
 import Topbar from './Topbar';
 import Schedule from './Schedule';
@@ -10,17 +10,12 @@ import DatabaseContext from '../../../context/database-context';
 
 import useModal from '../../../hooks/useModal';
 
-import { EVENTS } from '../../../graphql/events';
-
 const StudentDashboard = () => {
   const modal = useModal();
 
-  const [events, setEvents] = useState([]);
+  const [events] = useState([]);
 
-  const { data, error, loading } = useQuery(EVENTS);
-
-  useEffect(() => error && console.error('EventsError :', error), [error]);
-  useEffect(() => data && setEvents(data.userEvents), [data]);
+  let loading = false;
 
   return loading ? (
     <div className='container center-content'>
