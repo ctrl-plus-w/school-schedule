@@ -8,15 +8,25 @@ import Schedule from './Schedule';
 import Modal from '../Modal';
 
 import { fetchEvents, isLoading } from '../../../features/database/eventsSlice';
+import { isLoggedIn } from '../../../features/database/authSlice';
+import { useHistory } from 'react-router';
 
 const StudentDashboard = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const logged = useSelector(isLoggedIn);
+  if (!logged) history.push('/auth');
 
   useEffect(() => {
     dispatch(fetchEvents());
   }, []);
 
   const loading = useSelector(isLoading);
+
+  useEffect(() => {
+    console.log(loading);
+  }, [loading]);
 
   // temp
   const visible = false;
@@ -26,13 +36,10 @@ const StudentDashboard = () => {
       <h1>Loading...</h1>
     </div>
   ) : (
-    <>
-      <Modal />
-      <div className={`container ${visible ? 'blurred' : ''}`}>
-        <Topbar />
-        <Schedule />
-      </div>
-    </>
+    <div className={`container ${visible ? 'blurred' : ''}`}>
+      <Topbar />
+      <Schedule />
+    </div>
   );
 };
 

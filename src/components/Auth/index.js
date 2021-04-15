@@ -1,18 +1,30 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, createRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-import { login } from '../../features/database/authSlice';
+import { login, selectRole } from '../../features/database/authSlice';
 
 import './index.scss';
 
 // TODO : [ ] Handle error messages.
 
+const ROLES_PATHS = {
+  Élève: 'schedule',
+  Enseignant: 'dashboard',
+  admin: 'admin',
+};
+
 const Auth = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const role = useSelector(selectRole);
+
+  useEffect(() => role && history.push(ROLES_PATHS[role]), [role]);
+
   const defaultFocusField = createRef();
-  // const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState('');
 
