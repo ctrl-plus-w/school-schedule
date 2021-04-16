@@ -1,36 +1,38 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { X } from 'react-feather';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ExternalLink from '../../ExternalLink';
 
-import ModalContext from '../../../context/modal-context';
+import { selectInfos, hide } from '../../../features/modals/eventSlice';
 
 const Modal = () => {
-  const modalContext = useContext(ModalContext);
+  const dispatch = useDispatch();
+  const infos = useSelector(selectInfos);
 
   const handleContentClick = (event) => event.stopPropagation();
-  const handleBackgroundClick = () => modalContext.hideModal();
+  const handleClose = () => dispatch(hide());
 
   return (
-    <div className={`modal ${modalContext.visible ? 'visible' : 'hidden'}`} onClick={handleBackgroundClick}>
+    <div className={`modal ${infos.visible ? 'visible' : 'hidden'}`} onClick={handleClose}>
       <div className='modal-content' onClick={handleContentClick}>
         <header>
           <h1 className='title'>
-            {modalContext.title}
-            {modalContext.pin && <span className={`pin ${modalContext.pinColor}`}>{modalContext.pin}</span>}
+            {infos.title}
+            {infos.pin && <span className={`pin ${infos.pinColor}`}>{infos.pin}</span>}
           </h1>
-          <X className='icon' onClick={modalContext.hideModal} size={28} />
+          <X className='icon' onClick={handleClose} size={28} />
         </header>
 
         <div className='content'>
-          <p className='description'>{modalContext.description}</p>
+          <p className='description'>{infos.description}</p>
 
           <ul className='infos'>
-            <p className='subject-owner'>{modalContext.subjectOwner}</p>
-            <p className='start-time'>{modalContext.start}</p>
+            <p className='subject-owner'>{infos.subjectOwner}</p>
+            <p className='start-time'>{infos.start}</p>
           </ul>
 
-          <ExternalLink to={modalContext.link} className='join-class'>
+          <ExternalLink to={infos.link} className='join-class'>
             Rejoindre la classe.
           </ExternalLink>
         </div>
