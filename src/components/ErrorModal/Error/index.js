@@ -41,7 +41,7 @@ const ErrorEl = ({ title, message, id }) => {
 ErrorEl.propTypes = {
   title: PropTypes.string,
   message: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.number,
 };
 
 export default ErrorEl;
