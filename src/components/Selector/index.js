@@ -7,8 +7,9 @@ import { Check } from 'react-feather';
 import './index.scss';
 
 // TODO : [ ] Don't show the dropdown if the list is empty.
+// TODO : [ ] Reset fields when changing the visibility.
 
-const Selector = ({ items, selected, setSelected, placeholder, many, className }) => {
+const Selector = ({ items, selected, setSelected, placeholder, className, noValidation }) => {
   const [value, setValue] = useState('');
   const [completion, setCompletion] = useState('');
   const [invalid, setInvalid] = useState(false);
@@ -17,12 +18,14 @@ const Selector = ({ items, selected, setSelected, placeholder, many, className }
     const inputValue = event.target.value;
 
     setValue(inputValue);
-
     setInvalid(items.some((i) => i.name.startsWith(inputValue)) ? false : true);
 
     const item = items.find((i) => i.name.startsWith(inputValue));
-    if (!item || inputValue === '') setCompletion('');
-    else setCompletion(item.name.slice(inputValue.length));
+    if (!item || inputValue === '') return setCompletion('');
+
+    if (noValidation && inputValue === item.name) setSelected(item);
+
+    setCompletion(item.name.slice(inputValue.length));
   };
 
   const handleKeyPress = (event) => {
@@ -43,9 +46,11 @@ const Selector = ({ items, selected, setSelected, placeholder, many, className }
     <form className={`selector ${className ? className : ''} ${invalid ? 'invalid' : 'valid'}`} onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
       <div className='selector-field-container'>
         <input type='text' className='selector-field' onChange={handleInputChange} value={value} />
-        <button type='submit' className='submit-button'>
-          <Check className='icon' />
-        </button>
+        {!noValidation && (
+          <button type='submit' className='submit-button'>
+            <Check className='icon' />
+          </button>
+        )}
       </div>
       <div className='placeholder'>
         <p>{!value && (selected ? selected : placeholder)}</p>
@@ -64,7 +69,7 @@ Selector.propTypes = {
   setSelected: PropTypes.func,
   placeholder: PropTypes.string,
   className: PropTypes.any,
-  many: PropTypes.bool,
+  noValidation: PropTypes.bool,
 };
 
 export default Selector;
