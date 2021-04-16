@@ -15,8 +15,8 @@ const Days = (props) => {
   return (
     <div className='days' ref={container}>
       <div className='slider' ref={slider}>
-        {props.days.map((day, index) => {
-          return <Day infos={day} index={`day${index}`} key={day.id} />;
+        {props.days.map((day) => {
+          return <Day infos={day} date={day.date.toISOString()} key={day.id} />;
         })}
       </div>
     </div>

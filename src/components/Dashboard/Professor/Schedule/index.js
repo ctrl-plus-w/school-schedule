@@ -15,9 +15,14 @@ const Schedule = () => {
 
   const getTime = (time) => new Time(Time.getLocalHours(new Date(time)), Time.getLocalMins(new Date(time)));
 
+  const setToMidnight = (date) => {
+    date.setHours(0, 0, 0, 0);
+    return date;
+  };
+
   const eventObject = (event) => ({
     id: event.id,
-    startDay: new Date(event.start),
+    startDay: setToMidnight(new Date(event.start)),
     start: getTime(event.start),
     description: event.description,
     link: event.link,
@@ -29,7 +34,7 @@ const Schedule = () => {
 
   const days = getConsecutiveDays(14).reduce((acc, curr) => {
     const dayEvents = events.map(eventObject).filter((e) => sameDay(e.startDay, curr));
-    return [...acc, { id: uuidv4(), date: curr, events: dayEvents }];
+    return [...acc, { id: uuidv4(), date: setToMidnight(curr), events: dayEvents }];
   }, []);
 
   return (

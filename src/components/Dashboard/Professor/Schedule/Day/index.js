@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +7,7 @@ import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
 import { config } from '../../../../../features/modals/eventSlice';
-import { selectLabel } from '../../../../../features/infos/infosSlice';
+import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
 
 // TODO : [-] Refactor getEventElement function (try grouping events into one element).
 // TODO : [ ] Handle event click.
@@ -14,20 +15,21 @@ import { selectLabel } from '../../../../../features/infos/infosSlice';
 
 const Day = (props) => {
   const dispatch = useDispatch();
-  const dayId = props.index;
 
   const label = useSelector(selectLabel);
 
-  const selectedEvents = {};
+  const selectedEvents = useSelector(selectEvents);
 
   const events = new Array(9).fill(0).reduce((acc, curr, i) => {
     const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-    return event ? [...acc, event] : [...acc, { id: `${dayId}#start${i + 8}`, start: new Time(i + 8, 0), empty: true }];
+    return event ? [...acc, event] : [...acc, { day: props.date, start: new Time(i + 8, 0), empty: true }];
   }, []);
 
   const selectEvent = (_event, event) => {
-    event;
-    // ! TODO
+    const payload = { date: props.date, start: event.start.toString };
+
+    if (payload.date in selectedEvents && selectedEvents[payload.date].includes(payload.start)) dispatch(removeEvent(payload));
+    else dispatch(addEvent(payload));
   };
 
   const handleEventClick = (_event, event) => {
@@ -49,28 +51,29 @@ const Day = (props) => {
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
 
-    const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
-    const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
+    // const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
+    const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].includes(time.toString);
 
+    // ${isSelected(curr.start) ? 'selected' : 'unselected'}
     const emptyCell = (type) => (
       <div
-        className={`event ${type} empty ${isSelected(curr.id) ? 'selected' : 'unselected'}`}
+        className={`event ${type} empty ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
         key={curr.id}
         onClick={(e) => selectEvent(e, curr)}
       ></div>
     );
 
     const cell = (type, content = false) => (
-      <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
+      <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
         {content && <h3 className='title'>{label !== '' ? curr.subject : curr.label}</h3>}
         {content && <p className='description'>{curr.start.toString}</p>}
       </div>
     );
 
     if (curr.empty) {
-      if (prev && prev.empty && isSelected(prev.id) && next && next.empty && isSelected(next.id)) return emptyCell('middle');
-      if (prev && prev.empty && isSelected(prev.id)) return emptyCell('end');
-      if (next && next.empty && isSelected(next.id)) return emptyCell('start');
+      if (prev && prev.empty && isSelected(prev.start) && next && next.empty && isSelected(next.start)) return emptyCell('middle');
+      if (prev && prev.empty && isSelected(prev.start)) return emptyCell('end');
+      if (next && next.empty && isSelected(next.start)) return emptyCell('start');
       return emptyCell('normal');
     }
 
@@ -106,7 +109,7 @@ const Day = (props) => {
 
 Day.propTypes = {
   infos: PropTypes.object,
-  index: PropTypes.string,
+  date: PropTypes.any,
 };
 
 export default Day;
