@@ -1,12 +1,13 @@
-import React, { createRef, useContext, useEffect } from 'react';
+import React, { createRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { X } from 'react-feather';
 
-import ErrorContext from '../../../context/errors-context';
+import { removeError } from '../../../features/modals/errorSlice';
 
 const ErrorEl = ({ title, message, id }) => {
-  const { removeError } = useContext(ErrorContext);
+  const dispatch = useDispatch();
 
   const elRef = createRef();
 
@@ -19,7 +20,7 @@ const ErrorEl = ({ title, message, id }) => {
     }
   }, [elRef]);
 
-  const handleClick = () => removeError(id);
+  const handleClick = () => dispatch(removeError(id));
 
   return (
     <div className='error'>

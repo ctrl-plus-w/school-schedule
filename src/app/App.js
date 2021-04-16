@@ -14,35 +14,32 @@ import StudentDashboard from '../components/Dashboard/Student';
 
 import ErrorModal from '../components/ErrorModal';
 
-import { ErrorsProvider } from '../context/errors-context';
-
-import useError from '../hooks/useError';
-
 // TODO : [x] Create the login page.
 // TODO : [x] Create the auth system (logic).
 // TODO : [x] Bug! Days scroll doesn't show a part of the last day.
+// TODO : [ ] Handle errors on login and on everything error slice / error modal.
+// TODO : [ ] Remove every unusefull hooks and contexts.
+// TODO : [ ] Make the events selection slice.
+// TODO : [ ] Use the redux store in the schedule events display.
+// TODO : [ ] Setup the modal with redux.
 
 const App = () => {
-  const error = useError();
-
   return (
     <BrowserRouter>
-      <ErrorsProvider value={error}>
-        <ErrorModal />
+      <ErrorModal />
 
-        <Switch>
-          <Redirect from='/' to='/auth' exact />
+      <Switch>
+        <Redirect from='/' to='/auth' exact />
 
-          <Route path='/auth' component={Auth} />
-          <Route path='/missed-password' component={MissedPassword} />
+        <Route path='/auth' component={Auth} />
+        <Route path='/missed-password' component={MissedPassword} />
 
-          <Route path='/dashboard' component={ProfessorDashboard} />
+        <Route path='/dashboard' component={ProfessorDashboard} />
 
-          <Route path='/schedule' component={StudentDashboard} />
+        <Route path='/schedule' component={StudentDashboard} />
 
-          <Route path='/admin' component={Admin} />
-        </Switch>
-      </ErrorsProvider>
+        <Route path='/admin' component={Admin} />
+      </Switch>
     </BrowserRouter>
   );
 };
