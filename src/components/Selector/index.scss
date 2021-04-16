@@ -82,7 +82,8 @@
     }
   }
 
-  .completion-container {
+  .completion-container,
+  .placeholder {
     position: absolute;
     top: 0;
     left: 0;
@@ -100,7 +101,13 @@
     border: 1px solid transparent;
 
     pointer-events: none;
+  }
 
+  .placeholder {
+    color: rgb(121, 119, 129);
+  }
+
+  .completion-container {
     .user-input {
       visibility: hidden;
     }

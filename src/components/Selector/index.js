@@ -8,7 +8,7 @@ import './index.scss';
 
 // TODO : [ ] Don't show the dropdown if the list is empty.
 
-const Selector = ({ items, setSelected, placeholder, many, className }) => {
+const Selector = ({ items, selected, setSelected, placeholder, many, className }) => {
   const [value, setValue] = useState('');
   const [completion, setCompletion] = useState('');
   const [invalid, setInvalid] = useState(false);
@@ -46,6 +46,9 @@ const Selector = ({ items, setSelected, placeholder, many, className }) => {
         <button type='submit' className='submit-button'>
           <Check className='icon' />
         </button>
+      </div>
+      <div className='placeholder'>
+        <p>{!value && (selected ? selected : placeholder)}</p>
       </div>
       <div className={`completion-container`}>
         <p className='user-input'>{value}</p>
