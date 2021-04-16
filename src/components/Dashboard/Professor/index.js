@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
+import CreationModal from '../CreationModal';
 
 import { isLoggedIn } from '../../../features/database/authSlice';
 import { isLoading, fetchOwnedEvents } from '../../../features/database/eventsSlice';
@@ -33,7 +34,9 @@ const ProfessorDashboard = () => {
     </div>
   ) : (
     <>
+      <CreationModal />
       <Modal />
+
       <div className={`container ${visible ? 'blurred' : ''}`}>
         <Topbar />
         <Schedule />

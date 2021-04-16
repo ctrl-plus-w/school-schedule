@@ -7,8 +7,8 @@ import Selector from '../../../Selector';
 import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
 import { fetchLabelEvents } from '../../../../features/database/eventsSlice';
-
 import { selectLabel, setLabel } from '../../../../features/infos/infosSlice';
+import { config } from '../../../../features/modals/createSlice';
 
 const Topbar = () => {
   const history = useHistory();
@@ -38,6 +38,15 @@ const Topbar = () => {
     dispatch(fetchLabelEvents({ label_id: label.id }));
   };
 
+  const handleCreateEvent = () => {
+    const payload = {
+      title: 'Réserver des cours.',
+      description: 'Les paramètres globaux seront appliqués à toutes les heures.',
+    };
+
+    dispatch(config(payload));
+  };
+
   return (
     <div className='topbar'>
       <div className='text'>
@@ -52,6 +61,12 @@ const Topbar = () => {
           setSelected={handleChange}
           placeholder='Choisir un groupe.'
         />
+      </div>
+
+      <div className='event-creator'>
+        <button type='button' className='create-event-button' onClick={handleCreateEvent}>
+          Réserver
+        </button>
       </div>
 
       <div className='logout'>

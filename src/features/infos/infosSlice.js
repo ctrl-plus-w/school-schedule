@@ -17,18 +17,24 @@ const slice = createSlice({
 
     addEvent: (state, action) => {
       const day = state.selectedEvents[action.payload.date];
-      if (!day) state.selectedEvents[action.payload.date] = [action.payload.start];
-      else state.selectedEvents[action.payload.date].push(action.payload.start);
+      if (day) state.selectedEvents[action.payload.date].push({ start: action.payload.start, obligatory: true });
+      else state.selectedEvents[action.payload.date] = [{ start: action.payload.start, obligatory: true }];
     },
 
     removeEvent: (state, action) => {
-      const d = state.selectedEvents[action.payload.date];
-      d.splice(d.indexOf(action.payload.start), 1);
+      const timeFilter = ({ start }) => start !== action.payload.start;
+      state.selectedEvents[action.payload.date] = state.selectedEvents[action.payload.date].filter(timeFilter);
+    },
+
+    editEvent: (state, action) => {
+      const day = state.selectedEvents[action.payload.date];
+      if (day) day.find(({ start }) => start === action.payload.start).obligatory = action.payload.obligatory;
+      else state.selectedEvents[action.payload.date] = [{ start: action.payload.start, obligatory: action.payload.obligatory }];
     },
   },
 });
 
-export const { setLabel, addEvent, removeEvent } = slice.actions;
+export const { setLabel, addEvent, removeEvent, editEvent } = slice.actions;
 
 export const selectEvents = (state) => state.infos.selectedEvents;
 export const selectLabel = (state) => state.infos.selectedLabel;
