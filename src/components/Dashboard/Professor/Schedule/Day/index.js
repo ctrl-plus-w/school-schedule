@@ -1,59 +1,53 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
-import ModalContext from '../../../../../context/modal-context';
-import DatabaseContext from '../../../../../context/database-context';
-import SelectedEventsContext from '../../../../../context/selected-events-context';
+import { config } from '../../../../../features/modals/eventSlice';
+import { selectLabel } from '../../../../../features/infos/infosSlice';
 
 // TODO : [-] Refactor getEventElement function (try grouping events into one element).
 // TODO : [ ] Handle event click.
 // TODO : [ ] Get more infos when fetching events.
 
 const Day = (props) => {
+  const dispatch = useDispatch();
   const dayId = props.index;
 
-  const modalContext = useContext(ModalContext);
-  const databaseContext = useContext(DatabaseContext);
+  const label = useSelector(selectLabel);
 
-  const { selectedEvents, addEvent, removeEvent } = useContext(SelectedEventsContext);
+  const selectedEvents = {};
 
-  const nineArray = new Array(9).fill(0);
-
-  const [events] = useState(
-    nineArray.reduce((acc, curr, i) => {
-      const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-      return event ? [...acc, event] : [...acc, { id: `${dayId}#start${i + 8}`, start: new Time(i + 8, 0), empty: true }];
-    }, [])
-  );
+  const events = new Array(9).fill(0).reduce((acc, curr, i) => {
+    const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
+    return event ? [...acc, event] : [...acc, { id: `${dayId}#start${i + 8}`, start: new Time(i + 8, 0), empty: true }];
+  }, []);
 
   const selectEvent = (_event, event) => {
-    if (dayId in selectedEvents && event.id in selectedEvents[dayId]) removeEvent(event.id, dayId);
-    else addEvent(event, dayId);
+    event;
+    // ! TODO
   };
 
   const handleEventClick = (_event, event) => {
-    // TODO : [ ] Handle click event.
-
-    modalContext.config({
-      title: databaseContext.label ? event.subject : event.label,
+    const payload = {
+      title: event.subject,
       link: event.link,
       description: event.description,
       start: event.start.toString,
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
       subjectOwner: event.owner,
-    });
+    };
+
+    dispatch(config(payload));
   };
 
   const getEventElement = (eventsArray, i) => {
     const prev = eventsArray[i - 1];
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
-
-    if (dayId in selectedEvents) console.log(selectedEvents[dayId]);
 
     const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
     const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
@@ -68,7 +62,7 @@ const Day = (props) => {
 
     const cell = (type, content = false) => (
       <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
-        {content && <h3 className='title'>{databaseContext.label ? curr.subject : curr.label}</h3>}
+        {content && <h3 className='title'>{label !== '' ? curr.subject : curr.label}</h3>}
         {content && <p className='description'>{curr.start.toString}</p>}
       </div>
     );
