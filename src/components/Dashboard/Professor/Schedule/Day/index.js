@@ -28,7 +28,7 @@ const Day = (props) => {
   const selectEvent = (_event, event) => {
     const payload = { date: props.date, start: event.start.toString };
 
-    if (payload.date in selectedEvents && selectedEvents[payload.date].includes(payload.start)) dispatch(removeEvent(payload));
+    if (payload.date in selectedEvents && selectedEvents[payload.date].some(({ start }) => start === payload.start)) dispatch(removeEvent(payload));
     else dispatch(addEvent(payload));
   };
 
@@ -52,7 +52,7 @@ const Day = (props) => {
     const next = eventsArray[i + 1];
 
     // const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
-    const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].includes(time.toString);
+    const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].some(({ start }) => start === time.toString);
 
     // ${isSelected(curr.start) ? 'selected' : 'unselected'}
     const emptyCell = (type) => (
@@ -88,7 +88,6 @@ const Day = (props) => {
     if (!next.empty && !prev.empty) {
       if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
       if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
-
       if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
     }
 
