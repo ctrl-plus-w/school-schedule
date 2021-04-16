@@ -68,17 +68,17 @@ const slice = createSlice({
 
 export const { logout } = slice.actions;
 
-export const isLoading = (state) => state.auth.loading;
+export const isLoading = (state) => state.database.auth.loading;
 
-export const isLoggedIn = (state) => state.auth.token !== '';
-export const selectToken = (state) => state.auth.token;
-export const selectName = (state) => state.auth.fullName;
-export const selectRole = (state) => state.auth.role;
+export const isLoggedIn = (state) => state.database.auth.token !== '';
+export const selectToken = (state) => state.database.auth.token;
+export const selectName = (state) => state.database.auth.fullName;
+export const selectRole = (state) => state.database.auth.role;
 
 export const isRole = (state) => ({
-  isAdmin: state.auth.role === ROLES.ADMIN,
-  isProfessor: state.auth.role === ROLES.PROFESSOR,
-  isStudent: state.auth.role === ROLES.STUDENT,
+  isAdmin: state.database.auth.role === ROLES.ADMIN,
+  isProfessor: state.database.auth.role === ROLES.PROFESSOR,
+  isStudent: state.database.auth.role === ROLES.STUDENT,
 });
 
 export default slice.reducer;

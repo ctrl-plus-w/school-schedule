@@ -72,8 +72,8 @@ const slice = createSlice({
   },
 });
 
-export const selectEvents = (state) => state.events.events;
+export const selectEvents = (state) => state.database.events.events;
 
-export const isLoading = (state) => state.events.loading;
+export const isLoading = (state) => state.database.events.loading;
 
 export default slice.reducer;
