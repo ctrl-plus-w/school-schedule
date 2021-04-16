@@ -1,24 +1,41 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+import { addError } from '../modals/errorSlice';
+
 import client from '../../app/database';
 
-import { EVENTS, OWNED_EVENTS } from '../../graphql/events';
+import { EVENTS, OWNED_EVENTS, LABEL_EVENTS } from '../../graphql/events';
 
-export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
+export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
   try {
     const events = await client.request(EVENTS);
     return events.userEvents;
   } catch (err) {
-    throw new Error(err?.response?.errors[0]?.message);
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (fetchEvents)', message }));
+    throw new Error(message);
   }
 });
 
-export const fetchOwnedEvents = createAsyncThunk('events/fetchOwnedEvents', async () => {
+export const fetchOwnedEvents = createAsyncThunk('events/fetchOwnedEvents', async (_args, { dispatch }) => {
   try {
     const events = await client.request(OWNED_EVENTS);
     return events.ownedEvents;
   } catch (err) {
-    throw new Error(err?.response?.errors[0]?.message);
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (fetchOwnedEvents)', message }));
+    throw new Error(message);
+  }
+});
+
+export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', async (args, { dispatch }) => {
+  try {
+    const events = await client.request(LABEL_EVENTS, args);
+    return events.labelEvents;
+  } catch (err) {
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (fetchLabelEvents)', message }));
+    throw new Error(message);
   }
 });
 
@@ -39,36 +56,18 @@ const slice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchEvents.pending, (state) => ({
-        ...state,
-        loading: true,
-      }))
-      .addCase(fetchEvents.fulfilled, (state, action) => ({
-        ...state,
-        events: action.payload,
-        loading: false,
-      }))
-      .addCase(fetchEvents.rejected, (state, action) => ({
-        ...state,
-        error: action.error,
-        loading: false,
-      }))
+    const pending = (state) => ({ ...state, loading: true });
+    const fulfilled = (state, action) => ({ ...state, events: action.payload, loading: false });
+    const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
 
-      .addCase(fetchOwnedEvents.pending, (state) => ({
-        ...state,
-        loading: true,
-      }))
-      .addCase(fetchOwnedEvents.fulfilled, (state, action) => ({
-        ...state,
-        events: action.payload,
-        loading: false,
-      }))
-      .addCase(fetchOwnedEvents.rejected, (state, action) => ({
-        ...state,
-        error: action.error,
-        loading: false,
-      }));
+    // Fetch events.
+    builder.addCase(fetchEvents.pending, pending).addCase(fetchEvents.fulfilled, fulfilled).addCase(fetchEvents.rejected, rejected);
+
+    // Fetch owned events.
+    builder.addCase(fetchOwnedEvents.pending, pending).addCase(fetchOwnedEvents.fulfilled, fulfilled).addCase(fetchOwnedEvents.rejected, rejected);
+
+    // Fetch label events.
+    builder.addCase(fetchLabelEvents.pending, pending).addCase(fetchLabelEvents.fulfilled, fulfilled).addCase(fetchLabelEvents.rejected, rejected);
   },
 });
 
