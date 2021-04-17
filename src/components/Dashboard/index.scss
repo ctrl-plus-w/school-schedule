@@ -126,46 +126,59 @@
         margin-bottom: 1rem;
       }
 
-      .days-list {
+      .day-container {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-direction: column;
 
         width: 100%;
 
-        .item {
-          width: 50%;
+        .day-name {
+          font-size: 1.2rem;
+          font-weight: 600;
 
-          .day-name {
-            font-size: 1.2rem;
-            font-weight: 600;
+          color: rgb(9, 6, 41);
+        }
 
-            color: rgb(9, 6, 41);
-          }
+        .hours-list {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
 
-          .hours-list {
+          width: 100%;
+
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+
+          .hour {
+            width: 50%;
+
             display: flex;
             flex-direction: column;
-            width: 100%;
 
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
 
-            .hour {
-              width: 100%;
-
-              display: flex;
-              flex-direction: row;
-
+            .start {
               justify-self: center;
               align-items: center;
 
-              margin-bottom: 0.2rem;
+              display: flex;
+              flex-direction: row;
+            }
 
-              .pin {
-                margin-left: 0.5rem;
-                cursor: pointer;
+            .description {
+              display: flex;
+              flex-direction: column;
+
+              margin-top: 1em;
+
+              input {
+                @include input--no-border;
               }
+            }
+
+            .pin {
+              margin-left: 0.5rem;
+              cursor: pointer;
             }
           }
         }
