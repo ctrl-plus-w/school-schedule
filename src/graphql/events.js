@@ -65,3 +65,26 @@ export const LABEL_EVENTS = gql`
     }
   }
 `;
+
+export const CREATE_EVENT = gql`
+  mutation CreateEvent($start: String!, $link: String, $description: String!, $obligatory: Boolean!, $label_name: String!, $subject_name: String!) {
+    createEventByName(
+      input: { start: $start, link: $link, description: $description, obligatory: $obligatory, label_name: $label_name, subject_name: $subject_name }
+    ) {
+      id
+      start
+      link
+      description
+      owner {
+        username
+      }
+      label {
+        label_name
+      }
+      subject {
+        subject_name
+      }
+      created_at
+    }
+  }
+`;

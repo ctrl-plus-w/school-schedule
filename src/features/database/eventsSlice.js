@@ -4,7 +4,7 @@ import { addError } from '../modals/errorSlice';
 
 import client from '../../app/database';
 
-import { EVENTS, OWNED_EVENTS, LABEL_EVENTS } from '../../graphql/events';
+import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, CREATE_EVENT } from '../../graphql/events';
 
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
   try {
@@ -39,6 +39,17 @@ export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', asyn
   }
 });
 
+export const createEvent = createAsyncThunk('events/createEvent', async (args, { dispatch }) => {
+  try {
+    const events = await client.request(CREATE_EVENT, args);
+    return events.createEventByName;
+  } catch (err) {
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (createEvent)', message }));
+    throw new Error(message);
+  }
+});
+
 const slice = createSlice({
   name: 'events',
 
@@ -60,6 +71,8 @@ const slice = createSlice({
     const fulfilled = (state, action) => ({ ...state, events: action.payload, loading: false });
     const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
 
+    const fulfilledNoAction = (state) => ({ ...state, loading: false });
+
     // Fetch events.
     builder.addCase(fetchEvents.pending, pending).addCase(fetchEvents.fulfilled, fulfilled).addCase(fetchEvents.rejected, rejected);
 
@@ -68,6 +81,9 @@ const slice = createSlice({
 
     // Fetch label events.
     builder.addCase(fetchLabelEvents.pending, pending).addCase(fetchLabelEvents.fulfilled, fulfilled).addCase(fetchLabelEvents.rejected, rejected);
+
+    // Create event.
+    builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);
   },
 });
 
