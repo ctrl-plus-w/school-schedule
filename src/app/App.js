@@ -18,10 +18,13 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Create the auth system (logic).
 // TODO : [x] Bug! Days scroll doesn't show a part of the last day.
 // TODO : [ ] Handle errors on login and on everything error slice / error modal.
-// TODO : [ ] Remove every unusefull hooks and contexts.
+// TODO : [x] Remove every unusefull hooks and contexts.
 // TODO : [ ] Make the events selection slice.
 // TODO : [ ] Use the redux store in the schedule events display.
 // TODO : [ ] Setup the modal with redux.
+// TODO : [ ] Reset the selectedEvents when reloading the events.
+// TODO : [ ] Create a "Personal" schedule for the professors.
+// TODO : [ ] Show the label of the group on the "Personal" schedule for the professors.
 
 const App = () => {
   return (
