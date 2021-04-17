@@ -9,7 +9,7 @@ import './index.scss';
 // TODO : [ ] Don't show the dropdown if the list is empty.
 // TODO : [ ] Reset fields when changing the visibility.
 
-const Selector = ({ items, selected, setSelected, placeholder, className, noValidation }) => {
+const Selector = ({ items, selected, setSelected, placeholder, className, noValidation, onSubmit }) => {
   const [value, setValue] = useState('');
   const [completion, setCompletion] = useState('');
   const [invalid, setInvalid] = useState(false);
@@ -29,12 +29,17 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
   };
 
   const handleKeyPress = (event) => {
-    if (event.key !== 'Tab') return;
+    if (event.key === 'Tab') {
+      event.preventDefault();
 
-    event.preventDefault();
+      setValue(value + completion);
+      setCompletion();
+    }
 
-    setValue(value + completion);
-    setCompletion();
+    if (event.key === 'Enter') {
+      if (noValidation) onSubmit(event);
+      else handleSubmit(event);
+    }
   };
 
   const handleSubmit = (event) => {
@@ -43,11 +48,11 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
   };
 
   return (
-    <form className={`selector ${className ? className : ''} ${invalid ? 'invalid' : 'valid'}`} onSubmit={handleSubmit} onKeyDown={handleKeyPress}>
+    <div className={`selector ${className ? className : ''} ${invalid ? 'invalid' : 'valid'}`} onKeyDown={handleKeyPress}>
       <div className='selector-field-container'>
         <input type='text' className='selector-field' onChange={handleInputChange} value={value} />
         {!noValidation && (
-          <button type='submit' className='submit-button'>
+          <button type='button' className='submit-button' onClick={handleSubmit}>
             <Check className='icon' />
           </button>
         )}
@@ -59,7 +64,7 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
         <p className='user-input'>{value}</p>
         <p className='completion'>{completion}</p>
       </div>
-    </form>
+    </div>
   );
 };
 
@@ -70,6 +75,7 @@ Selector.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.any,
   noValidation: PropTypes.bool,
+  onSubmit: PropTypes.func,
 };
 
 export default Selector;
