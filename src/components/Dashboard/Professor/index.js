@@ -6,6 +6,7 @@ import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
 import CreationModal from '../CreationModal';
+import Loading from '../../Loading';
 
 import { isLoggedIn } from '../../../features/database/authSlice';
 import { isLoading, fetchOwnedEvents } from '../../../features/database/eventsSlice';
@@ -20,7 +21,7 @@ const ProfessorDashboard = () => {
   if (!logged) history.push('/auth');
 
   useEffect(() => {
-    dispatch(fetchOwnedEvents());
+    logged && dispatch(fetchOwnedEvents());
   }, []);
 
   const loading = useSelector(isLoading);
@@ -28,12 +29,9 @@ const ProfessorDashboard = () => {
   // temp
   let visible = false;
 
-  return loading ? (
-    <div className='container center-content'>
-      <h1>Loading...</h1>
-    </div>
-  ) : (
+  return (
     <>
+      <Loading loading={loading} />
       <CreationModal />
       <Modal />
 
