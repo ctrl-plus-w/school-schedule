@@ -3,87 +3,105 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { hide, selectInfos } from '../../../features/modals/createSlice';
+import { hide, selectInfos, selectVisible } from '../../../features/modals/createSlice';
 import { fetchSubjects, selectSubjects } from '../../../features/database/subjectsSlice';
+import { createEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+
+import { selectEvents, editEvent, selectLabel, removeDay } from '../../../features/infos/infosSlice';
 
 import Selector from '../../Selector';
-import { selectEvents, editEvent, selectLabel } from '../../../features/infos/infosSlice';
 
 import { getWeekDay, getMonth } from '../../../utils/Calendar';
 import Time from '../../../utils/Time';
-import { createEvent } from '../../../features/database/eventsSlice';
 
 // TODO : [ ] Focus on the field when visible.
 // TODO : [ ] Handle form submit.
 // TODO : [ ] Reset selected on when visible.
 
+import { getHour, find } from '../../../utils/Utils';
+
 const CreationModal = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(fetchSubjects()), []);
-
   const [selected, setSelected] = useState('');
-  const [selectedDay, setSelectedDay] = useState(0);
 
   const infos = useSelector(selectInfos);
   const subjects = useSelector(selectSubjects);
   const selectedEvents = useSelector(selectEvents);
   const label = useSelector(selectLabel);
+  const visible = useSelector(selectVisible);
 
-  const handleContentClick = (event) => event.stopPropagation();
-  const handleClose = () => dispatch(hide());
+  useEffect(() => {
+    if (!visible) return;
+
+    setSelected(null);
+    dispatch(fetchSubjects());
+  }, [visible]);
+
+  const handleContentClick = (event) => {
+    event.stopPropagation();
+  };
+
+  const handleClose = () => {
+    setSelected('');
+    dispatch(hide());
+  };
 
   const handleSetSelected = (item) => {
     setSelected(item.name);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selected) return;
     if (!label) return;
 
-    const day = Object.keys(selectedEvents)[selectedDay];
+    const day = Object.keys(selectedEvents)[0];
+
     for (const event of selectedEvents[day]) {
-      const descriptionEl = document.querySelector(`#start${event.start.replace(':', '_')}`);
-      const description = descriptionEl.value;
+      const startTime = find(selectedEvents[day], getHour(event.start), -1);
+
+      const description = document.querySelector(`#start${startTime ? startTime : getHour(event.start)}`);
 
       const [hour, min] = event.start.split(':').map(parseFloat);
       const date = new Date(new Date(day).setHours(hour, min));
 
-      const obligatory = event.obligatory;
-
-      dispatch(
-        createEvent({
-          start: date,
-          description: description,
-          obligatory: obligatory,
-          label_name: label,
-          subject_name: selected,
-        })
-      );
-    }
-
-    // TODO : [ ] Stop if their is no others days after and show "Validation" instead of "Suivant". Check if the day isn't empty.
-    // TODO : [ ] Refetch all the events after creating some.
-
-    // setSelectedDay((prev) => prev + 1);
-    // handleSubmit(event);
-  };
-
-  const mapHours = (hours, day) => {
-    return hours.map(({ start, obligatory }) => {
-      const getHour = (h) => h.split(':').map(parseFloat)[0];
-      const currHour = getHour(start);
-
-      const find = (hs, base, index, curr = base) => {
-        const next = hs.find(({ start }) => parseFloat(start.split(':')[0]) === curr + index);
-        if (!next) return base === curr ? false : curr;
-        return find(hs, base, index, curr + index);
+      const payload = {
+        start: date,
+        description: description.value,
+        obligatory: event.obligatory,
+        label_name: label,
+        subject_name: selected,
       };
 
-      const prevHour = find(hours, currHour, -1);
-      const nextHour = find(hours, currHour, +1);
+      // ! Must be await, otherwise it wont wait for the events
+      // ! to be created before fetching thems.
+      await dispatch(createEvent(payload));
+    }
+
+    console.log('Loop ends.');
+
+    // TODO : [x] Stop if their is no others days after and show "Validation" instead of "Suivant". Check if the day isn't empty.
+    // TODO : [ ] Refetch all the events after creating some.
+    // TODO : [x] Reset selected value.
+
+    if (Object.keys(selectedEvents).length <= 1) {
+      dispatch(removeDay(Object.keys(selectedEvents)[0]));
+      dispatch(fetchLabelEvents({ label_name: label }));
+      dispatch(hide());
+    } else {
+      dispatch(removeDay(Object.keys(selectedEvents)[0]));
+      dispatch(fetchLabelEvents({ label_name: label }));
+    }
+  };
+
+  const mapHours = (events, day) => {
+    return events.map(({ start, obligatory }) => {
+      const currHour = getHour(start);
+
+      const prevHour = find(events, currHour, -1);
+      const nextHour = find(events, currHour, +1);
 
       const handleClick = () => {
         dispatch(editEvent({ date: day, start, obligatory: !obligatory }));
@@ -98,15 +116,15 @@ const CreationModal = () => {
                 {obligatory ? 'Obligatoire' : 'Facultatif'}
               </span>
             </p>
-            <label className='description' htmlFor={`start${start.replace(':', '_')}`}>
+            <label className='description' htmlFor={`start${getHour(start)}`}>
               Description
-              <input type='text' id={`start${start.replace(':', '_')}`} placeholder='Veuillez entrer une description.' />
+              <input type='text' id={`start${getHour(start)}`} placeholder='Veuillez entrer une description.' />
             </label>
           </div>
         );
       };
 
-      if (!prevHour && nextHour) return getHourElement(start, new Time(nextHour, 0).toString);
+      if (!prevHour && nextHour) return getHourElement(start, new Time(nextHour + 1, 0).toString);
       if (!prevHour && !nextHour) return getHourElement(start, new Time(currHour + 1, 0).toString);
     });
   };
@@ -129,7 +147,9 @@ const CreationModal = () => {
     <form className={`modal ${infos.visible ? 'visible' : 'hidden'}`} onClick={handleClose} onSubmit={handleSubmit}>
       <div className='modal-content' onClick={handleContentClick}>
         <header>
-          <h1 className='title'>{infos.title}</h1>
+          <h1 className='title'>
+            {infos.title} - {label}
+          </h1>
           <X className='icon' onClick={handleClose} size={28} />
         </header>
 
@@ -150,7 +170,7 @@ const CreationModal = () => {
                 noValidation
               />
               <button type='submit' className={`submit-button ${!selected && 'disabled'}`}>
-                Suivant
+                {Object.keys(selectedEvents).length <= 1 ? 'Valider' : 'Suivant'}
               </button>
             </div>
           </div>

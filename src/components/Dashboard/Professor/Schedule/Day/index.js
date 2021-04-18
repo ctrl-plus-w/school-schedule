@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
@@ -9,23 +10,21 @@ import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 import { config } from '../../../../../features/modals/eventSlice';
 import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
 
-// TODO : [-] Refactor getEventElement function (try grouping events into one element).
-// TODO : [ ] Handle event click.
-// TODO : [ ] Get more infos when fetching events.
+// TODO : [ ] Optimize.
+// TODO : [ ] Block user from creating events in the past. (selection)
 
 const Day = (props) => {
   const dispatch = useDispatch();
 
   const label = useSelector(selectLabel);
-
   const selectedEvents = useSelector(selectEvents);
 
   const events = new Array(9).fill(0).reduce((acc, curr, i) => {
     const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-    return event ? [...acc, event] : [...acc, { day: props.date, start: new Time(i + 8, 0), empty: true }];
+    return event ? [...acc, event] : [...acc, { id: uuidv4(), day: props.date, start: new Time(i + 8, 0), empty: true }];
   }, []);
 
-  const selectEvent = (_event, event) => {
+  const handleSelectEvent = (_event, event) => {
     const payload = { date: props.date, start: event.start.toString };
 
     if (payload.date in selectedEvents && selectedEvents[payload.date].some(({ start }) => start === payload.start)) dispatch(removeEvent(payload));
@@ -54,18 +53,17 @@ const Day = (props) => {
     // const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
     const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].some(({ start }) => start === time.toString);
 
-    // ${isSelected(curr.start) ? 'selected' : 'unselected'}
     const emptyCell = (type) => (
       <div
         className={`event ${type} empty ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
         key={curr.id}
-        onClick={(e) => selectEvent(e, curr)}
+        onClick={(e) => handleSelectEvent(e, curr)}
       ></div>
     );
 
     const cell = (type, content = false) => (
       <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
-        {content && <h3 className='title'>{label !== '' ? curr.subject : curr.label}</h3>}
+        {content && <h3 className='title'>{label === '' ? curr.label : curr.subject}</h3>}
         {content && <p className='description'>{curr.start.toString}</p>}
       </div>
     );
@@ -78,19 +76,31 @@ const Day = (props) => {
     }
 
     if (!prev || prev.empty) {
-      if (next?.subject === curr?.subject) return cell('start', true);
+      if (next && next.subject === curr.subject && next.label === curr.label) return cell('start', true);
       return cell('normal', true);
     }
 
-    if ((!next || next.empty) && prev.subject === curr.subject) return cell('end');
+    if ((!next || next.empty) && prev.subject === curr.subject && prev.label === curr.label) return cell('end');
 
     // If next is an event and prev as well.
-    if (!next.empty && !prev.empty) {
-      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
-      if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
-      if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
+    if (next && !next.empty && prev && !prev.empty) {
+      if (
+        next.subject === curr.subject &&
+        prev.subject === curr.subject &&
+        prev.subject === next.subject &&
+        next.label === curr.label &&
+        prev.label === curr.label &&
+        prev.label === next.label
+      )
+        return cell('middle');
+
+      if (prev.subject === curr.subject && curr.subject !== next.subject && prev.label === curr.label && curr.subject !== next.label)
+        return cell('end');
+      if (prev.subject !== curr.subject && curr.subject === next.subject && prev.label !== curr.label && curr.label === next.label)
+        return cell('middle', true);
     }
 
+    // start type ?
     return cell('end', true);
   };
 

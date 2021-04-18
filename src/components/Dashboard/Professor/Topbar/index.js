@@ -31,11 +31,7 @@ const Topbar = () => {
 
   const handleChange = (labelName) => {
     dispatch(setLabel(labelName));
-
-    const label = labels.find((l) => l.label_name === labelName);
-    if (!label) return;
-
-    dispatch(fetchLabelEvents({ label_id: label.id }));
+    dispatch(fetchLabelEvents({ label_name: labelName }));
   };
 
   const handleCreateEvent = () => {
