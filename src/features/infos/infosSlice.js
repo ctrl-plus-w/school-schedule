@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { removeKey } from '../../utils/Utils';
+
 const slice = createSlice({
   name: 'infos',
 
@@ -22,8 +24,17 @@ const slice = createSlice({
     },
 
     removeEvent: (state, action) => {
+      // eslint-disable-next-line no-unused-vars
+      const removeKey = (key, { [key]: _, ...rest }) => rest;
       const timeFilter = ({ start }) => start !== action.payload.start;
-      state.selectedEvents[action.payload.date] = state.selectedEvents[action.payload.date].filter(timeFilter);
+
+      const day = state.selectedEvents[action.payload.date];
+      if (day.length <= 1) state.selectedEvents = removeKey(action.payload.date, state.selectedEvents);
+      else state.selectedEvents[action.payload.date] = state.selectedEvents[action.payload.date].filter(timeFilter);
+    },
+
+    removeDay: (state, action) => {
+      state.selectedEvents = removeKey(action.payload, state.selectedEvents);
     },
 
     editEvent: (state, action) => {
@@ -34,7 +45,7 @@ const slice = createSlice({
   },
 });
 
-export const { setLabel, addEvent, removeEvent, editEvent } = slice.actions;
+export const { setLabel, addEvent, removeEvent, editEvent, removeDay } = slice.actions;
 
 export const selectEvents = (state) => state.infos.selectedEvents;
 export const selectLabel = (state) => state.infos.selectedLabel;
