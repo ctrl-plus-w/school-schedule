@@ -45,8 +45,8 @@ export const OWNED_EVENTS = gql`
 `;
 
 export const LABEL_EVENTS = gql`
-  query Events($label_id: ID!) {
-    labelEvents(label_id: $label_id) {
+  query Events($label_name: String!) {
+    labelEvents(label_name: $label_name) {
       id
       start
       description
@@ -76,7 +76,8 @@ export const CREATE_EVENT = gql`
       link
       description
       owner {
-        username
+        id
+        full_name
       }
       label {
         label_name
