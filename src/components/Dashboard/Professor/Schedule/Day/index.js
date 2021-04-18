@@ -33,6 +33,7 @@ const Day = (props) => {
 
   const handleEventClick = (_event, event) => {
     const payload = {
+      id: event.id,
       title: event.subject,
       link: event.link,
       description: event.description,

@@ -6,6 +6,7 @@ const slice = createSlice({
   initialState: {
     visible: false,
 
+    id: '',
     title: '',
     link: '',
     description: '',
