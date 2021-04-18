@@ -4,14 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ExternalLink from '../../ExternalLink';
 
+import { isRole } from '../../../features/database/authSlice';
+import { deleteEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+
 import { selectInfos, hide } from '../../../features/modals/eventSlice';
+import { selectLabel } from '../../../features/infos/infosSlice';
 
 const Modal = () => {
   const dispatch = useDispatch();
+
   const infos = useSelector(selectInfos);
+  const role = useSelector(isRole);
+  const label = useSelector(selectLabel);
 
   const handleContentClick = (event) => event.stopPropagation();
   const handleClose = () => dispatch(hide());
+
+  const handleDelete = async () => {
+    // ! Keep the awaits otherwise it will fetch the events before it delete it.
+    await dispatch(deleteEvent({ event_id: infos.id }));
+    await dispatch(fetchLabelEvents({ label_name: label }));
+    await dispatch(hide());
+  };
 
   return (
     <div className={`modal ${infos.visible ? 'visible' : 'hidden'}`} onClick={handleClose}>
@@ -32,9 +46,17 @@ const Modal = () => {
             <p className='start-time'>{infos.start}</p>
           </ul>
 
-          <ExternalLink to={infos.link} className='join-class'>
-            Rejoindre la classe.
-          </ExternalLink>
+          <div className='buttons'>
+            <ExternalLink to={infos.link} className='join-class'>
+              Rejoindre la classe.
+            </ExternalLink>
+
+            {role.isProfessor && (
+              <button type='button' className='delete-event red' onClick={handleDelete}>
+                Supprimer
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

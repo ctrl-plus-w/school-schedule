@@ -200,7 +200,7 @@
         }
 
         .submit-button {
-          @include button;
+          @include button--blue;
 
           width: 50%;
 
@@ -240,13 +240,29 @@
         }
       }
 
-      .join-class {
-        @include button;
+      .buttons {
+        display: flex;
+        flex-direction: row;
 
-        width: auto;
-
-        margin-right: auto;
         margin-top: 2rem;
+        justify-content: space-between;
+
+        width: 100%;
+
+        .join-class {
+          @include button--blue;
+          margin-right: auto;
+        }
+
+        .delete-event {
+          @include button--red;
+          margin-left: auto;
+        }
+
+        .join-class,
+        .delete-event {
+          width: auto;
+        }
       }
     }
   }
@@ -289,7 +305,7 @@
     margin: 0 auto;
 
     .create-event-button {
-      @include button;
+      @include button--blue;
     }
   }
 
