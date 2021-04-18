@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Check } from 'react-feather';
@@ -7,12 +7,19 @@ import { Check } from 'react-feather';
 import './index.scss';
 
 // TODO : [ ] Don't show the dropdown if the list is empty.
-// TODO : [ ] Reset fields when changing the visibility.
+// TODO : [x] Reset fields when changing the visibility.
 
 const Selector = ({ items, selected, setSelected, placeholder, className, noValidation, onSubmit }) => {
   const [value, setValue] = useState('');
   const [completion, setCompletion] = useState('');
   const [invalid, setInvalid] = useState(false);
+
+  useEffect(() => {
+    if (selected === null) {
+      setValue('');
+      setCompletion('');
+    }
+  }, [selected]);
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
