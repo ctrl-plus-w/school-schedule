@@ -28,6 +28,7 @@ const Schedule = () => {
     link: event.link,
     obligatory: event.obligatory,
     subject: event.subject.subject_name,
+    label: event.label.label_name,
     owner: event.owner.full_name,
     color: 'red',
   });

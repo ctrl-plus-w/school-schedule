@@ -135,8 +135,6 @@
         .day-name {
           font-size: 1.2rem;
           font-weight: 600;
-
-          color: rgb(9, 6, 41);
         }
 
         .hours-list {
@@ -170,6 +168,9 @@
               flex-direction: column;
 
               margin-top: 1em;
+
+              font-size: 1rem;
+              font-weight: 600;
 
               input {
                 @include input--no-border;
