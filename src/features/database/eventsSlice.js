@@ -4,7 +4,7 @@ import { addError } from '../modals/errorSlice';
 
 import client from '../../app/database';
 
-import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, CREATE_EVENT } from '../../graphql/events';
+import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../../graphql/events';
 
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
   try {
@@ -50,6 +50,17 @@ export const createEvent = createAsyncThunk('events/createEvent', async (args, {
   }
 });
 
+export const deleteEvent = createAsyncThunk('events/deleteEvent', async (args, { dispatch }) => {
+  try {
+    const isDeleted = await client.request(DELETE_EVENT, args);
+    return isDeleted;
+  } catch (err) {
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (deleteEvent)', message }));
+    throw new Error(message);
+  }
+});
+
 const slice = createSlice({
   name: 'events',
 
@@ -84,6 +95,9 @@ const slice = createSlice({
 
     // Create event.
     builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);
+
+    // Delete event.
+    builder.addCase(deleteEvent.pending, pending).addCase(deleteEvent.fulfilled, fulfilledNoAction).addCase(deleteEvent.rejected, rejected);
   },
 });
 
