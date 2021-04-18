@@ -74,7 +74,7 @@
   }
 
   .submit-button {
-    @include button;
+    @include button--blue;
 
     margin-top: 1em;
   }
