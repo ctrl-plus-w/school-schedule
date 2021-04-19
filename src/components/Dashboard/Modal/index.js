@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ExternalLink from '../../ExternalLink';
 
 import { isRole } from '../../../features/database/authSlice';
-import { deleteEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+import { deleteEvent, fetchLabelEvents, fetchOwnedEvents } from '../../../features/database/eventsSlice';
 
 import { selectInfos, hide } from '../../../features/modals/eventSlice';
 import { selectLabel } from '../../../features/infos/infosSlice';
@@ -22,8 +22,11 @@ const Modal = () => {
 
   const handleDelete = async () => {
     // ! Keep the awaits otherwise it will fetch the events before it delete it.
-    await dispatch(deleteEvent({ event_id: infos.id }));
-    await dispatch(fetchLabelEvents({ label_name: label }));
+    await dispatch(deleteEvent({ id: infos.id }));
+
+    if (label.id) await dispatch(fetchLabelEvents({ id: label.id }));
+    else await dispatch(fetchOwnedEvents());
+
     await dispatch(hide());
   };
 
