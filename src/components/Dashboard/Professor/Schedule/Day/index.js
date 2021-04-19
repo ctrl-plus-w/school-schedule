@@ -62,12 +62,14 @@ const Day = (props) => {
       ></div>
     );
 
-    const cell = (type, content = false) => (
-      <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
-        {content && <h3 className='title'>{label === '' ? curr.label : curr.subject}</h3>}
-        {content && <p className='description'>{curr.start.toString}</p>}
-      </div>
-    );
+    const cell = (type, content = false) => {
+      return (
+        <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
+          {content && <h3 className='title'>{label.name ? curr.subject : curr.label}</h3>}
+          {content && <p className='description'>{curr.start.toString}</p>}
+        </div>
+      );
+    };
 
     if (curr.empty) {
       if (prev && prev.empty && isSelected(prev.start) && next && next.empty && isSelected(next.start)) return emptyCell('middle');
@@ -95,14 +97,17 @@ const Day = (props) => {
       )
         return cell('middle');
 
-      if (prev.subject === curr.subject && curr.subject !== next.subject && prev.label === curr.label && curr.subject !== next.label)
+      if (
+        (prev.subject === curr.subject && curr.subject !== next.subject && prev.label === curr.label && curr.label !== next.label) ||
+        (prev.subject === curr.subject && curr.subject === next.subject && curr.label !== next.label)
+      )
         return cell('end');
+
       if (prev.subject !== curr.subject && curr.subject === next.subject && prev.label !== curr.label && curr.label === next.label)
         return cell('middle', true);
-    }
 
-    // start type ?
-    return cell('end', true);
+      return cell('middle', true);
+    }
   };
 
   return (
