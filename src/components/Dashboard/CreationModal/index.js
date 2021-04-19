@@ -23,7 +23,7 @@ import { getHour, find } from '../../../utils/Utils';
 const CreationModal = () => {
   const dispatch = useDispatch();
 
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState({});
 
   const infos = useSelector(selectInfos);
   const subjects = useSelector(selectSubjects);
@@ -43,19 +43,19 @@ const CreationModal = () => {
   };
 
   const handleClose = () => {
-    setSelected('');
+    setSelected({});
     dispatch(hide());
   };
 
   const handleSetSelected = (item) => {
-    setSelected(item.name);
+    setSelected(item);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selected) return;
-    if (!label) return;
+    if (!label?.id) return;
 
     const day = Object.keys(selectedEvents)[0];
 
@@ -71,8 +71,8 @@ const CreationModal = () => {
         start: date,
         description: description.value,
         obligatory: event.obligatory,
-        label_name: label,
-        subject_name: selected,
+        label_id: label.id,
+        subject_id: selected.id,
       };
 
       // ! Must be await, otherwise it wont wait for the events
@@ -80,20 +80,14 @@ const CreationModal = () => {
       await dispatch(createEvent(payload));
     }
 
-    console.log('Loop ends.');
-
     // TODO : [x] Stop if their is no others days after and show "Validation" instead of "Suivant". Check if the day isn't empty.
     // TODO : [ ] Refetch all the events after creating some.
     // TODO : [x] Reset selected value.
 
-    if (Object.keys(selectedEvents).length <= 1) {
-      dispatch(removeDay(Object.keys(selectedEvents)[0]));
-      dispatch(fetchLabelEvents({ label_name: label }));
-      dispatch(hide());
-    } else {
-      dispatch(removeDay(Object.keys(selectedEvents)[0]));
-      dispatch(fetchLabelEvents({ label_name: label }));
-    }
+    if (Object.keys(selectedEvents).length <= 1) dispatch(hide());
+
+    dispatch(removeDay(Object.keys(selectedEvents)[0]));
+    dispatch(fetchLabelEvents({ id: label.id }));
   };
 
   const mapHours = (events, day) => {
@@ -148,7 +142,7 @@ const CreationModal = () => {
       <div className='modal-content' onClick={handleContentClick}>
         <header>
           <h1 className='title'>
-            {infos.title} - {label}
+            {infos.title} - {label.name}
           </h1>
           <X className='icon' onClick={handleClose} size={28} />
         </header>

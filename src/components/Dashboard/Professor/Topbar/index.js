@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -29,9 +30,9 @@ const Topbar = () => {
     history.push('/auth');
   };
 
-  const handleChange = (labelName) => {
-    dispatch(setLabel(labelName));
-    dispatch(fetchLabelEvents({ label_name: labelName }));
+  const handleChange = ({ id, name }) => {
+    dispatch(setLabel({ id, name }));
+    dispatch(fetchLabelEvents({ id: id }));
   };
 
   const handleCreateEvent = () => {

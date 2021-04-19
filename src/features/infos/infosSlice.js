@@ -6,7 +6,7 @@ const slice = createSlice({
   name: 'infos',
 
   initialState: {
-    selectedLabel: '',
+    selectedLabel: {},
 
     selectedEvents: {},
   },

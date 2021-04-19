@@ -14,13 +14,6 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
   const [completion, setCompletion] = useState('');
   const [invalid, setInvalid] = useState(false);
 
-  useEffect(() => {
-    if (selected === null) {
-      setValue('');
-      setCompletion('');
-    }
-  }, [selected]);
-
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
 
@@ -51,7 +44,19 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setSelected(value);
+
+    setValue('');
+    setCompletion('');
+
+    const item = items.find((i) => i.name === value);
+    setSelected(item);
+  };
+
+  const getPlaceholder = () => {
+    if (value) return;
+
+    if (selected) return Object.keys(selected).length === 0 ? placeholder : selected.name;
+    else return placeholder;
   };
 
   return (
@@ -65,7 +70,7 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
         )}
       </div>
       <div className='placeholder'>
-        <p>{!value && (selected ? selected : placeholder)}</p>
+        <p>{getPlaceholder()}</p>
       </div>
       <div className={`completion-container`}>
         <p className='user-input'>{value}</p>
