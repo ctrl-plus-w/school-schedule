@@ -60,11 +60,13 @@ const Topbar = () => {
         />
       </div>
 
-      <div className='event-creator'>
-        <button type='button' className='create-event-button' onClick={handleCreateEvent}>
-          Réserver
-        </button>
-      </div>
+      {Object.keys(label).length > 0 && (
+        <div className='event-creator'>
+          <button type='button' className='create-event-button' onClick={handleCreateEvent}>
+            Réserver
+          </button>
+        </div>
+      )}
 
       <div className='logout'>
         <p onClick={handleLogout}>Se déconnecter</p>

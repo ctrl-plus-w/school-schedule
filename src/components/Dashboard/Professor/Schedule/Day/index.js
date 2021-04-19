@@ -25,6 +25,8 @@ const Day = (props) => {
   }, []);
 
   const handleSelectEvent = (_event, event) => {
+    if (Object.keys(label).length === 0) return;
+
     const payload = { date: props.date, start: event.start.toString };
 
     if (payload.date in selectedEvents && selectedEvents[payload.date].some(({ start }) => start === payload.start)) dispatch(removeEvent(payload));
@@ -56,7 +58,7 @@ const Day = (props) => {
 
     const emptyCell = (type) => (
       <div
-        className={`event ${type} empty ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
+        className={`event empty ${Object.keys(label).length > 0 ? `${type} selectable` : ''} ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
         key={curr.id}
         onClick={(e) => handleSelectEvent(e, curr)}
       ></div>

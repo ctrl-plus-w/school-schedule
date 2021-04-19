@@ -517,9 +517,7 @@
   }
 
   .events.professor-events .event {
-    cursor: pointer;
-
-    &.empty:hover::before {
+    &.empty.selectable:hover::before {
       content: '';
       display: block;
 
