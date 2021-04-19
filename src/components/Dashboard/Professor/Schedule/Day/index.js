@@ -9,6 +9,7 @@ import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
 import { config } from '../../../../../features/modals/eventSlice';
 import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
+import { getCell } from '../../../../../utils/Cell';
 
 // TODO : [ ] Optimize.
 // TODO : [ ] Block user from creating events in the past. (selection)
@@ -80,41 +81,7 @@ const Day = (props) => {
       return emptyCell('normal');
     }
 
-    if (!prev || prev.empty) {
-      if (next && next.subject === curr.subject && next.label === curr.label) return cell('start', true);
-      return cell('normal', true);
-    }
-
-    if (!next || next.empty) {
-      if (prev.subject !== curr.subject || prev.label !== curr.label) return cell('end', true);
-      return cell('end');
-    }
-
-    const eq = (pattern, field) => {
-      if (pattern === '===') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] === next[field];
-      if (pattern === '!==') return prev[field] !== curr[field] && curr[field] === next[field] && prev[field] === next[field];
-      if (pattern === '=!=') return prev[field] === curr[field] && curr[field] !== next[field] && prev[field] === next[field];
-      if (pattern === '==!') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] !== next[field];
-      if (pattern === '!!!') return prev[field] !== curr[field] && curr[field] !== next[field] && prev[field] !== next[field];
-      if (pattern === '!!=') return prev[field] !== curr[field] && curr[field] !== next[field] && prev[field] === next[field];
-      if (pattern === '=!!') return prev[field] === curr[field] && curr[field] !== next[field] && prev[field] !== next[field];
-    };
-
-    // If next is an event and prev as well.
-    if (next && !next.empty && prev && !prev.empty) {
-      if (eq('===', 'subject') && eq('===', 'label')) return cell('middle');
-      if (eq('==!', 'subject') || eq('==!', 'label')) return cell('end');
-      if (eq('===', 'subject') && eq('!!=', 'label')) return cell('end', true);
-
-      if (eq('=!!', 'label') || eq('==!', 'subject')) return cell('end');
-
-      if (eq('!', 'label')) return cell('end', true);
-
-      if (prev.subject !== curr.subject && curr.subject === next.subject && prev.label !== curr.label && curr.label === next.label)
-        return cell('middle', true);
-
-      return cell('middle', true);
-    }
+    return getCell(prev, curr, next, cell);
   };
 
   return (
