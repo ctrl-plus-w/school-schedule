@@ -45,8 +45,8 @@ export const OWNED_EVENTS = gql`
 `;
 
 export const LABEL_EVENTS = gql`
-  query Events($label_name: String!) {
-    labelEvents(label_name: $label_name) {
+  query Events($id: ID!) {
+    labelEvents(id: $id) {
       id
       start
       description
@@ -67,9 +67,9 @@ export const LABEL_EVENTS = gql`
 `;
 
 export const CREATE_EVENT = gql`
-  mutation CreateEvent($start: String!, $link: String, $description: String!, $obligatory: Boolean!, $label_name: String!, $subject_name: String!) {
-    createEventByName(
-      input: { start: $start, link: $link, description: $description, obligatory: $obligatory, label_name: $label_name, subject_name: $subject_name }
+  mutation CreateEvent($start: String!, $link: String, $description: String!, $obligatory: Boolean!, $label_id: ID!, $subject_id: ID!) {
+    createEvent(
+      input: { start: $start, link: $link, description: $description, obligatory: $obligatory, label_id: $label_id, subject_id: $subject_id }
     ) {
       id
       start
@@ -91,7 +91,7 @@ export const CREATE_EVENT = gql`
 `;
 
 export const DELETE_EVENT = gql`
-  mutation DeleteEvent($event_id: ID!) {
-    deleteEvent(event_id: $event_id)
+  mutation DeleteEvent($id: ID!) {
+    deleteEvent(id: $id)
   }
 `;
