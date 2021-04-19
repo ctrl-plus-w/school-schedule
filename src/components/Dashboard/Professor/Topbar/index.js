@@ -7,7 +7,7 @@ import Selector from '../../../Selector';
 
 import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
-import { fetchLabelEvents } from '../../../../features/database/eventsSlice';
+import { fetchLabelEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
 import { selectLabel, setLabel } from '../../../../features/infos/infosSlice';
 import { config } from '../../../../features/modals/createSlice';
 
@@ -21,18 +21,27 @@ const Topbar = () => {
 
   const label = useSelector(selectLabel);
 
+  const PERSONAL_FIELD = 'Personnel';
+
   useEffect(() => {
     dispatch(fetchLabels());
   }, []);
+
+  const labelObject = (l) => ({ id: l.id, name: l.label_name });
 
   const handleLogout = () => {
     dispatch(logout());
     history.push('/auth');
   };
 
-  const handleChange = ({ id, name }) => {
-    dispatch(setLabel({ id, name }));
-    dispatch(fetchLabelEvents({ id: id }));
+  const handleChange = async ({ id, name }) => {
+    if (name === PERSONAL_FIELD) {
+      await dispatch(setLabel({})); 
+      await dispatch(fetchOwnedEvents());
+    } else {
+      await dispatch(setLabel({ id, name }));
+      await dispatch(fetchLabelEvents({ id: id }));
+    }
   };
 
   const handleCreateEvent = () => {
@@ -53,7 +62,7 @@ const Topbar = () => {
 
       <div className='label-selector'>
         <Selector
-          items={labels.map((l) => ({ id: l.id, name: l.label_name }))}
+          items={[...labels.map(labelObject), { id: PERSONAL_FIELD, name: PERSONAL_FIELD }]}
           selected={label}
           setSelected={handleChange}
           placeholder='Choisir un groupe.'
