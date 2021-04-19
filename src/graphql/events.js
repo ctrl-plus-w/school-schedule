@@ -66,6 +66,28 @@ export const LABEL_EVENTS = gql`
   }
 `;
 
+export const LABEL_RELATED_EVENTS = gql`
+  query Events($id: ID!) {
+    labelRelatedEvets(id: $id) {
+      id
+      start
+      description
+      obligatory
+      link
+      owner {
+        id
+        full_name
+      }
+      label {
+        label_name
+      }
+      subject {
+        subject_name
+      }
+    }
+  }
+`;
+
 export const CREATE_EVENT = gql`
   mutation CreateEvent($start: String!, $link: String, $description: String!, $obligatory: Boolean!, $label_id: ID!, $subject_id: ID!) {
     createEvent(
