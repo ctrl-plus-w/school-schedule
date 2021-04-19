@@ -51,21 +51,40 @@ const Day = (props) => {
     if (curr.empty) return emptyCell();
 
     if (!prev || prev.empty) {
-      if (next?.subject === curr?.subject) return cell('start', true);
+      if (next && next.subject === curr.subject && next.label === curr.label) return cell('start', true);
       return cell('normal', true);
     }
 
-    if ((!next || next.empty) && prev.subject === curr.subject) return cell('end');
-
-    // If next is an event and prev as well.
-    if (!next.empty && !prev.empty) {
-      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
-      if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
-
-      if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
+    if (!next || next.empty) {
+      if (prev.subject !== curr.subject || prev.label !== curr.label) return cell('end', true);
+      return cell('end');
     }
 
-    return cell('end', true);
+    const eq = (pattern, field) => {
+      if (pattern === '===') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] === next[field];
+      if (pattern === '!==') return prev[field] !== curr[field] && curr[field] === next[field] && prev[field] === next[field];
+      if (pattern === '=!=') return prev[field] === curr[field] && curr[field] !== next[field] && prev[field] === next[field];
+      if (pattern === '==!') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] !== next[field];
+      if (pattern === '!!!') return prev[field] !== curr[field] && curr[field] !== next[field] && prev[field] !== next[field];
+      if (pattern === '!!=') return prev[field] !== curr[field] && curr[field] !== next[field] && prev[field] === next[field];
+      if (pattern === '=!!') return prev[field] === curr[field] && curr[field] !== next[field] && prev[field] !== next[field];
+    };
+
+    // If next is an event and prev as well.
+    if (next && !next.empty && prev && !prev.empty) {
+      if (eq('===', 'subject') && eq('===', 'label')) return cell('middle');
+      if (eq('==!', 'subject') || eq('==!', 'label')) return cell('end');
+      if (eq('===', 'subject') && eq('!!=', 'label')) return cell('end', true);
+
+      if (eq('=!!', 'label') || eq('==!', 'subject')) return cell('end');
+
+      if (eq('!', 'label')) return cell('end', true);
+
+      if (prev.subject !== curr.subject && curr.subject === next.subject && prev.label !== curr.label && curr.label === next.label)
+        return cell('middle', true);
+
+      return cell('middle', true);
+    }
   };
 
   return (
