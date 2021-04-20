@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { X } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { hide, selectInfos, selectVisible } from '../../../features/modals/createSlice';
 import { fetchSubjects, selectSubjects } from '../../../features/database/subjectsSlice';
-import { createEvent, fetchAllLabelEvents, fetchLabelEvents, fetchLabelRelatedEvents } from '../../../features/database/eventsSlice';
+import { createEvent, fetchAllLabelEvents } from '../../../features/database/eventsSlice';
 
 import { selectEvents, editEvent, selectLabel, removeDay } from '../../../features/infos/infosSlice';
 
@@ -13,10 +12,6 @@ import Selector from '../../Selector';
 
 import { getWeekDay, getMonth } from '../../../utils/Calendar';
 import Time from '../../../utils/Time';
-
-// TODO : [ ] Focus on the field when visible.
-// TODO : [ ] Handle form submit.
-// TODO : [ ] Reset selected on when visible.
 
 import { getHour, find } from '../../../utils/Utils';
 
@@ -51,7 +46,7 @@ const CreationModal = () => {
     setSelected(item);
   };
 
-  const handleSubmit = async (event, setValue) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!selected) return;
