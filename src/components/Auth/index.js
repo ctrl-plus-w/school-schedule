@@ -51,52 +51,54 @@ const Auth = () => {
   };
 
   return (
-    <div className='container center-content'>
-      <form className='login' onSubmit={handleFormSubmit}>
-        <h1 className='title'>Se connecter.</h1>
-        <Link to='/missed-password' className='sub-title'>
-          Mot de passe oublié ?
-        </Link>
+    <div className='root-container'>
+      <div className='container center-content'>
+        <form className='login' onSubmit={handleFormSubmit}>
+          <h1 className='title'>Se connecter.</h1>
+          <Link to='/missed-password' className='sub-title'>
+            Mot de passe oublié ?
+          </Link>
 
-        <label htmlFor='username'>
-          <input
-            ref={defaultFocusField}
-            type='text'
-            className='input'
-            placeholder="Nom d'utilisateur"
-            name='username'
-            id='username'
-            autoComplete='off'
-            value={usernameInput}
-            onChange={(e) => setUsernameInput(e.target.value)}
-          />
-        </label>
+          <label htmlFor='username'>
+            <input
+              ref={defaultFocusField}
+              type='text'
+              className='input'
+              placeholder="Nom d'utilisateur"
+              name='username'
+              id='username'
+              autoComplete='off'
+              value={usernameInput}
+              onChange={(e) => setUsernameInput(e.target.value)}
+            />
+          </label>
 
-        <label htmlFor='password'>
-          <input
-            type={passwordHidden ? 'password' : 'text'}
-            className='input'
-            placeholder='Mot de passe'
-            name='password'
-            id='password'
-            autoComplete='off'
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-          />
+          <label htmlFor='password'>
+            <input
+              type={passwordHidden ? 'password' : 'text'}
+              className='input'
+              placeholder='Mot de passe'
+              name='password'
+              id='password'
+              autoComplete='off'
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+            />
 
-          <button type='button' className='icon' onClick={handleIconSwitch}>
-            {passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />}
+            <button type='button' className='icon' onClick={handleIconSwitch}>
+              {passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </label>
+
+          <button type='submit' className='submit-button'>
+            Connection
           </button>
-        </label>
 
-        <button type='submit' className='submit-button'>
-          Connection
-        </button>
-
-        <p className='error' style={{ opacity: error ? 1 : 0 }}>
-          {error}
-        </p>
-      </form>
+          <p className='error' style={{ opacity: error ? 1 : 0 }}>
+            {error}
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

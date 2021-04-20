@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
+import Loading from '../../Loading';
 
 import { fetchEvents, isLoading } from '../../../features/database/eventsSlice';
 import { isLoggedIn } from '../../../features/database/authSlice';
@@ -29,18 +30,16 @@ const StudentDashboard = () => {
 
   const loading = useSelector(isLoading);
 
-  return loading ? (
-    <div className='container center-content'>
-      <h1>Loading...</h1>
-    </div>
-  ) : (
-    <>
+  return (
+    <div className='root-container'>
+      <Loading loading={loading} />
       <Modal />
+
       <div className={`container ${modalVisible ? 'blurred' : ''}`}>
         <Topbar />
         <Schedule />
       </div>
-    </>
+    </div>
   );
 };
 

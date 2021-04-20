@@ -32,7 +32,7 @@ const ProfessorDashboard = () => {
   const loading = useSelector(isLoading);
 
   return (
-    <>
+    <div className='root-container'>
       <Loading loading={loading} />
       <CreationModal />
       <Modal />
@@ -41,7 +41,7 @@ const ProfessorDashboard = () => {
         <Topbar />
         <Schedule />
       </div>
-    </>
+    </div>
   );
 };
 
