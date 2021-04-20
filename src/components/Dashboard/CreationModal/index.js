@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { hide, selectInfos, selectVisible } from '../../../features/modals/createSlice';
 import { fetchSubjects, selectSubjects } from '../../../features/database/subjectsSlice';
-import { createEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+import { createEvent, fetchLabelEvents, fetchLabelRelatedEvents } from '../../../features/database/eventsSlice';
 
 import { selectEvents, editEvent, selectLabel, removeDay } from '../../../features/infos/infosSlice';
 
@@ -92,8 +92,9 @@ const CreationModal = () => {
 
     if (Object.keys(selectedEvents).length <= 1) dispatch(hide());
 
-    dispatch(removeDay(Object.keys(selectedEvents)[0]));
-    dispatch(fetchLabelEvents({ id: label.id }));
+    await dispatch(removeDay(Object.keys(selectedEvents)[0]));
+    await dispatch(fetchLabelEvents({ id: label.id }));
+    await dispatch(fetchLabelRelatedEvents({ id: label.id }));
   };
 
   const mapHours = (events, day) => {
@@ -119,12 +120,12 @@ const CreationModal = () => {
 
             <label className='field' htmlFor={`description${getHour(start)}`}>
               Description
-              <input type='text' id={`description${getHour(start)}`} placeholder='Veuillez entrer une description.' autoComplete={false} />
+              <input type='text' id={`description${getHour(start)}`} placeholder='Veuillez entrer une description.' autoComplete='off' />
             </label>
 
             <label className='field' htmlFor={`link${getHour(start)}`}>
               Lien
-              <input type='text' id={`link${getHour(start)}`} placeholder='Veuillez entrer un lien.' autoComplete={false} />
+              <input type='text' id={`link${getHour(start)}`} placeholder='Veuillez entrer un lien.' autoComplete='off' />
             </label>
           </div>
         );

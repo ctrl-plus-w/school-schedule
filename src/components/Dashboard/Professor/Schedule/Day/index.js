@@ -21,8 +21,15 @@ const Day = (props) => {
   const selectedEvents = useSelector(selectEvents);
 
   const events = new Array(9).fill(0).reduce((acc, curr, i) => {
-    const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-    return event ? [...acc, event] : [...acc, { id: uuidv4(), day: props.date, start: new Time(i + 8, 0), empty: true }];
+    const condition = (event) => parseInt(event.start.hours) === i + 8;
+
+    const event = props.infos.events.find(condition);
+    const relatedEvent = props.infos.relatedEvents.find(condition);
+
+    if (event) return [...acc, event];
+    if (relatedEvent) return [...acc, { ...relatedEvent, related: true }];
+
+    return [...acc, { id: uuidv4(), day: props.date, start: new Time(i + 8, 0), empty: true }];
   }, []);
 
   const handleSelectEvent = (_event, event) => {
@@ -35,6 +42,8 @@ const Day = (props) => {
   };
 
   const handleEventClick = (_event, event) => {
+    if (event.related) return;
+
     const payload = {
       id: event.id,
       title: event.subject,
@@ -66,7 +75,9 @@ const Day = (props) => {
     );
 
     const cell = (type, content = false) => {
-      return (
+      return curr.related ? (
+        <div className={`event disabled ${type}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}></div>
+      ) : (
         <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
           {content && <h3 className='title'>{label.name ? curr.subject : curr.label}</h3>}
           {content && <p className='description'>{curr.start.toString}</p>}

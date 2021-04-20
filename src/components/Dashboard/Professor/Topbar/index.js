@@ -7,7 +7,7 @@ import Selector from '../../../Selector';
 
 import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
-import { fetchLabelEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
+import { fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
 import { resetEvents, selectLabel, setLabel } from '../../../../features/infos/infosSlice';
 import { config } from '../../../../features/modals/createSlice';
 
@@ -41,8 +41,10 @@ const Topbar = () => {
       await dispatch(setLabel({}));
       await dispatch(fetchOwnedEvents());
     } else {
+      // ! Keep the await and the order.
       await dispatch(setLabel({ id, name }));
       await dispatch(fetchLabelEvents({ id: id }));
+      await dispatch(fetchLabelRelatedEvents({ id: id }));
     }
   };
 

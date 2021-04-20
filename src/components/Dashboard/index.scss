@@ -459,6 +459,15 @@
           background-color: lighten($green, 74%);
           color: lighten($green, 20%);
         }
+
+        &.disabled {
+          $gray: rgb(63, 63, 63);
+          border-color: lighten($gray, 45%);
+          background-color: lighten($gray, 62%);
+          color: lighten($gray, 45%);
+
+          cursor: not-allowed;
+        }
       }
 
       &.selected {

@@ -5,13 +5,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { getConsecutiveDays, sameDay } from '../../../../utils/Calendar';
 import Time from '../../../../utils/Time';
 
-import { selectEvents } from '../../../../features/database/eventsSlice';
+import { selectEvents, selectRelatedEvents } from '../../../../features/database/eventsSlice';
 
 import TimeIndicator from '../../TimeIndicator';
 import Days from './Days';
 
 const Schedule = () => {
   const events = useSelector(selectEvents);
+  const relatedEvents = useSelector(selectRelatedEvents);
 
   const getTime = (time) => new Time(Time.getLocalHours(new Date(time)), Time.getLocalMins(new Date(time)));
 
@@ -35,7 +36,8 @@ const Schedule = () => {
 
   const days = getConsecutiveDays(14).reduce((acc, curr) => {
     const dayEvents = events.map(eventObject).filter((e) => sameDay(e.startDay, curr));
-    return [...acc, { id: uuidv4(), date: setToMidnight(curr), events: dayEvents }];
+    const dayRelatedEvents = relatedEvents.map(eventObject).filter((e) => sameDay(e.startDay, curr));
+    return [...acc, { id: uuidv4(), date: setToMidnight(curr), events: dayEvents, relatedEvents: dayRelatedEvents }];
   }, []);
 
   return (
