@@ -20,7 +20,7 @@ export const getHour = (hour) => hour.split(':').map(parseFloat)[0];
  * @param {number} base The hour to search from.
  * @param {number} index The number it increment. (Positive or negative)
  * @param {*} curr
- * @returns {boolean|number} The hour on the extremity but close. (No gap)
+ * @returns {boolean|number} The hour on the extremity but close. Or false if their is not relations. (No gap)
  */
 export const find = (events, base, index, curr = base) => {
   const next = events.find(({ start }) => parseFloat(start.split(':')[0]) === curr + index);
