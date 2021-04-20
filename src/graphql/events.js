@@ -68,7 +68,7 @@ export const LABEL_EVENTS = gql`
 
 export const LABEL_RELATED_EVENTS = gql`
   query Events($id: ID!) {
-    labelRelatedEvets(id: $id) {
+    labelRelatedEvents(id: $id) {
       id
       start
       description
