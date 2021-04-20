@@ -43,18 +43,23 @@ const slice = createSlice({
       role: '',
       token: '',
     }),
+
+    setError: (state, action) => ({
+      ...state,
+      error: action.payload,
+    }),
   },
 
   extraReducers: (builder) => {
     const pending = (state) => ({ ...state, loading: true });
     const fulfilled = (state, action) => ({ ...state, ...action.payload, loading: false });
-    const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
+    const rejected = (state, action) => ({ ...state, error: action.error.message, loading: false });
 
     builder.addCase(login.pending, pending).addCase(login.fulfilled, fulfilled).addCase(login.rejected, rejected);
   },
 });
 
-export const { logout } = slice.actions;
+export const { logout, setError } = slice.actions;
 
 export const isLoading = (state) => state.database.auth.loading;
 
@@ -63,6 +68,7 @@ export const selectToken = (state) => state.database.auth.token;
 export const selectName = (state) => state.database.auth.fullName;
 export const selectRole = (state) => state.database.auth.role;
 export const selectId = (state) => state.database.auth.id;
+export const selectError = (state) => state.database.auth.error;
 
 export const isRole = (state) => ({
   isAdmin: state.database.auth.role === ROLES.ADMIN,

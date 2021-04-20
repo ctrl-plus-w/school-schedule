@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 
-import { login, selectRole } from '../../features/database/authSlice';
+import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
 
 import './index.scss';
 
-// TODO : [ ] Handle error messages.
+// TODO : [x] Handle error messages.
 
 const ROLES_PATHS = {
   Élève: 'schedule',
@@ -20,13 +20,12 @@ const Auth = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const error = useSelector(selectError);
   const role = useSelector(selectRole);
 
   useEffect(() => role && history.push(ROLES_PATHS[role]), [role]);
 
   const defaultFocusField = createRef();
-
-  const [errorMessage, setErrorMessage] = useState('');
 
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
@@ -40,13 +39,10 @@ const Auth = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if fields are empty.
-    if (usernameInput.trim() === '' || passwordInput.trim() === '') return setErrorMessage('Vous devez remplir tout les champs.');
+    const isEmpty = (str) => str.trim() === '';
 
-    // Reset error message and fetch the login data.
-    setErrorMessage('');
-
-    dispatch(login({ username: usernameInput, password: passwordInput }));
+    if (isEmpty(usernameInput) || isEmpty(passwordInput)) dispatch(setError('Vous devez remplir tout les champs.'));
+    else dispatch(login({ username: usernameInput, password: passwordInput }));
   };
 
   const handleIconSwitch = (e) => {
@@ -97,8 +93,8 @@ const Auth = () => {
           Connection
         </button>
 
-        <p className='error' style={{ opacity: errorMessage ? 1 : 0 }}>
-          {errorMessage}
+        <p className='error' style={{ opacity: error ? 1 : 0 }}>
+          {error}
         </p>
       </form>
     </div>
