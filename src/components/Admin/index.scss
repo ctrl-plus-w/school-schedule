@@ -1,2 +1,69 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
+
+.admin {
+  display: flex;
+  flex-direction: row;
+
+  height: 100%;
+
+  background: rgb(20, 19, 24);
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+
+  width: auto;
+  height: 100%;
+
+  padding: 4rem 0;
+
+  border-right: 1px solid rgb(40, 36, 51);
+
+  ul {
+    list-style-type: none;
+  }
+
+  .link {
+    display: block;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    color: rgb(221, 221, 221);
+    text-align: right;
+    text-decoration: none;
+
+    padding: 0.6rem 4rem 0.6rem 5rem;
+
+    transition: all 0.3s;
+
+    outline: none;
+
+    &:focus,
+    &:active,
+    &.selected {
+      background: rgb(33, 32, 39);
+    }
+
+    &:hover {
+      color: rgb(60, 121, 211);
+    }
+  }
+}
+
+.category-container {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  .header {
+    padding: 4rem;
+    padding-bottom: 4rem;
+
+    border-bottom: 1px solid rgb(40, 36, 51);
+  }
+}
