@@ -4,7 +4,7 @@ import { addError } from '../modals/errorSlice';
 
 import client from '../../app/database';
 
-import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../../graphql/events';
+import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, LABEL_RELATED_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../../graphql/events';
 
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
   try {
@@ -32,6 +32,17 @@ export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', asyn
   try {
     const events = await client.request(LABEL_EVENTS, args);
     return events.labelEvents;
+  } catch (err) {
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (fetchLabelEvents)', message }));
+    throw new Error(message);
+  }
+});
+
+export const fetchLabelRelatedEvents = createAsyncThunk('events/fetchLabelRelatedEvents', async (args, { dispatch }) => {
+  try {
+    const events = await client.request(LABEL_RELATED_EVENTS, args);
+    return events.labelRelatedEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
     dispatch(addError({ title: 'Erreur (fetchLabelEvents)', message }));
@@ -68,6 +79,7 @@ const slice = createSlice({
     error: '',
     loading: false,
     events: [],
+    relatedEvents: [],
   },
 
   reducers: {
@@ -79,19 +91,32 @@ const slice = createSlice({
 
   extraReducers: (builder) => {
     const pending = (state) => ({ ...state, loading: true });
-    const fulfilled = (state, action) => ({ ...state, events: action.payload, loading: false });
     const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
 
+    const fulfilledEvents = (state, action) => ({ ...state, events: action.payload, relatedEvents: [], loading: false });
+    const fulfilledRelatedEvents = (state, action) => ({ ...state, relatedEvents: action.payload, loading: false });
     const fulfilledNoAction = (state) => ({ ...state, loading: false });
 
     // Fetch events.
-    builder.addCase(fetchEvents.pending, pending).addCase(fetchEvents.fulfilled, fulfilled).addCase(fetchEvents.rejected, rejected);
+    builder.addCase(fetchEvents.pending, pending).addCase(fetchEvents.fulfilled, fulfilledEvents).addCase(fetchEvents.rejected, rejected);
 
     // Fetch owned events.
-    builder.addCase(fetchOwnedEvents.pending, pending).addCase(fetchOwnedEvents.fulfilled, fulfilled).addCase(fetchOwnedEvents.rejected, rejected);
+    builder
+      .addCase(fetchOwnedEvents.pending, pending)
+      .addCase(fetchOwnedEvents.fulfilled, fulfilledEvents)
+      .addCase(fetchOwnedEvents.rejected, rejected);
 
     // Fetch label events.
-    builder.addCase(fetchLabelEvents.pending, pending).addCase(fetchLabelEvents.fulfilled, fulfilled).addCase(fetchLabelEvents.rejected, rejected);
+    builder
+      .addCase(fetchLabelEvents.pending, pending)
+      .addCase(fetchLabelEvents.fulfilled, fulfilledEvents)
+      .addCase(fetchLabelEvents.rejected, rejected);
+
+    // Fetch label related events.
+    builder
+      .addCase(fetchLabelRelatedEvents.pending, pending)
+      .addCase(fetchLabelRelatedEvents.fulfilled, fulfilledRelatedEvents)
+      .addCase(fetchLabelRelatedEvents.rejected, rejected);
 
     // Create event.
     builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);
@@ -102,6 +127,7 @@ const slice = createSlice({
 });
 
 export const selectEvents = (state) => state.database.events.events;
+export const selectRelatedEvents = (state) => state.database.events.relatedEvents;
 
 export const isLoading = (state) => state.database.events.loading;
 
