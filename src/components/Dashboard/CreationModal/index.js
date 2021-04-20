@@ -119,12 +119,12 @@ const CreationModal = () => {
 
             <label className='field' htmlFor={`description${getHour(start)}`}>
               Description
-              <input type='text' id={`description${getHour(start)}`} placeholder='Veuillez entrer une description.' autoComplete='off' />
+              <input type='text' id={`description${getHour(start)}`} placeholder='Veuillez entrer une description.' autoComplete={false} />
             </label>
 
             <label className='field' htmlFor={`link${getHour(start)}`}>
               Lien
-              <input type='text' id={`link${getHour(start)}`} placeholder='Veuillez entrer un lien.' autoComplete='off' />
+              <input type='text' id={`link${getHour(start)}`} placeholder='Veuillez entrer un lien.' autoComplete={false} />
             </label>
           </div>
         );
