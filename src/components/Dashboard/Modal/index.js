@@ -44,7 +44,7 @@ const Modal = () => {
         </header>
 
         <div className='content'>
-          <p className='description'>{infos.description}</p>
+          <p className='global-description'>{infos.description}</p>
 
           <ul className='infos'>
             <p className='subject-owner'>{infos.owner.fullName}</p>
