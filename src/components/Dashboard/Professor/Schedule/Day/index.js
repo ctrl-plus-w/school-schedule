@@ -73,7 +73,7 @@ const Day = (props) => {
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
 
-    // const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
+    const isOneSelected = props.date in selectedEvents;
     const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].some(({ start }) => start === time.toString);
 
     const emptyCell = (type) => (
@@ -86,9 +86,9 @@ const Day = (props) => {
 
     const cell = (type, content = false) => {
       return curr.related ? (
-        <div className={`event disabled ${type}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}></div>
+        <div className={`event disabled ${type} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}></div>
       ) : (
-        <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
+        <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
           {content && <h3 className='title'>{label.name ? curr.subject : curr.label}</h3>}
           {content && <p className='description'>{curr.start.toString}</p>}
         </div>
