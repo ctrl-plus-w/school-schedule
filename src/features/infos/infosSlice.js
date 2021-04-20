@@ -33,6 +33,10 @@ const slice = createSlice({
       else state.selectedEvents[action.payload.date] = state.selectedEvents[action.payload.date].filter(timeFilter);
     },
 
+    resetEvents: (state) => {
+      state.selectedEvents = {};
+    },
+
     removeDay: (state, action) => {
       state.selectedEvents = removeKey(action.payload, state.selectedEvents);
     },
@@ -45,7 +49,7 @@ const slice = createSlice({
   },
 });
 
-export const { setLabel, addEvent, removeEvent, editEvent, removeDay } = slice.actions;
+export const { setLabel, addEvent, removeEvent, editEvent, removeDay, resetEvents } = slice.actions;
 
 export const selectEvents = (state) => state.infos.selectedEvents;
 export const selectLabel = (state) => state.infos.selectedLabel;

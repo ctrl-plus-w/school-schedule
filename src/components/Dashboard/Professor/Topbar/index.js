@@ -8,7 +8,7 @@ import Selector from '../../../Selector';
 import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
 import { fetchLabelEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
-import { selectLabel, setLabel } from '../../../../features/infos/infosSlice';
+import { resetEvents, selectLabel, setLabel } from '../../../../features/infos/infosSlice';
 import { config } from '../../../../features/modals/createSlice';
 
 const Topbar = () => {
@@ -35,8 +35,10 @@ const Topbar = () => {
   };
 
   const handleChange = async ({ id, name }) => {
+    await dispatch(resetEvents());
+
     if (name === PERSONAL_FIELD) {
-      await dispatch(setLabel({})); 
+      await dispatch(setLabel({}));
       await dispatch(fetchOwnedEvents());
     } else {
       await dispatch(setLabel({ id, name }));
