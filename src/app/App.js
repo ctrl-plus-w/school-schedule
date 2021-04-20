@@ -29,7 +29,7 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Clear the input when sending the creation modal.
 // TODO : [x] Disable the delete button if the owner of the event isn't the logged in user.
 // TODO : [x] When creating an event, fetch all the events of the users of the label and gray the cells where user have events.
-// TODO : [ ] Make the name / role clickable to set the schedule to "Personal".
+// TODO : [x] Make the name / role clickable to set the schedule to "Personal".
 // TODO : [ ] Topbar selector, cancel the action when value is empty.
 // TODO : [ ] Make a function to fetch the labels events and the label events.
 

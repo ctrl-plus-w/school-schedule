@@ -34,18 +34,20 @@ const Topbar = () => {
     history.push('/auth');
   };
 
+  const fetchPersonalSchedule = async () => {
+    await dispatch(setLabel({}));
+    await dispatch(fetchOwnedEvents());
+  };
+
   const handleChange = async ({ id, name }) => {
     await dispatch(resetEvents());
 
-    if (name === PERSONAL_FIELD) {
-      await dispatch(setLabel({}));
-      await dispatch(fetchOwnedEvents());
-    } else {
-      // ! Keep the await and the order.
-      await dispatch(setLabel({ id, name }));
-      await dispatch(fetchLabelEvents({ id: id }));
-      await dispatch(fetchLabelRelatedEvents({ id: id }));
-    }
+    if (name === PERSONAL_FIELD) return fetchPersonalSchedule();
+
+    // ! Keep the await and the order.
+    await dispatch(setLabel({ id, name }));
+    await dispatch(fetchLabelEvents({ id: id }));
+    await dispatch(fetchLabelRelatedEvents({ id: id }));
   };
 
   const handleCreateEvent = () => {
@@ -59,7 +61,7 @@ const Topbar = () => {
 
   return (
     <div className='topbar'>
-      <div className='text'>
+      <div className='text' onClick={fetchPersonalSchedule}>
         <h2 className='name'>{fullName}</h2>
         <h3 className='role'>{role}</h3>
       </div>
