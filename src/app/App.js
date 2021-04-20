@@ -31,7 +31,8 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] When creating an event, fetch all the events of the users of the label and gray the cells where user have events.
 // TODO : [x] Make the name / role clickable to set the schedule to "Personal".
 // TODO : [x] Topbar selector, cancel the action when value is empty.
-// TODO : [ ] Make a function to fetch the labels events and the label events.
+// TODO : [x] Make a function to fetch the labels events and the label events.
+// TODO : [ ] Add colors for each subject and labels.
 
 // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
 
