@@ -13,7 +13,7 @@ const slice = createSlice({
     start: '',
     pin: '',
     pinColor: '',
-    subjectOwner: '',
+    owner: {},
   },
 
   reducers: {

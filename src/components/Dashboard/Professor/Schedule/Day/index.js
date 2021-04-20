@@ -43,7 +43,7 @@ const Day = (props) => {
       start: event.start.toString,
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
-      subjectOwner: event.owner,
+      owner: event.owner,
     };
 
     dispatch(config(payload));

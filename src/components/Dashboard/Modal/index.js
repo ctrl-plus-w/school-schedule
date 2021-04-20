@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ExternalLink from '../../ExternalLink';
 
-import { isRole } from '../../../features/database/authSlice';
+import { isRole, selectId } from '../../../features/database/authSlice';
 import { deleteEvent, fetchLabelEvents, fetchOwnedEvents } from '../../../features/database/eventsSlice';
 
 import { selectInfos, hide } from '../../../features/modals/eventSlice';
@@ -16,6 +16,8 @@ const Modal = () => {
   const infos = useSelector(selectInfos);
   const role = useSelector(isRole);
   const label = useSelector(selectLabel);
+
+  const userId = useSelector(selectId);
 
   const handleContentClick = (event) => event.stopPropagation();
   const handleClose = () => dispatch(hide());
@@ -45,7 +47,7 @@ const Modal = () => {
           <p className='description'>{infos.description}</p>
 
           <ul className='infos'>
-            <p className='subject-owner'>{infos.subjectOwner}</p>
+            <p className='subject-owner'>{infos.owner.fullName}</p>
             <p className='start-time'>{infos.start}</p>
           </ul>
 
@@ -54,7 +56,7 @@ const Modal = () => {
               Rejoindre la classe.
             </ExternalLink>
 
-            {role.isProfessor && (
+            {role.isProfessor && infos.owner.id === userId && (
               <button type='button' className='delete-event red' onClick={handleDelete}>
                 Supprimer
               </button>
