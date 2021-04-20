@@ -36,5 +36,6 @@ const slice = createSlice({
 });
 
 export const selectUsers = (state) => state.database.users.users;
+export const selectLoading = (state) => state.database.users.loading;
 
 export default slice.reducer;
