@@ -16,7 +16,10 @@ const StudentDashboard = () => {
   const history = useHistory();
 
   const logged = useSelector(isLoggedIn);
-  if (!logged) history.push('/auth');
+  if (!logged) {
+    history.push('/auth');
+    return <></>;
+  }
 
   const modalVisible = useSelector((state) => state.modals.event.visible || state.modals.create.visible);
 
