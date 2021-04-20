@@ -2,10 +2,15 @@
 @import '../../styles/mixins';
 
 .admin {
-  display: flex;
-  flex-direction: row;
+  position: fixed;
+  top: 0;
+  left: 0;
 
   height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
 
   background: rgb(20, 19, 24);
   color: white;
@@ -29,14 +34,14 @@
   .link {
     display: block;
 
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
 
     color: rgb(221, 221, 221);
     text-align: right;
     text-decoration: none;
 
-    padding: 0.6rem 4rem 0.6rem 5rem;
+    padding: 0.6rem 6rem 0.6rem 6rem;
 
     transition: all 0.3s;
 
@@ -65,5 +70,67 @@
     padding-bottom: 4rem;
 
     border-bottom: 1px solid rgb(40, 36, 51);
+  }
+
+  .content {
+    border-collapse: collapse;
+    width: 100%;
+
+    thead,
+    tbody {
+      tr th,
+      tr td {
+        padding: 1rem 1.5rem;
+
+        text-align: left;
+        font-weight: 600;
+
+        font-size: 1rem;
+        color: rgb(210, 209, 224);
+      }
+    }
+
+    thead {
+      border-bottom: 1px solid rgb(40, 36, 51);
+
+      tr th {
+        text-transform: uppercase;
+
+        cursor: pointer;
+
+        transition: all 0.3s;
+
+        &:hover {
+          background: rgb(33, 32, 39);
+        }
+      }
+    }
+
+    tbody {
+      overflow: scroll;
+
+      .badge {
+        padding: 0.25rem 0.75rem;
+
+        color: #ffffff;
+        border-radius: 1rem;
+
+        &.red {
+          background-color: #412121;
+        }
+
+        &.blue {
+          background-color: #1f2c3a;
+        }
+
+        &.green {
+          background-color: #213825;
+        }
+      }
+
+      tr td {
+        border-bottom: 1px solid rgb(25, 23, 34);
+      }
+    }
   }
 }

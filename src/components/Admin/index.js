@@ -1,11 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { Switch, Route, useRouteMatch, useParams, Link } from 'react-router-dom';
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Navbar from './Navbar';
 import Users from './Users';
 
 import './index.scss';
+
+// TODO : [ ] Make a smooth scroll for the tables.
+// TODO : [ ] Make a create user page.
 
 const Admin = () => {
   const { path } = useRouteMatch();
