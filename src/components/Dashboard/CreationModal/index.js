@@ -51,7 +51,7 @@ const CreationModal = () => {
     setSelected(item);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, setValue) => {
     event.preventDefault();
 
     if (!selected) return;
@@ -60,9 +60,14 @@ const CreationModal = () => {
     const day = Object.keys(selectedEvents)[0];
 
     for (const event of selectedEvents[day]) {
-      const startTime = find(selectedEvents[day], getHour(event.start), -1);
+      // Get the farthest selected hour. (only with side by side relations).
+      const calculatedStartTime = find(selectedEvents[day], getHour(event.start), -1);
 
-      const description = document.querySelector(`#start${startTime ? startTime : getHour(event.start)}`);
+      // If calculatedStartTime return false, it mean it is the first hour.
+      const startTime = calculatedStartTime ? calculatedStartTime : getHour(event.start);
+
+      const description = document.querySelector(`#description${startTime}`);
+      const link = document.querySelector(`#link${startTime}`);
 
       const [hour, min] = event.start.split(':').map(parseFloat);
       const date = new Date(new Date(day).setHours(hour, min));
@@ -70,6 +75,7 @@ const CreationModal = () => {
       const payload = {
         start: date,
         description: description.value,
+        link: link.value,
         obligatory: event.obligatory,
         label_id: label.id,
         subject_id: selected.id,
@@ -81,7 +87,7 @@ const CreationModal = () => {
     }
 
     // TODO : [x] Stop if their is no others days after and show "Validation" instead of "Suivant". Check if the day isn't empty.
-    // TODO : [ ] Refetch all the events after creating some.
+    // TODO : [x] Refetch all the events after creating some.
     // TODO : [x] Reset selected value.
 
     if (Object.keys(selectedEvents).length <= 1) dispatch(hide());
@@ -110,9 +116,15 @@ const CreationModal = () => {
                 {obligatory ? 'Obligatoire' : 'Facultatif'}
               </span>
             </p>
-            <label className='description' htmlFor={`start${getHour(start)}`}>
+
+            <label className='field' htmlFor={`description${getHour(start)}`}>
               Description
-              <input type='text' id={`start${getHour(start)}`} placeholder='Veuillez entrer une description.' />
+              <input type='text' id={`description${getHour(start)}`} placeholder='Veuillez entrer une description.' autoComplete='off' />
+            </label>
+
+            <label className='field' htmlFor={`link${getHour(start)}`}>
+              Lien
+              <input type='text' id={`link${getHour(start)}`} placeholder='Veuillez entrer un lien.' autoComplete='off' />
             </label>
           </div>
         );
@@ -148,7 +160,7 @@ const CreationModal = () => {
         </header>
 
         <div className='content'>
-          <p className='description'>{infos.description}</p>
+          <p className='global-description'>{infos.description}</p>
 
           {getFirstDay()}
 

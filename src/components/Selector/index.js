@@ -23,7 +23,10 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
     const item = items.find((i) => i.name.startsWith(inputValue));
     if (!item || inputValue === '') return setCompletion('');
 
-    if (noValidation && inputValue === item.name) setSelected(item);
+    if (noValidation && inputValue === item.name) {
+      setValue('');
+      setSelected(item);
+    }
 
     setCompletion(item.name.slice(inputValue.length));
   };
@@ -37,6 +40,8 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
     }
 
     if (event.key === 'Enter') {
+      if (invalid) return;
+
       if (noValidation) onSubmit(event);
       else handleSubmit(event);
     }
