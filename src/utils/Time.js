@@ -77,6 +77,16 @@ class Time {
   static getLocalMins(date) {
     return this.getLocalDateTime(date)[1];
   }
+
+  /**
+   * Reset the hours, the minutes the seconds and the milliseconds of a date.
+   * @param {Date} date The date to reset.
+   * @returns A date.
+   */
+  static resetTime(date) {
+    date.setHours(0, 0, 0, 0);
+    return new Date(date);
+  }
 }
 
 export default Time;
