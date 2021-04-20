@@ -13,7 +13,7 @@ import './index.scss';
 const ROLES_PATHS = {
   Élève: 'schedule',
   Enseignant: 'dashboard',
-  admin: 'admin',
+  Admin: 'admin',
 };
 
 const Auth = () => {
