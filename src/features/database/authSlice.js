@@ -28,7 +28,7 @@ const slice = createSlice({
     loading: false,
     error: '',
 
-    userId: '',
+    id: '',
     fullName: '',
     role: '',
     token: '',
@@ -38,7 +38,7 @@ const slice = createSlice({
     logout: (state) => ({
       ...state,
 
-      userId: '',
+      id: '',
       fullName: '',
       role: '',
       token: '',
@@ -46,23 +46,11 @@ const slice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder
-      .addCase(login.pending, (state) => ({
-        ...state,
-        loading: true,
-      }))
-      .addCase(login.fulfilled, (state, action) => ({
-        ...state,
-        ...action.payload,
-        loading: false,
-      }))
-      .addCase(login.rejected, (state, action) => {
-        return {
-          ...state,
-          error: action.error,
-          loading: false,
-        };
-      });
+    const pending = (state) => ({ ...state, loading: true });
+    const fulfilled = (state, action) => ({ ...state, ...action.payload, loading: false });
+    const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
+
+    builder.addCase(login.pending, pending).addCase(login.fulfilled, fulfilled).addCase(login.rejected, rejected);
   },
 });
 
@@ -74,6 +62,7 @@ export const isLoggedIn = (state) => state.database.auth.token !== '';
 export const selectToken = (state) => state.database.auth.token;
 export const selectName = (state) => state.database.auth.fullName;
 export const selectRole = (state) => state.database.auth.role;
+export const selectId = (state) => state.database.auth.id;
 
 export const isRole = (state) => ({
   isAdmin: state.database.auth.role === ROLES.ADMIN,
