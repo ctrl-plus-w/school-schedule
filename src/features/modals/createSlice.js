@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const setBodyOverflow = (hidden) => {
+  document.body.style.overflow = hidden ? 'hidden' : '';
+};
+
 const slice = createSlice({
   name: 'create',
 
@@ -13,21 +17,15 @@ const slice = createSlice({
   },
 
   reducers: {
-    show: (state) => ({
-      ...state,
-      visible: true,
-    }),
+    hide: (state) => {
+      setBodyOverflow(false);
+      return { ...state, visible: false };
+    },
 
-    hide: (state) => ({
-      ...state,
-      visible: false,
-    }),
-
-    config: (state, action) => ({
-      ...state,
-      ...action.payload,
-      visible: true,
-    }),
+    config: (state, action) => {
+      setBodyOverflow(true);
+      return { ...state, ...action.payload, visible: true };
+    },
   },
 });
 
