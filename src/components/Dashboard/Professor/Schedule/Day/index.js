@@ -11,8 +11,8 @@ import { config } from '../../../../../features/modals/eventSlice';
 import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
 import { getCell } from '../../../../../utils/Cell';
 
-// TODO : [ ] Optimize.
-// TODO : [ ] Block user from creating events in the past. (selection)
+// TODO : [x] Optimize.
+// TODO : [x] Block user from creating events in the past. (selection)
 
 const Day = (props) => {
   const dispatch = useDispatch();
@@ -32,8 +32,18 @@ const Day = (props) => {
     return [...acc, { id: uuidv4(), day: props.date, start: new Time(i + 8, 0), empty: true }];
   }, []);
 
+  const isSelectable = (event) => {
+    const actualHours = new Date().getHours() + 1;
+    const isSameDay = event.day === Time.resetTime(new Date()).toISOString();
+
+    if (!label.id) return false;
+    if (actualHours > event.start.hours && isSameDay) return false;
+
+    return true;
+  };
+
   const handleSelectEvent = (_event, event) => {
-    if (Object.keys(label).length === 0) return;
+    if (!isSelectable(event)) return;
 
     const payload = { date: props.date, start: event.start.toString };
 
@@ -68,7 +78,7 @@ const Day = (props) => {
 
     const emptyCell = (type) => (
       <div
-        className={`event empty ${Object.keys(label).length > 0 ? `${type} selectable` : ''} ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
+        className={`event empty ${isSelectable(curr) ? `${type} selectable` : ''} ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
         key={curr.id}
         onClick={(e) => handleSelectEvent(e, curr)}
       ></div>
