@@ -41,6 +41,7 @@ const Selector = ({ items, selected, setSelected, placeholder, className, noVali
 
     if (event.key === 'Enter') {
       if (invalid) return;
+      if (value === '') return;
 
       if (noValidation) onSubmit(event);
       else handleSubmit(event);

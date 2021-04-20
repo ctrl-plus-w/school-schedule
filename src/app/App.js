@@ -30,7 +30,7 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Disable the delete button if the owner of the event isn't the logged in user.
 // TODO : [x] When creating an event, fetch all the events of the users of the label and gray the cells where user have events.
 // TODO : [x] Make the name / role clickable to set the schedule to "Personal".
-// TODO : [ ] Topbar selector, cancel the action when value is empty.
+// TODO : [x] Topbar selector, cancel the action when value is empty.
 // TODO : [ ] Make a function to fetch the labels events and the label events.
 
 // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
