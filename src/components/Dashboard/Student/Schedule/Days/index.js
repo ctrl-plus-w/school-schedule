@@ -6,8 +6,8 @@ import Day from '../Day';
 import useHorizontalScroll from '../../../../../hooks/useHorizontalScroll';
 
 // TODO : [ ] Add drag to go through days.
-// TODO : [ ] Refactor and create context / hooks.
-// TODO : [ ] Set bodyHeight to 0 when modals shows.
+// TODO : [x] Refactor and create context / hooks.
+// TODO : [x] Set bodyHeight to 0 when modals shows.
 
 const Days = (props) => {
   const { container, slider } = useHorizontalScroll();

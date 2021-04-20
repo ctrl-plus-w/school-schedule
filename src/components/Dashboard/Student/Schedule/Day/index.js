@@ -10,7 +10,7 @@ import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 import { config } from '../../../../../features/modals/eventSlice';
 import { getCell } from '../../../../../utils/Cell';
 
-// TODO : [ ] Handle event click.
+// TODO : [x] Handle event click.
 
 const Day = (props) => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Day = (props) => {
       start: event.start.toString,
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
-      subjectOwner: event.owner,
+      subjectOwner: event.owner.name,
     };
 
     dispatch(config(payload));

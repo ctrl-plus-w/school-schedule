@@ -23,7 +23,7 @@ const Schedule = () => {
     link: event.link,
     obligatory: event.obligatory,
     subject: event.subject.subject_name,
-    owner: event.owner.full_name,
+    owner: { name: event.owner.full_name },
     color: 'red',
   });
 
