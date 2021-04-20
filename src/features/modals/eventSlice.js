@@ -36,5 +36,6 @@ const slice = createSlice({
 export const { hide, config } = slice.actions;
 
 export const selectInfos = (state) => state.modals.event;
+export const selectVisible = (state) => state.modals.event.visible;
 
 export default slice.reducer;
