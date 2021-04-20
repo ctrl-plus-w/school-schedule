@@ -91,7 +91,7 @@
           }
 
           .form-submit {
-            @include button;
+            @include button--blue;
             width: 100%;
           }
         }

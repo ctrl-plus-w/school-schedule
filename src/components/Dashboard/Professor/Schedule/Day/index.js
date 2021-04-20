@@ -1,51 +1,61 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
-import React, { useContext, useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
-import ModalContext from '../../../../../context/modal-context';
-import DatabaseContext from '../../../../../context/database-context';
-import SelectedEventsContext from '../../../../../context/selected-events-context';
+import { config } from '../../../../../features/modals/eventSlice';
+import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
+import { getCell } from '../../../../../utils/Cell';
 
-// TODO : [-] Refactor getEventElement function (try grouping events into one element).
-// TODO : [ ] Handle event click.
-// TODO : [ ] Get more infos when fetching events.
+// TODO : [ ] Optimize.
+// TODO : [ ] Block user from creating events in the past. (selection)
 
 const Day = (props) => {
-  const dayId = props.index;
+  const dispatch = useDispatch();
 
-  const modalContext = useContext(ModalContext);
-  const databaseContext = useContext(DatabaseContext);
+  const label = useSelector(selectLabel);
+  const selectedEvents = useSelector(selectEvents);
 
-  const { selectedEvents, addEvent, removeEvent } = useContext(SelectedEventsContext);
+  const events = new Array(9).fill(0).reduce((acc, curr, i) => {
+    const condition = (event) => parseInt(event.start.hours) === i + 8;
 
-  const nineArray = new Array(9).fill(0);
+    const event = props.infos.events.find(condition);
+    const relatedEvent = props.infos.relatedEvents.find(condition);
 
-  const [events] = useState(
-    nineArray.reduce((acc, curr, i) => {
-      const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
-      return event ? [...acc, event] : [...acc, { id: `${dayId}#start${i + 8}`, start: new Time(i + 8, 0), empty: true }];
-    }, [])
-  );
+    if (event) return [...acc, event];
+    if (relatedEvent) return [...acc, { ...relatedEvent, related: true }];
 
-  const selectEvent = (_event, event) => {
-    if (dayId in selectedEvents && event.id in selectedEvents[dayId]) removeEvent(event.id, dayId);
-    else addEvent(event, dayId);
+    return [...acc, { id: uuidv4(), day: props.date, start: new Time(i + 8, 0), empty: true }];
+  }, []);
+
+  const handleSelectEvent = (_event, event) => {
+    if (Object.keys(label).length === 0) return;
+
+    const payload = { date: props.date, start: event.start.toString };
+
+    if (payload.date in selectedEvents && selectedEvents[payload.date].some(({ start }) => start === payload.start)) dispatch(removeEvent(payload));
+    else dispatch(addEvent(payload));
   };
 
   const handleEventClick = (_event, event) => {
-    // TODO : [ ] Handle click event.
+    if (event.related) return;
 
-    modalContext.config({
-      title: databaseContext.label ? event.subject : event.label,
+    const payload = {
+      id: event.id,
+      title: event.subject,
       link: event.link,
       description: event.description,
       start: event.start.toString,
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
-      subjectOwner: event.owner,
-    });
+      owner: event.owner,
+    };
+
+    dispatch(config(payload));
   };
 
   const getEventElement = (eventsArray, i) => {
@@ -53,49 +63,36 @@ const Day = (props) => {
     const curr = eventsArray[i];
     const next = eventsArray[i + 1];
 
-    if (dayId in selectedEvents) console.log(selectedEvents[dayId]);
-
-    const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
-    const isSelected = (id) => dayId in selectedEvents && id in selectedEvents[dayId];
+    // const isOneSelected = dayId in selectedEvents && Object.keys(selectedEvents[dayId]).length > 0;
+    const isSelected = (time) => props.date in selectedEvents && selectedEvents[props.date].some(({ start }) => start === time.toString);
 
     const emptyCell = (type) => (
       <div
-        className={`event ${type} empty ${isSelected(curr.id) ? 'selected' : 'unselected'}`}
+        className={`event empty ${Object.keys(label).length > 0 ? `${type} selectable` : ''} ${isSelected(curr.start) ? 'selected' : 'unselected'}`}
         key={curr.id}
-        onClick={(e) => selectEvent(e, curr)}
+        onClick={(e) => handleSelectEvent(e, curr)}
       ></div>
     );
 
-    const cell = (type, content = false) => (
-      <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
-        {content && <h3 className='title'>{databaseContext.label ? curr.subject : curr.label}</h3>}
-        {content && <p className='description'>{curr.start.toString}</p>}
-      </div>
-    );
+    const cell = (type, content = false) => {
+      return curr.related ? (
+        <div className={`event disabled ${type}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}></div>
+      ) : (
+        <div className={`event ${type} ${curr.color}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
+          {content && <h3 className='title'>{label.name ? curr.subject : curr.label}</h3>}
+          {content && <p className='description'>{curr.start.toString}</p>}
+        </div>
+      );
+    };
 
     if (curr.empty) {
-      if (prev && prev.empty && isSelected(prev.id) && next && next.empty && isSelected(next.id)) return emptyCell('middle');
-      if (prev && prev.empty && isSelected(prev.id)) return emptyCell('end');
-      if (next && next.empty && isSelected(next.id)) return emptyCell('start');
+      if (prev && prev.empty && isSelected(prev.start) && next && next.empty && isSelected(next.start)) return emptyCell('middle');
+      if (prev && prev.empty && isSelected(prev.start)) return emptyCell('end');
+      if (next && next.empty && isSelected(next.start)) return emptyCell('start');
       return emptyCell('normal');
     }
 
-    if (!prev || prev.empty) {
-      if (next?.subject === curr?.subject) return cell('start', true);
-      return cell('normal', true);
-    }
-
-    if ((!next || next.empty) && prev.subject === curr.subject) return cell('end');
-
-    // If next is an event and prev as well.
-    if (!next.empty && !prev.empty) {
-      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
-      if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
-
-      if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
-    }
-
-    return cell('end', true);
+    return getCell(prev, curr, next, cell);
   };
 
   return (
@@ -112,7 +109,7 @@ const Day = (props) => {
 
 Day.propTypes = {
   infos: PropTypes.object,
-  index: PropTypes.string,
+  date: PropTypes.any,
 };
 
 export default Day;

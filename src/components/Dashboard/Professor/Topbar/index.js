@@ -1,61 +1,88 @@
-import React, { useContext, useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import AuthContext from '../../../../context/auth-context';
-import DatabaseContext from '../../../../context/database-context';
 
 import Selector from '../../../Selector';
 
-import { LABEL_EVENTS } from '../../../../graphql/events';
+import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
+import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
+import { fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
+import { resetEvents, selectLabel, setLabel } from '../../../../features/infos/infosSlice';
+import { config } from '../../../../features/modals/createSlice';
 
 const Topbar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const { setEvents, labels } = useContext(DatabaseContext);
-  const authContext = useContext(AuthContext);
+  const labels = useSelector(selectLabels);
+  const fullName = useSelector(selectName);
+  const role = useSelector(selectRole);
 
-  const [selected, setSelected] = useState('');
-  const [labelId, setLabelId] = useState('');
+  const label = useSelector(selectLabel);
 
-  const [getEvents] = useLazyQuery(LABEL_EVENTS, {
-    variables: { label_id: labelId },
-    onCompleted: (data) => setEvents(data.labelEvents),
-  });
+  const PERSONAL_FIELD = 'Personnel';
 
-  const logout = () => {
+  useEffect(() => {
+    dispatch(fetchLabels());
+  }, []);
+
+  const labelObject = (l) => ({ id: l.id, name: l.label_name });
+
+  const handleLogout = () => {
+    dispatch(logout());
     history.push('/auth');
-    authContext.logout();
   };
 
-  const handleChange = (labelName) => {
-    setSelected(labelName);
+  const handleChange = async ({ id, name }) => {
+    await dispatch(resetEvents());
 
-    const label = labels.find((l) => l.label_name === labelName);
-    if (!label) return;
+    if (name === PERSONAL_FIELD) {
+      await dispatch(setLabel({}));
+      await dispatch(fetchOwnedEvents());
+    } else {
+      // ! Keep the await and the order.
+      await dispatch(setLabel({ id, name }));
+      await dispatch(fetchLabelEvents({ id: id }));
+      await dispatch(fetchLabelRelatedEvents({ id: id }));
+    }
+  };
 
-    setLabelId(label.id);
-    getEvents();
+  const handleCreateEvent = () => {
+    const payload = {
+      title: 'Réserver des cours.',
+      description: 'Les paramètres globaux seront appliqués à toutes les heures.',
+    };
+
+    dispatch(config(payload));
   };
 
   return (
     <div className='topbar'>
       <div className='text'>
-        <h2 className='name'>{authContext.fullName}</h2>
-        <h3 className='role'>{authContext.role}</h3>
+        <h2 className='name'>{fullName}</h2>
+        <h3 className='role'>{role}</h3>
       </div>
 
       <div className='label-selector'>
         <Selector
-          items={labels.map((l) => ({ id: l.id, name: l.label_name }))}
-          selected={selected}
+          items={[...labels.map(labelObject), { id: PERSONAL_FIELD, name: PERSONAL_FIELD }]}
+          selected={label}
           setSelected={handleChange}
           placeholder='Choisir un groupe.'
         />
       </div>
 
+      {Object.keys(label).length > 0 && (
+        <div className='event-creator'>
+          <button type='button' className='create-event-button' onClick={handleCreateEvent}>
+            Réserver
+          </button>
+        </div>
+      )}
+
       <div className='logout'>
-        <p onClick={logout}>Se déconnecter</p>
+        <p onClick={handleLogout}>Se déconnecter</p>
       </div>
     </div>
   );

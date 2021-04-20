@@ -1,38 +1,71 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { X } from 'react-feather';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ExternalLink from '../../ExternalLink';
 
-import ModalContext from '../../../context/modal-context';
+import { isRole, selectId } from '../../../features/database/authSlice';
+import { deleteEvent, fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents } from '../../../features/database/eventsSlice';
+
+import { selectInfos, hide } from '../../../features/modals/eventSlice';
+import { selectLabel } from '../../../features/infos/infosSlice';
 
 const Modal = () => {
-  const modalContext = useContext(ModalContext);
+  const dispatch = useDispatch();
+
+  const infos = useSelector(selectInfos);
+  const role = useSelector(isRole);
+  const label = useSelector(selectLabel);
+
+  const userId = useSelector(selectId);
 
   const handleContentClick = (event) => event.stopPropagation();
-  const handleBackgroundClick = () => modalContext.hideModal();
+  const handleClose = () => dispatch(hide());
+
+  const handleDelete = async () => {
+    // ! Keep the awaits otherwise it will fetch the events before it delete it.
+    await dispatch(deleteEvent({ id: infos.id }));
+
+    if (label.id) {
+      await dispatch(fetchLabelEvents({ id: label.id }));
+      await dispatch(fetchLabelRelatedEvents({ id: label.id }));
+    } else {
+      await dispatch(fetchOwnedEvents());
+    }
+
+    await dispatch(hide());
+  };
 
   return (
-    <div className={`modal ${modalContext.visible ? 'visible' : 'hidden'}`} onClick={handleBackgroundClick}>
+    <div className={`modal ${infos.visible ? 'visible' : 'hidden'}`} onClick={handleClose}>
       <div className='modal-content' onClick={handleContentClick}>
         <header>
           <h1 className='title'>
-            {modalContext.title}
-            {modalContext.pin && <span className={`pin ${modalContext.pinColor}`}>{modalContext.pin}</span>}
+            {infos.title}
+            {infos.pin && <span className={`pin ${infos.pinColor}`}>{infos.pin}</span>}
           </h1>
-          <X className='icon' onClick={modalContext.hideModal} size={28} />
+          <X className='icon' onClick={handleClose} size={28} />
         </header>
 
         <div className='content'>
-          <p className='description'>{modalContext.description}</p>
+          <p className='description'>{infos.description}</p>
 
           <ul className='infos'>
-            <p className='subject-owner'>{modalContext.subjectOwner}</p>
-            <p className='start-time'>{modalContext.start}</p>
+            <p className='subject-owner'>{infos.owner.fullName}</p>
+            <p className='start-time'>{infos.start}</p>
           </ul>
 
-          <ExternalLink to={modalContext.link} className='join-class'>
-            Rejoindre la classe.
-          </ExternalLink>
+          <div className='buttons'>
+            <ExternalLink to={infos.link} className='join-class'>
+              Rejoindre la classe.
+            </ExternalLink>
+
+            {role.isProfessor && infos.owner.id === userId && (
+              <button type='button' className='delete-event red' onClick={handleDelete}>
+                Supprimer
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

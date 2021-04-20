@@ -1,16 +1,28 @@
-import React, { useState, useContext, createRef, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
+import React, { useState, createRef, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
+import { Link, useHistory } from 'react-router-dom';
 
-import AuthContext from '../../context/auth-context';
-import { useMutation } from '@apollo/client';
-
-import { LOGIN } from '../../graphql/auth';
+import { login, selectRole } from '../../features/database/authSlice';
 
 import './index.scss';
 
+// TODO : [ ] Handle error messages.
+
+const ROLES_PATHS = {
+  Élève: 'schedule',
+  Enseignant: 'dashboard',
+  admin: 'admin',
+};
+
 const Auth = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const role = useSelector(selectRole);
+
+  useEffect(() => role && history.push(ROLES_PATHS[role]), [role]);
 
   const defaultFocusField = createRef();
 
@@ -20,22 +32,6 @@ const Auth = () => {
   const [passwordInput, setPasswordInput] = useState('');
 
   const [passwordHidden, setPasswordHidden] = useState(true);
-
-  const authContext = useContext(AuthContext);
-
-  const [login] = useMutation(LOGIN, {
-    variables: { username: usernameInput.trim(), password: passwordInput.trim() },
-    onError: (error) => {
-      setErrorMessage(error.message);
-    },
-    onCompleted: async (data) => {
-      if (!data) return setErrorMessage('Un problème est survenu.');
-
-      const path = authContext.login(data.login.token, data.login.token_expiration, data.login.id, data.login.role, data.login.full_name);
-      history.push(path);
-      // TODO : [ ] Save token and more in the local storage or session.
-    },
-  });
 
   useEffect(() => {
     defaultFocusField && defaultFocusField.current.focus();
@@ -49,7 +45,8 @@ const Auth = () => {
 
     // Reset error message and fetch the login data.
     setErrorMessage('');
-    login();
+
+    dispatch(login({ username: usernameInput, password: passwordInput }));
   };
 
   const handleIconSwitch = (e) => {

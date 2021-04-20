@@ -39,16 +39,16 @@
   }
 }
 
-@mixin button {
+@mixin button($background, $color, $shadow) {
   width: 100%;
 
   padding: 0.65rem 1rem;
 
-  background: $button-background;
+  background: $background;
 
   font-size: 1rem;
   font-weight: 400;
-  color: $button-color;
+  color: $color;
 
   border-radius: 0.6rem;
 
@@ -62,9 +62,9 @@
   transition: box-shadow 0.3s, transform 0.3s;
 
   &.disabled {
-    color: darken($button-color, 20%);
+    color: darken($color, 20%);
 
-    background: darken($button-background, 10%);
+    background: darken($background, 10%);
 
     cursor: not-allowed;
 
@@ -76,13 +76,38 @@
 
   &:not(.disabled):hover,
   &:not(.disabled):focus {
-    box-shadow: 0 0 0 3px $button-shadow;
+    box-shadow: 0 0 0 3px $shadow;
   }
 
   &:not(.disabled):active {
-    box-shadow: 0 0 0 3px $button-shadow;
+    box-shadow: 0 0 0 3px $shadow;
     transform: scale(0.92);
   }
+}
+
+@mixin button--blue {
+  @include button($button-background--blue, $button-color--blue, $button-shadow--blue);
+}
+
+@mixin button--red {
+  @include button($button-background--red, $button-color--red, $button-shadow--red);
+}
+
+@mixin input--no-border {
+  font-size: 1rem;
+  font: small-caption;
+
+  padding: 0.65rem 0;
+
+  border: none;
+  border-radius: 0.6rem;
+  transition: box-shadow 0.3s;
+
+  color: $input-color;
+
+  outline: none;
+  appearance: none;
+  -moz-appearance: none;
 }
 
 @mixin input {

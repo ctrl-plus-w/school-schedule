@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
-
-import ErrorsContext from '../../context/errors-context';
-
-import './index.scss';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Error from './Error';
+
+import { selectErrors } from '../../features/modals/errorSlice';
+
+import './index.scss';
 
 // TODO : [ ] Remove first errors if the errors amount is too hight (compare the modal content height and the window height);
 
 const ErrorModal = () => {
-  const { errors } = useContext(ErrorsContext);
+  const errors = useSelector(selectErrors);
 
   return (
     <div className='error-modal'>
       <div className='error-modal-content'>
-        {Object.keys(errors).map((errorId) => {
-          const error = errors[errorId];
-          return <Error key={errorId} title={error.title} message={error.message} id={errorId} />;
+        {errors.map((error, index) => {
+          return <Error key={index} title={error.title} message={error.message} id={index} />;
         })}
       </div>
     </div>

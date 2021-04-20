@@ -65,11 +65,40 @@
       }
 
       &.red {
+        $red: #e74c3c;
         background-color: lighten($red, 37%);
 
         border-color: $red;
         color: $red;
       }
+
+      &.green {
+        $green: #2ecc71;
+        background-color: lighten($green, 37%);
+
+        border-color: $green;
+        color: $green;
+      }
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      .pin {
+        margin-left: 0.5rem;
+      }
+    }
+
+    .title-2 {
+      display: flex;
+      align-items: center;
+
+      font-size: 1.2rem;
+      font-weight: 400;
     }
 
     header {
@@ -78,20 +107,6 @@
 
       justify-content: space-between;
       align-items: center;
-
-      color: rgb(9, 6, 41);
-
-      .title {
-        display: flex;
-        align-items: center;
-
-        font-size: 1.5rem;
-        font-weight: 600;
-
-        .pin {
-          margin-left: 0.5rem;
-        }
-      }
 
       .icon {
         cursor: pointer;
@@ -107,8 +122,90 @@
 
       height: 100%;
 
-      .description {
+      .global-description {
         margin-bottom: 1rem;
+      }
+
+      .day-container {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+
+        .day-name {
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        .hours-list {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          width: 100%;
+
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+
+          .hour {
+            width: 50%;
+
+            display: flex;
+            flex-direction: column;
+
+            margin-bottom: 0.75rem;
+
+            .start {
+              justify-self: center;
+              align-items: center;
+
+              display: flex;
+              flex-direction: row;
+            }
+
+            .field {
+              display: flex;
+              flex-direction: column;
+
+              margin-top: 1em;
+
+              font-size: 1rem;
+              font-weight: 600;
+
+              input {
+                @include input--no-border;
+              }
+            }
+
+            .pin {
+              margin-left: 0.5rem;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .fields {
+        width: 100%;
+
+        margin-top: 1rem;
+
+        .form-group {
+          display: flex;
+          flex-direction: row;
+        }
+
+        .field {
+          width: 100%;
+        }
+
+        .submit-button {
+          @include button--blue;
+
+          width: 50%;
+
+          margin-left: 1rem;
+        }
       }
 
       .infos {
@@ -143,13 +240,29 @@
         }
       }
 
-      .join-class {
-        @include button;
+      .buttons {
+        display: flex;
+        flex-direction: row;
 
-        width: auto;
-
-        margin-right: auto;
         margin-top: 2rem;
+        justify-content: space-between;
+
+        width: 100%;
+
+        .join-class {
+          @include button--blue;
+          margin-right: auto;
+        }
+
+        .delete-event {
+          @include button--red;
+          margin-left: auto;
+        }
+
+        .join-class,
+        .delete-event {
+          width: auto;
+        }
       }
     }
   }
@@ -186,6 +299,14 @@
 
   .label-selector {
     margin-left: 2rem;
+  }
+
+  .event-creator {
+    margin: 0 auto;
+
+    .create-event-button {
+      @include button--blue;
+    }
   }
 
   .logout {
@@ -338,6 +459,15 @@
           background-color: lighten($green, 74%);
           color: lighten($green, 20%);
         }
+
+        &.disabled {
+          $gray: rgb(63, 63, 63);
+          border-color: lighten($gray, 45%);
+          background-color: lighten($gray, 62%);
+          color: lighten($gray, 45%);
+
+          cursor: not-allowed;
+        }
       }
 
       &.selected {
@@ -396,9 +526,7 @@
   }
 
   .events.professor-events .event {
-    cursor: pointer;
-
-    &.empty:hover::before {
+    &.empty.selectable:hover::before {
       content: '';
       display: block;
 

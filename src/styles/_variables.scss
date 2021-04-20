@@ -20,6 +20,10 @@ $input-background-hover: rgb(241, 244, 248);
 $input-background-selected: rgb(30, 109, 199);
 $input-color-selected: white;
 
-$button-background: rgb(30, 109, 199);
-$button-color: rgb(255, 255, 255);
-$button-shadow: rgb(151, 170, 202);
+$button-background--blue: hsl(212, 74%, 45%);
+$button-color--blue: hsl(0, 0%, 100%);
+$button-shadow--blue: hsl(218, 32%, 69%);
+
+$button-background--red: hsl(0, 77%, 46%);
+$button-color--red: hsl(0, 0%, 100%);
+$button-shadow--red: hsl(0, 77%, 76%);

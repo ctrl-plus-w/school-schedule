@@ -1,34 +1,28 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../../../utils/Time';
 import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
-import ModalContext from '../../../../../context/modal-context';
+import { config } from '../../../../../features/modals/eventSlice';
+import { getCell } from '../../../../../utils/Cell';
 
-// import './index.scss';
-
-// TODO : [-] Refactor getEventElement function (try grouping events into one element).
 // TODO : [ ] Handle event click.
-// TODO : [ ] Get more infos when fetching events.
 
 const Day = (props) => {
-  const modalContext = useContext(ModalContext);
+  const dispatch = useDispatch();
 
-  const nineArray = new Array(9).fill(0);
-
-  const events = nineArray.reduce((acc, curr, i) => {
+  const events = new Array(9).fill(0).reduce((acc, curr, i) => {
     const event = props.infos.events.find((event) => parseInt(event.start.hours) === i + 8);
     if (event) return [...acc, event];
     else return [...acc, { id: uuidv4(), start: new Time(i + 8, 0), empty: true, selected: false }];
   }, []);
 
   const handleEventClick = (_event, event) => {
-    // TODO : [ ] Handle click event.
-
-    modalContext.config({
+    const payload = {
       title: event.subject,
       link: event.link,
       description: event.description,
@@ -36,7 +30,9 @@ const Day = (props) => {
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
       subjectOwner: event.owner,
-    });
+    };
+
+    dispatch(config(payload));
   };
 
   const getEventElement = (eventsArray, i) => {
@@ -54,23 +50,7 @@ const Day = (props) => {
     );
 
     if (curr.empty) return emptyCell();
-
-    if (!prev || prev.empty) {
-      if (next?.subject === curr?.subject) return cell('start', true);
-      return cell('normal', true);
-    }
-
-    if ((!next || next.empty) && prev.subject === curr.subject) return cell('end');
-
-    // If next is an event and prev as well.
-    if (!next.empty && !prev.empty) {
-      if (next.subject === curr.subject && prev.subject === curr.subject && prev.subject === next.subject) return cell('middle');
-      if (prev.subject === curr.subject && curr.subject !== next.subject) return cell('end');
-
-      if (prev.subject !== curr.subject && curr.subject === next.subject) return cell('middle', true);
-    }
-
-    return cell('end', true);
+    return getCell(prev, curr, next, cell, emptyCell);
   };
 
   return (

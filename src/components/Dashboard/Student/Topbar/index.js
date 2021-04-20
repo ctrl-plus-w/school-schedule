@@ -1,33 +1,32 @@
-import React, { useContext } from 'react';
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import AuthContext from '../../../../context/auth-context';
+import { useSelector, useDispatch } from 'react-redux';
 
-// import './index.scss';
+import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 
 const Topbar = () => {
-  const authContext = useContext(AuthContext);
-
+  const dispatch = useDispatch();
   const history = useHistory();
 
-  // TODO : [x] Add groups under name.
-  // TODO : [x] Add a selector for the groups / labels.
-  // TODO : [ ] Show selector only for users with professor role.
+  const fullName = useSelector(selectName);
+  const role = useSelector(selectRole);
 
-  const logout = () => {
+  const handleLogout = () => {
+    dispatch(logout());
     history.push('/auth');
-    authContext.logout();
   };
 
   return (
     <div className='topbar'>
       <div className='text'>
-        <h2 className='name'>{authContext.fullName}</h2>
-        <h3 className='role'>{authContext.role}</h3>
+        <h2 className='name'>{fullName}</h2>
+        <h3 className='role'>{role}</h3>
       </div>
 
       <div className='logout'>
-        <p onClick={logout}>Se déconnecter</p>
+        <p onClick={handleLogout}>Se déconnecter</p>
       </div>
     </div>
   );
