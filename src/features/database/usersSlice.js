@@ -23,7 +23,15 @@ const slice = createSlice({
   initialState: {
     loading: false,
     users: [],
-    errors: '',
+    error: '',
+  },
+
+  extraReducers: (builder) => {
+    const pending = (state) => ({ ...state, loading: true });
+    const fulfilled = (state, action) => ({ ...state, users: action.payload, loading: false });
+    const rejected = (state, action) => ({ ...state, error: action.payload, loading: false });
+
+    builder.addCase(fetchUsers.pending, pending).addCase(fetchUsers.fulfilled, fulfilled).addCase(fetchUsers.rejected, rejected);
   },
 });
 
