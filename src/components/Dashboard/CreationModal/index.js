@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { hide, selectInfos, selectVisible } from '../../../features/modals/createSlice';
 import { fetchSubjects, selectSubjects } from '../../../features/database/subjectsSlice';
-import { createEvent, fetchLabelEvents, fetchLabelRelatedEvents } from '../../../features/database/eventsSlice';
+import { createEvent, fetchAllLabelEvents, fetchLabelEvents, fetchLabelRelatedEvents } from '../../../features/database/eventsSlice';
 
 import { selectEvents, editEvent, selectLabel, removeDay } from '../../../features/infos/infosSlice';
 
@@ -93,8 +93,7 @@ const CreationModal = () => {
     if (Object.keys(selectedEvents).length <= 1) dispatch(hide());
 
     await dispatch(removeDay(Object.keys(selectedEvents)[0]));
-    await dispatch(fetchLabelEvents({ id: label.id }));
-    await dispatch(fetchLabelRelatedEvents({ id: label.id }));
+    await fetchAllLabelEvents(dispatch, label.id);
   };
 
   const mapHours = (events, day) => {

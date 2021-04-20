@@ -6,6 +6,11 @@ import client from '../../app/database';
 
 import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, LABEL_RELATED_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../../graphql/events';
 
+export const fetchAllLabelEvents = async (dispatch, id) => {
+  await dispatch(fetchLabelEvents({ id }));
+  await dispatch(fetchLabelRelatedEvents({ id }));
+};
+
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
   try {
     const events = await client.request(EVENTS);
@@ -45,7 +50,7 @@ export const fetchLabelRelatedEvents = createAsyncThunk('events/fetchLabelRelate
     return events.labelRelatedEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
-    dispatch(addError({ title: 'Erreur (fetchLabelEvents)', message }));
+    dispatch(addError({ title: 'Erreur (fetchRelatedLabelEvents)', message }));
     throw new Error(message);
   }
 });
