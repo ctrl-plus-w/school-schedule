@@ -20,14 +20,13 @@ const ProfessorDashboard = () => {
   const logged = useSelector(isLoggedIn);
   if (!logged) history.push('/auth');
 
+  const modalVisible = useSelector((state) => state.modals.event.visible || state.modals.create.visible);
+
   useEffect(() => {
     logged && dispatch(fetchOwnedEvents());
   }, []);
 
   const loading = useSelector(isLoading);
-
-  // temp
-  let visible = false;
 
   return (
     <>
@@ -35,7 +34,7 @@ const ProfessorDashboard = () => {
       <CreationModal />
       <Modal />
 
-      <div className={`container ${visible ? 'blurred' : ''}`}>
+      <div className={`container ${modalVisible ? 'blurred' : ''}`}>
         <Topbar />
         <Schedule />
       </div>
