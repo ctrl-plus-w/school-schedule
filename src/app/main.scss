@@ -7,6 +7,8 @@
 
   width: 100%;
   height: 100%;
+
+  background: $background;
 }
 
 .container {
@@ -16,6 +18,8 @@
 
   display: flex;
   flex-direction: column;
+
+  background: $background;
 
   transition: all 0.1s;
 }
