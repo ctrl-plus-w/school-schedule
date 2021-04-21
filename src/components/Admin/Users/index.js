@@ -1,12 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { fetchUsers, selectUsers, selectLoading } from '../../../features/database/usersSlice';
 
 import Table from '../Table';
 
 const MAX_CHAR = 15;
+
+const Badge = (props) => {
+  return <span className='badge'>{props.children}</span>;
+};
+
+Badge.propTypes = {
+  children: PropTypes.any,
+};
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -25,12 +34,35 @@ const Users = () => {
   });
 
   const fields = [
-    { name: 'ID', field: 'id' },
-    { name: 'Username', field: 'username' },
-    { name: 'Name', field: 'name' },
-    { name: 'Role', field: 'role' },
-    { name: 'Subjects', field: 'subjects' },
-    { name: 'Labels', field: 'labels' },
+    {
+      name: 'ID',
+      field: 'id',
+    },
+    {
+      name: 'Username',
+      field: 'username',
+    },
+    {
+      name: 'Name',
+      field: 'name',
+    },
+    {
+      name: 'Role',
+      field: 'role',
+      badge: {
+        Élève: 'green',
+        Enseignant: 'blue',
+        Admin: 'red',
+      },
+    },
+    {
+      name: 'Subjects',
+      field: 'subjects',
+    },
+    {
+      name: 'Labels',
+      field: 'labels',
+    },
   ];
 
   return (

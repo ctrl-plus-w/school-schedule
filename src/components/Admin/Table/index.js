@@ -47,8 +47,15 @@ const Table = ({ fields, items }) => {
         {fields.map((field) => {
           const val = item[field.field];
           const str = typeof val === 'string' ? val : val.join(', ');
+          const slicedStr = str.length > MAX_LEN ? str.slice(0, MAX_LEN) + '...' : str;
 
-          return <td key={uuidv4()}>{str.length > MAX_LEN ? str.slice(0, MAX_LEN) + '...' : str}</td>;
+          return field.badge ? (
+            <td key={uuidv4()}>
+              <span className={`badge ${field.badge[str]}`}>{slicedStr}</span>
+            </td>
+          ) : (
+            <td key={uuidv4()}>{slicedStr}</td>
+          );
         })}
       </tr>
     ));
