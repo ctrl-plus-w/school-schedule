@@ -323,7 +323,8 @@
   .logout {
     margin-left: auto;
 
-    .responsive-link {
+    .responsive-link,
+    p {
       @include link;
 
       @include media('<=tablet') {
