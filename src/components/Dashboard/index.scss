@@ -1,5 +1,6 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
+@import '../../styles/breakpoints';
 
 .modal {
   z-index: 4000;
@@ -44,6 +45,12 @@
     padding: 2rem;
 
     cursor: default;
+
+    @include media('<=tablet') {
+      min-width: 90vw;
+
+      padding: 1.5rem;
+    }
 
     .pin {
       display: inline;
@@ -278,6 +285,10 @@
 
   border-bottom: 1px solid $border;
 
+  @include media('<=tablet') {
+    padding: 1rem 2rem;
+  }
+
   .text {
     display: flex;
     flex-direction: column;
@@ -312,8 +323,18 @@
   .logout {
     margin-left: auto;
 
-    p {
+    .responsive-link {
       @include link;
+
+      @include media('<=tablet') {
+        display: none;
+      }
+    }
+
+    .responsive-icon {
+      @include media('>tablet') {
+        display: none;
+      }
     }
   }
 }
@@ -343,6 +364,10 @@
   border-right: 1px solid $border;
 
   background: white;
+
+  @include media('<=tablet') {
+    display: none;
+  }
 
   tbody {
     display: flex;
@@ -398,9 +423,15 @@
 
   padding: 0 2rem 4rem 2rem;
 
+  border-left: 2px solid transparent;
   border-right: 1px solid $border;
 
   $radius: 0.6rem;
+
+  @include media('<=phone') {
+    width: 100vw;
+    margin-bottom: 0rem;
+  }
 
   .header {
     display: flex;
@@ -425,7 +456,10 @@
 
     .event {
       z-index: 1;
+
       position: relative;
+      display: flex;
+      flex-direction: column;
 
       height: 1 / $hours-amount * 100%;
       width: 100%;
@@ -436,6 +470,12 @@
       border-radius: 0;
 
       padding: 0.7rem 1rem;
+
+      @include media('<=tablet') {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
 
       &.normal,
       &.start,
