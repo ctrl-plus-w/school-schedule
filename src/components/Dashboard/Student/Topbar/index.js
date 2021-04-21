@@ -1,6 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
+import { LogOut } from 'react-feather';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -26,7 +27,10 @@ const Topbar = () => {
       </div>
 
       <div className='logout'>
-        <p onClick={handleLogout}>Se déconnecter</p>
+        <p onClick={handleLogout} className='responsive-link'>
+          Se déconnecter
+        </p>
+        <LogOut onClick={handleLogout} className='responsive-icon' />
       </div>
     </div>
   );

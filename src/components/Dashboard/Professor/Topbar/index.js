@@ -1,19 +1,24 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import Selector from '../../../Selector';
 
+import useWindowSize from '../../../../hooks/useWindowSize';
+
 import { selectName, selectRole, logout } from '../../../../features/database/authSlice';
 import { selectLabels, fetchLabels } from '../../../../features/database/labelsSlice';
-import { fetchAllLabelEvents, fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
+import { fetchAllLabelEvents, fetchOwnedEvents } from '../../../../features/database/eventsSlice';
 import { resetEvents, selectLabel, setLabel } from '../../../../features/infos/infosSlice';
 import { config } from '../../../../features/modals/createSlice';
+
+import BREAKPOINTS from '../../../../static/breakpoints';
 
 const Topbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { width } = useWindowSize();
 
   const labels = useSelector(selectLabels);
   const fullName = useSelector(selectName);
@@ -65,16 +70,18 @@ const Topbar = () => {
         <h3 className='role'>{role}</h3>
       </div>
 
-      <div className='label-selector'>
-        <Selector
-          items={[...labels.map(labelObject), { id: PERSONAL_FIELD, name: PERSONAL_FIELD }]}
-          selected={label}
-          setSelected={handleChange}
-          placeholder='Choisir un groupe.'
-        />
-      </div>
+      {width > BREAKPOINTS.PHONE && (
+        <div className='label-selector'>
+          <Selector
+            items={[...labels.map(labelObject), { id: PERSONAL_FIELD, name: PERSONAL_FIELD }]}
+            selected={label}
+            setSelected={handleChange}
+            placeholder='Choisir un groupe.'
+          />
+        </div>
+      )}
 
-      {Object.keys(label).length > 0 && (
+      {Object.keys(label).length > 0 && width > BREAKPOINTS.PHONE && (
         <div className='event-creator'>
           <button type='button' className='create-event-button' onClick={handleCreateEvent}>
             Réserver
