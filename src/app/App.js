@@ -35,8 +35,10 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Topbar selector, cancel the action when value is empty.
 // TODO : [x] Make a function to fetch the labels events and the label events.
 // TODO : [ ] Add colors for each subject and labels.
+// TODO : [ ] Make the events editable.
+// TODO : [ ] Save token.
 
-// TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
+// // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
 
 const App = () => {
   return (
