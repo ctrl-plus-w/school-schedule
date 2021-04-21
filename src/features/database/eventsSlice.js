@@ -83,6 +83,7 @@ const slice = createSlice({
   initialState: {
     error: '',
     loading: false,
+    relatedLoading: false,
     events: [],
     relatedEvents: [],
   },
@@ -96,10 +97,13 @@ const slice = createSlice({
 
   extraReducers: (builder) => {
     const pending = (state) => ({ ...state, loading: true });
+    const relatedPending = (state) => ({ ...state, relatedLoading: true });
+
     const rejected = (state, action) => ({ ...state, error: action.error, loading: false });
+    const relatedRejected = (state, action) => ({ ...state, error: action.error, relatedLoading: false });
 
     const fulfilledEvents = (state, action) => ({ ...state, events: action.payload, relatedEvents: [], loading: false });
-    const fulfilledRelatedEvents = (state, action) => ({ ...state, relatedEvents: action.payload, loading: false });
+    const fulfilledRelatedEvents = (state, action) => ({ ...state, relatedEvents: action.payload, relatedLoading: false });
     const fulfilledNoAction = (state) => ({ ...state, loading: false });
 
     // Fetch events.
@@ -119,9 +123,9 @@ const slice = createSlice({
 
     // Fetch label related events.
     builder
-      .addCase(fetchLabelRelatedEvents.pending, pending)
+      .addCase(fetchLabelRelatedEvents.pending, relatedPending)
       .addCase(fetchLabelRelatedEvents.fulfilled, fulfilledRelatedEvents)
-      .addCase(fetchLabelRelatedEvents.rejected, rejected);
+      .addCase(fetchLabelRelatedEvents.rejected, relatedRejected);
 
     // Create event.
     builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);

@@ -14,6 +14,10 @@ const Schedule = () => {
   const events = useSelector(selectEvents);
   const relatedEvents = useSelector(selectRelatedEvents);
 
+  const loading = useSelector((state) => {
+    return state.database.events.loading || state.database.events.relatedLoading;
+  });
+
   const getTime = (time) => new Time(Time.getLocalHours(new Date(time)), Time.getLocalMins(new Date(time)));
 
   const setToMidnight = (date) => {
@@ -34,16 +38,20 @@ const Schedule = () => {
     color: 'red',
   });
 
+  const dayObject = (event, events, relatedEvents) => ({ id: uuidv4(), date: setToMidnight(event), events, relatedEvents });
+
+  const emptyDays = getConsecutiveDays(14).reduce((acc, curr) => [...acc, dayObject(curr, [], [])], []);
+
   const days = getConsecutiveDays(14).reduce((acc, curr) => {
     const dayEvents = events.map(eventObject).filter((e) => sameDay(e.startDay, curr));
     const dayRelatedEvents = relatedEvents.map(eventObject).filter((e) => sameDay(e.startDay, curr));
-    return [...acc, { id: uuidv4(), date: setToMidnight(curr), events: dayEvents, relatedEvents: dayRelatedEvents }];
+    return [...acc, dayObject(curr, dayEvents, dayRelatedEvents)];
   }, []);
 
   return (
     <div className='schedule'>
       <TimeIndicator />
-      <Days days={days} />
+      <Days days={loading ? emptyDays : days} />
     </div>
   );
 };

@@ -18,7 +18,7 @@ const ProfessorDashboard = () => {
 
   return (
     <div className='root-container'>
-      <Loading loading={loading} />
+      <Loading loading={loading && false} />
       <CreationModal />
       <Modal />
 
