@@ -25,7 +25,7 @@ const Days = (props) => {
     <div className='days' ref={condition ? phoneContainer : container}>
       <div className='slider' ref={condition ? phoneSlider : slider}>
         {props.days.map((day) => (
-          <Day infos={day} key={day.id} />
+          <Day infos={day} date={day.date.toISOString()} key={day.id} />
         ))}
       </div>
     </div>
