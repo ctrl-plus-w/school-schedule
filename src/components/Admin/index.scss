@@ -66,71 +66,73 @@
   flex: 1;
 
   .header {
+    z-index: 10;
+
     padding: 4rem;
     padding-bottom: 4rem;
 
     border-bottom: 1px solid rgb(40, 36, 51);
+    background: rgb(20, 19, 24);
   }
 
-  .content {
-    border-collapse: collapse;
-    width: 100%;
+  // .content {
+  //   border-collapse: collapse;
+  //   width: 100%;
 
-    thead,
-    tbody {
-      tr th,
-      tr td {
-        padding: 1rem 1.5rem;
+  //   thead,
+  //   tbody {
+  //     tr th,
+  //     tr td {
+  //       padding: 1rem 1.5rem;
 
-        text-align: left;
-        font-weight: 600;
+  //       text-align: left;
+  //       font-weight: 600;
 
-        font-size: 1rem;
-        color: rgb(210, 209, 224);
-      }
-    }
+  //       font-size: 1rem;
+  //       color: rgb(210, 209, 224);
+  //     }
+  //   }
 
-    thead {
-      border-bottom: 1px solid rgb(40, 36, 51);
+  //   thead {
+  //     border-bottom: 1px solid rgb(40, 36, 51);
+  //     background: rgb(20, 19, 24);
 
-      tr th {
-        text-transform: uppercase;
+  //     tr th {
+  //       text-transform: uppercase;
 
-        cursor: pointer;
+  //       cursor: pointer;
 
-        transition: all 0.3s;
+  //       transition: all 0.3s;
 
-        &:hover {
-          background: rgb(33, 32, 39);
-        }
-      }
-    }
+  //       &:hover {
+  //         background: rgb(33, 32, 39);
+  //       }
+  //     }
+  //   }
 
-    tbody {
-      overflow: scroll;
+  //   tbody {
+  //     .badge {
+  //       padding: 0.25rem 0.75rem;
 
-      .badge {
-        padding: 0.25rem 0.75rem;
+  //       color: #ffffff;
+  //       border-radius: 1rem;
 
-        color: #ffffff;
-        border-radius: 1rem;
+  //       &.red {
+  //         background-color: #412121;
+  //       }
 
-        &.red {
-          background-color: #412121;
-        }
+  //       &.blue {
+  //         background-color: #1f2c3a;
+  //       }
 
-        &.blue {
-          background-color: #1f2c3a;
-        }
+  //       &.green {
+  //         background-color: #213825;
+  //       }
+  //     }
 
-        &.green {
-          background-color: #213825;
-        }
-      }
-
-      tr td {
-        border-bottom: 1px solid rgb(25, 23, 34);
-      }
-    }
-  }
+  //     tr td {
+  //       border-bottom: 1px solid rgb(25, 23, 34);
+  //     }
+  //   }
+  // }
 }

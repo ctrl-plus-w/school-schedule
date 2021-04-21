@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchUsers, selectUsers, selectLoading } from '../../../features/database/usersSlice';
 
+import Table from '../Table';
+
 const MAX_CHAR = 15;
 
 const Users = () => {
@@ -13,55 +15,23 @@ const Users = () => {
   const loading = useSelector(selectLoading);
   const users = useSelector(selectUsers);
 
-  const roleColor = (role) => {
-    switch (role) {
-      case 'Élève':
-        return 'green';
-      case 'Enseignant':
-        return 'blue';
-      case 'Admin':
-        return 'red';
-      default:
-        return 'red';
-    }
-  };
+  const usersMapper = (user) => ({
+    id: user.id,
+    name: user.full_name,
+    username: user.username,
+    role: user.role.role_name,
+    labels: user.labels.map((l) => l.label_name),
+    subjects: user.subjects.map((s) => s.subject_name),
+  });
 
-  const concatArray = (values) => {
-    const valuesStr = values.join(', ');
-
-    if (values.length <= 1) return valuesStr;
-    if (valuesStr.length > MAX_CHAR) return valuesStr.slice(0, MAX_CHAR) + '...';
-    return valuesStr;
-  };
-
-  const mapLabels = (labels) => {
-    const labelsName = labels.map((label) => label.label_name);
-    return concatArray(labelsName);
-  };
-
-  const mapSubjects = (subjects) => {
-    const subjectsName = subjects.map((subject) => subject.subject_name);
-    return concatArray(subjectsName);
-  };
-
-  const usersMapper = (users) =>
-    users.map((user) => (
-      <tr key={user.id}>
-        <td>{user.id.slice(0, 5)}...</td>
-
-        <td>{user.username}</td>
-
-        <td>{user.full_name}</td>
-
-        <td>
-          <span className={`badge ${roleColor(user.role.role_name)}`}>{user.role.role_name}</span>
-        </td>
-
-        <td>{mapLabels(user.labels)}</td>
-
-        <td>{mapSubjects(user.subjects)}</td>
-      </tr>
-    ));
+  const fields = [
+    { name: 'ID', field: 'id' },
+    { name: 'Username', field: 'username' },
+    { name: 'Name', field: 'name' },
+    { name: 'Role', field: 'role' },
+    { name: 'Subjects', field: 'subjects' },
+    { name: 'Labels', field: 'labels' },
+  ];
 
   return (
     <div className='category-container'>
@@ -69,19 +39,7 @@ const Users = () => {
         <h1>Users</h1>
       </header>
 
-      <table className='content'>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Full Name</th>
-            <th>Role</th>
-            <th>Labels</th>
-            <th>Subjects</th>
-          </tr>
-        </thead>
-        <tbody>{loading ? <h1>Loading</h1> : usersMapper([...users, ...users])}</tbody>
-      </table>
+      {loading || users.length === 0 ? <h1>Loading</h1> : <Table fields={fields} items={users.map(usersMapper)} />}
     </div>
   );
 };
