@@ -1,8 +1,14 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { logout } from '../../../features/database/authSlice';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { url } = useRouteMatch();
 
   const links = [
@@ -12,6 +18,11 @@ const Navbar = () => {
     { path: '/subjects', name: 'Subjects' },
     { path: '/roles', name: 'Roles' },
   ];
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push('/auth');
+  };
 
   return (
     <nav className='navbar'>
@@ -23,6 +34,11 @@ const Navbar = () => {
             </Link>
           </li>
         ))}
+        <li className='logout'>
+          <p onClick={handleLogout} className='link'>
+            Logout
+          </p>
+        </li>
       </ul>
     </nav>
   );

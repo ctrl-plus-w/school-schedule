@@ -28,6 +28,11 @@
   border-right: 1px solid rgb(40, 36, 51);
 
   ul {
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
     list-style-type: none;
   }
 
@@ -41,21 +46,23 @@
     text-align: right;
     text-decoration: none;
 
-    padding: 0.6rem 6rem 0.6rem 6rem;
+    padding: 0.8rem 6rem 0.8rem 6rem;
 
     transition: all 0.3s;
 
     outline: none;
+    cursor: pointer;
 
     &:focus,
     &:active,
-    &.selected {
+    &.selected,
+    &:hover {
       background: rgb(33, 32, 39);
     }
+  }
 
-    &:hover {
-      color: rgb(60, 121, 211);
-    }
+  .logout {
+    margin-top: auto;
   }
 }
 
@@ -74,65 +81,4 @@
     border-bottom: 1px solid rgb(40, 36, 51);
     background: rgb(20, 19, 24);
   }
-
-  // .content {
-  //   border-collapse: collapse;
-  //   width: 100%;
-
-  //   thead,
-  //   tbody {
-  //     tr th,
-  //     tr td {
-  //       padding: 1rem 1.5rem;
-
-  //       text-align: left;
-  //       font-weight: 600;
-
-  //       font-size: 1rem;
-  //       color: rgb(210, 209, 224);
-  //     }
-  //   }
-
-  //   thead {
-  //     border-bottom: 1px solid rgb(40, 36, 51);
-  //     background: rgb(20, 19, 24);
-
-  //     tr th {
-  //       text-transform: uppercase;
-
-  //       cursor: pointer;
-
-  //       transition: all 0.3s;
-
-  //       &:hover {
-  //         background: rgb(33, 32, 39);
-  //       }
-  //     }
-  //   }
-
-  //   tbody {
-  //     .badge {
-  //       padding: 0.25rem 0.75rem;
-
-  //       color: #ffffff;
-  //       border-radius: 1rem;
-
-  //       &.red {
-  //         background-color: #412121;
-  //       }
-
-  //       &.blue {
-  //         background-color: #1f2c3a;
-  //       }
-
-  //       &.green {
-  //         background-color: #213825;
-  //       }
-  //     }
-
-  //     tr td {
-  //       border-bottom: 1px solid rgb(25, 23, 34);
-  //     }
-  //   }
-  // }
 }
