@@ -4,6 +4,8 @@ import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import './main.scss';
 import '../components/Dashboard/index.scss';
 
+import PrivateRoute from '../components/PrivateRoute';
+
 import Auth from '../components/Auth';
 import MissedPassword from '../components/MissedPassword';
 
@@ -47,11 +49,11 @@ const App = () => {
         <Route path='/auth' component={Auth} />
         <Route path='/missed-password' component={MissedPassword} />
 
-        <Route path='/dashboard' component={ProfessorDashboard} />
+        <PrivateRoute path='/dashboard' component={ProfessorDashboard} />
 
-        <Route path='/schedule' component={StudentDashboard} />
+        <PrivateRoute path='/schedule' component={StudentDashboard} />
 
-        <Route path='/admin' component={Admin} />
+        <PrivateRoute path='/admin' component={Admin} />
       </Switch>
     </BrowserRouter>
   );
