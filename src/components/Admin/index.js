@@ -21,7 +21,11 @@ const Admin = () => {
 
       <Switch>
         <Route exact path={path}>
-          <h1>Admin Dashboards</h1>
+          <div className='category-container'>
+            <header className='header'>
+              <h1>Admin Dashboards</h1>
+            </header>
+          </div>
         </Route>
 
         <Route path={`${path}/users`} component={Users}></Route>
