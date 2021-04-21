@@ -13,5 +13,5 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: { 'react/prop-types': [2, { ignore: ['children'] }], 'react-hooks/exhaustive-deps': 'off' },
+  rules: { 'react-hooks/exhaustive-deps': 'off' },
 };
