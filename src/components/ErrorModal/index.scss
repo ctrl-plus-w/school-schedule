@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .error-modal {
   z-index: 5000;
 
@@ -21,8 +23,7 @@
     flex-direction: column;
 
     .error {
-      $red: #e74c3c;
-      background-color: lighten($red, 37%);
+      background-color: $red-light;
 
       border: 1px solid $red;
       border-radius: 0.4rem;

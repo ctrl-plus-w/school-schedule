@@ -106,7 +106,7 @@
   }
 
   .placeholder {
-    color: rgb(121, 119, 129);
+    color: $ternary;
   }
 
   .completion-container {
@@ -115,7 +115,7 @@
     }
 
     .completion {
-      color: rgb(121, 119, 129);
+      color: $ternary;
     }
   }
 }

@@ -65,7 +65,6 @@
       }
 
       &.red {
-        $red: #e74c3c;
         background-color: lighten($red, 37%);
 
         border-color: $red;
@@ -73,7 +72,6 @@
       }
 
       &.green {
-        $green: #2ecc71;
         background-color: lighten($green, 37%);
 
         border-color: $green;
@@ -210,7 +208,7 @@
 
       .infos {
         font-size: 1rem;
-        color: black;
+        color: $primary;
 
         display: flex;
         flex-direction: column;
@@ -226,16 +224,16 @@
           justify-content: space-between;
 
           position: relative;
-          color: rgb(33, 32, 37);
+          color: $primary;
         }
 
         .subject-owner::before {
-          color: black;
+          color: $primary;
           content: 'Professeur';
         }
 
         .start-time::before {
-          color: black;
+          color: $primary;
           content: 'Début';
         }
       }
@@ -278,7 +276,7 @@
 
   padding: 1.5rem 3rem;
 
-  border-bottom: 0.1rem solid rgb(231, 231, 231);
+  border-bottom: 1px solid $border;
 
   .text {
     display: flex;
@@ -287,13 +285,13 @@
     cursor: pointer;
 
     .name {
-      color: rgb(9, 6, 41);
+      color: $primary;
       font-size: 1.4rem;
       font-weight: 600;
     }
 
     .role {
-      color: rgb(51, 51, 61);
+      color: $secondary;
       font-size: 1rem;
       font-weight: 400;
     }
@@ -342,7 +340,7 @@
   padding-top: 1rem + $day-title-height;
   padding-bottom: 4rem;
 
-  border-right: 1px solid rgb(211, 218, 233);
+  border-right: 1px solid $border;
 
   background: white;
 
@@ -360,7 +358,7 @@
 
       height: 1 / $hours-amount * 100%;
 
-      color: rgb(147, 157, 179);
+      color: $ternary;
     }
   }
 }
@@ -412,7 +410,7 @@
     padding-bottom: 1rem;
 
     .title {
-      color: rgb(18, 28, 49);
+      color: $primary;
       font-size: 1.3rem;
       font-weight: 400;
     }
@@ -446,28 +444,15 @@
         cursor: pointer;
 
         &.red {
-          border-color: lighten($red, 35%);
-          background-color: lighten($red, 50%);
-          color: lighten($red, 20%);
-        }
-
-        &.blue {
-          border-color: lighten($blue, 35%);
-          background-color: lighten($blue, 50%);
-          color: lighten($blue, 20%);
-        }
-
-        &.green {
-          border-color: lighten($green, 35%);
-          background-color: lighten($green, 74%);
-          color: lighten($green, 20%);
+          border-color: $red;
+          background-color: $red-light;
+          color: $red;
         }
 
         &.disabled {
-          $gray: rgb(63, 63, 63);
-          border-color: lighten($gray, 45%);
-          background-color: lighten($gray, 62%);
-          color: lighten($gray, 45%);
+          border-color: $gray;
+          background-color: $gray-light;
+          color: $gray;
 
           cursor: not-allowed;
         }
@@ -475,11 +460,12 @@
 
       &.selected {
         z-index: 5;
+
         border-width: 0;
         border-radius: 0;
-        border-color: lighten($black, 35%);
-        background-color: lighten($black, 80%);
-        color: lighten($black, 20%);
+        border-color: $black;
+        background-color: $black-light;
+        color: $black;
       }
 
       &.normal:not(.unselected) {
@@ -545,7 +531,7 @@
       border-radius: $radius;
 
       opacity: 0.2;
-      background: repeating-linear-gradient(45deg, black, black 5px, #e5e5f7 5px, #e5e5f7 25px);
+      background: $pattern;
 
       cursor: pointer;
     }
