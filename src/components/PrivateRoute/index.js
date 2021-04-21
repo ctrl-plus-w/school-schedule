@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
@@ -6,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { isLoggedIn, selectRole } from '../../features/database/authSlice';
 
-import ROLES from '../../static/ROLES';
+import ROLES from '../../static/roles';
 
 import Forbidden from '../Forbidden';
 
