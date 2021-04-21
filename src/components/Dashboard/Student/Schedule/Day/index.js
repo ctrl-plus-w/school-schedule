@@ -23,13 +23,14 @@ const Day = (props) => {
 
   const handleEventClick = (_event, event) => {
     const payload = {
+      id: event.id,
       title: event.subject,
       link: event.link,
       description: event.description,
       start: event.start.toString,
       pin: event.obligatory ? 'Obligatoire' : '',
       pinColor: 'red',
-      subjectOwner: event.owner.name,
+      owner: event.owner,
     };
 
     dispatch(config(payload));

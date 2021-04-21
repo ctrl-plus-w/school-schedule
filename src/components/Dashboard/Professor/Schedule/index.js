@@ -34,7 +34,7 @@ const Schedule = () => {
     obligatory: event.obligatory,
     subject: event.subject.subject_name,
     label: event.label.label_name,
-    owner: { id: event.owner.id, fullName: event.owner.full_name },
+    owner: { id: event.owner.id, name: event.owner.full_name },
     color: 'red',
   });
 

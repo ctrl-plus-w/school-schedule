@@ -47,7 +47,7 @@ const Modal = () => {
           <p className='global-description'>{infos.description}</p>
 
           <ul className='infos'>
-            <p className='subject-owner'>{infos.owner.fullName}</p>
+            <p className='subject-owner'>{infos.owner.name}</p>
             <p className='start-time'>{infos.start}</p>
           </ul>
 
