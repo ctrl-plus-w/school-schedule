@@ -3,36 +3,35 @@ import PropTypes from 'prop-types';
 
 import { v4 as uuidv4 } from 'uuid';
 
+import useVerticalScroll from '../../../hooks/useVerticalScroll';
+
 import './index.scss';
 
 const MAX_LEN = 15;
 
 const Table = ({ fields, items }) => {
-  const tableHeader = createRef();
-  const tableBodyHeader = createRef();
-  const tableBody = createRef();
+  const tableHeaderHead = createRef();
+  const tableBodyHead = createRef();
+
+  const { container, slider } = useVerticalScroll();
 
   useEffect(() => {
-    if (!tableHeader.current && !tableBodyHeader.current && !tableBody.current) return;
+    if (!tableHeaderHead.current && !tableBodyHead.current) return;
 
-    // .table .table-[body|header] table thead *
-    const tableHeaderChilds = Array.from(tableHeader.current.children);
-    const tableBodyHeaderChilds = Array.from(tableBodyHeader.current.children);
-
-    // .table .table-[body|header] table thead tr *
-    const tableHeaderColumns = Array.from(tableHeaderChilds[0].children);
-    const tableBodyHeaderColumns = Array.from(tableBodyHeaderChilds[0].children);
+    // thead tr *
+    const tableHeaderHeadColumns = Array.from(Array.from(tableHeaderHead.current.children)[0].children);
+    const tableBodyHeadColumns = Array.from(Array.from(tableBodyHead.current.children)[0].children);
 
     // For each column, apply the width of the body header on the header.
-    for (const index in tableBodyHeaderColumns) {
-      const width = tableBodyHeaderColumns[index].getBoundingClientRect().width;
-      tableHeaderColumns[index].style.width = `${width}px`;
+    for (const index in tableBodyHeadColumns) {
+      const width = tableBodyHeadColumns[index].getBoundingClientRect().width;
+      tableHeaderHeadColumns[index].style.width = `${width}px`;
     }
 
-    // Set a negative margin for the body header so as to hide it.
-    const bodyHeaderHeight = tableBodyHeader.current.getBoundingClientRect().height;
-    tableBody.current.style.marginTop = `-${bodyHeaderHeight}px`;
-  }, [tableHeader, tableBodyHeader, tableBody]);
+    // Set a negative margin for the body header so as to hide it. The container is the table-body element.
+    const tableBodyHeadHeight = tableBodyHead.current.getBoundingClientRect().height;
+    container.current.style.marginTop = `-${tableBodyHeadHeight}px`;
+  }, [tableHeaderHead, tableBodyHead]);
 
   const headerMapper = (fields) => (
     <tr>
@@ -58,13 +57,13 @@ const Table = ({ fields, items }) => {
     <div className='table'>
       <div className='table-header'>
         <table>
-          <thead ref={tableHeader}>{headerMapper(fields)}</thead>
+          <thead ref={tableHeaderHead}>{headerMapper(fields)}</thead>
         </table>
       </div>
 
-      <div className='table-body'>
-        <table ref={tableBody}>
-          <thead ref={tableBodyHeader}>{headerMapper(fields)}</thead>
+      <div className='table-body' ref={container}>
+        <table ref={slider}>
+          <thead ref={tableBodyHead}>{headerMapper(fields)}</thead>
           <tbody>{itemsMapper(items)}</tbody>
         </table>
       </div>

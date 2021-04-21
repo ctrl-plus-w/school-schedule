@@ -12,6 +12,23 @@
     }
   }
 
+  .table-header {
+    z-index: 10;
+    background: rgb(20, 19, 24);
+  }
+
+  .table-body {
+    z-index: 9;
+    position: relative;
+    height: 100%;
+
+    table {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
   table {
     border-collapse: collapse;
 
