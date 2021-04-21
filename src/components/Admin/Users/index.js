@@ -1,27 +1,15 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
-import { fetchUsers, selectUsers, selectLoading } from '../../../features/database/usersSlice';
+import { fetchUsers, selectUsers, isLoading } from '../../../features/database/usersSlice';
 
 import Table from '../Table';
-
-const MAX_CHAR = 15;
-
-const Badge = (props) => {
-  return <span className='badge'>{props.children}</span>;
-};
-
-Badge.propTypes = {
-  children: PropTypes.any,
-};
 
 const Users = () => {
   const dispatch = useDispatch();
   useEffect(() => dispatch(fetchUsers()), []);
 
-  const loading = useSelector(selectLoading);
+  const loading = useSelector(isLoading);
   const users = useSelector(selectUsers);
 
   const usersMapper = (user) => ({

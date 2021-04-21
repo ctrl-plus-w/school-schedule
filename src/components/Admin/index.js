@@ -3,6 +3,9 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import Navbar from './Navbar';
 import Users from './Users';
+import Subjects from './Subjects';
+import Labels from './Labels';
+import Roles from './Roles';
 
 import './index.scss';
 
@@ -22,6 +25,9 @@ const Admin = () => {
         </Route>
 
         <Route path={`${path}/users`} component={Users}></Route>
+        <Route path={`${path}/subjects`} component={Subjects}></Route>
+        <Route path={`${path}/labels`} component={Labels}></Route>
+        <Route path={`${path}/roles`} component={Roles}></Route>
       </Switch>
     </div>
   );

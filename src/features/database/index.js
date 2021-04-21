@@ -5,6 +5,7 @@ import eventsReducer from './eventsSlice';
 import labelsReducer from './labelsSlice';
 import subjectsReducer from './subjectsSlice';
 import usersReducer from './usersSlice';
+import rolesReducer from './rolesSlice';
 
 export default combineReducers({
   events: eventsReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   labels: labelsReducer,
   subjects: subjectsReducer,
   users: usersReducer,
+  roles: rolesReducer,
 });
