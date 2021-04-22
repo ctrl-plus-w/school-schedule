@@ -28,3 +28,15 @@ body,
 #root {
   height: 100%;
 }
+
+.flex {
+  display: flex;
+}
+
+.row  {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
