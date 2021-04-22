@@ -97,6 +97,10 @@
   @include button($button-background--red, $button-color--red, $button-shadow--red);
 }
 
+@mixin button--green {
+  @include button($button-background--green, $button-color--green, $button-shadow--green);
+}
+
 @mixin input--no-border {
   font-size: 1rem;
 
