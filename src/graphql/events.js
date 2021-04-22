@@ -117,6 +117,12 @@ export const CREATE_EVENT = gql`
   }
 `;
 
+export const UPDATE_EVENT = gql`
+  mutation UpdateEvent($id: ID!, $description: String, $link: String, $obligatory: Boolean) {
+    updateEvent(id: $id, description: $description, link: $link, obligatory: $obligatory)
+  }
+`;
+
 export const DELETE_EVENT = gql`
   mutation DeleteEvent($id: ID!) {
     deleteEvent(id: $id)

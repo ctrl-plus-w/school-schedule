@@ -4,7 +4,7 @@ import { addError } from '../modals/errorSlice';
 
 import client from '../../app/database';
 
-import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, LABEL_RELATED_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../../graphql/events';
+import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, LABEL_RELATED_EVENTS, CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from '../../graphql/events';
 
 export const fetchAllLabelEvents = async (dispatch, id) => {
   await dispatch(fetchLabelEvents({ id }));
@@ -59,6 +59,17 @@ export const createEvent = createAsyncThunk('events/createEvent', async (args, {
   try {
     const events = await client.request(CREATE_EVENT, args);
     return events.createEventByName;
+  } catch (err) {
+    const message = err?.response?.errors[0]?.message;
+    dispatch(addError({ title: 'Erreur (createEvent)', message }));
+    throw new Error(message);
+  }
+});
+
+export const updateEvent = createAsyncThunk('events/updateEvent', async (args, { dispatch }) => {
+  try {
+    const events = await client.request(UPDATE_EVENT, args);
+    return events;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
     dispatch(addError({ title: 'Erreur (createEvent)', message }));
@@ -133,6 +144,9 @@ const slice = createSlice({
 
     // Create event.
     builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);
+
+    // Update event.
+    builder.addCase(updateEvent.pending, pending).addCase(updateEvent.fulfilled, fulfilledNoAction).addCase(updateEvent.rejected, rejected);
 
     // Delete event.
     builder.addCase(deleteEvent.pending, pending).addCase(deleteEvent.fulfilled, fulfilledNoAction).addCase(deleteEvent.rejected, rejected);
