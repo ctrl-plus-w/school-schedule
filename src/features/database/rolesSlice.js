@@ -13,13 +13,19 @@ export const fetchRoles = createAsyncThunk('roles/fetchRoles', async () => {
   }
 });
 
+const initialState = {
+  error: '',
+  loading: false,
+  roles: [],
+};
+
 const slice = createSlice({
   name: 'roles',
 
-  initialState: {
-    error: '',
-    loading: false,
-    roles: [],
+  initialState: initialState,
+
+  reducers: {
+    reset: () => initialState,
   },
 
   extraReducers: (builder) => {
@@ -30,6 +36,8 @@ const slice = createSlice({
     builder.addCase(fetchRoles.pending, pending).addCase(fetchRoles.fulfilled, fulfilled).addCase(fetchRoles.rejected, rejected);
   },
 });
+
+export const { reset } = slice.actions;
 
 export const selectRoles = (state) => state.database.roles.roles;
 

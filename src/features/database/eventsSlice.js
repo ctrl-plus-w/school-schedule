@@ -77,22 +77,26 @@ export const deleteEvent = createAsyncThunk('events/deleteEvent', async (args, {
   }
 });
 
+const initialState = {
+  error: '',
+  loading: false,
+  relatedLoading: false,
+  events: [],
+  relatedEvents: [],
+};
+
 const slice = createSlice({
   name: 'events',
 
-  initialState: {
-    error: '',
-    loading: false,
-    relatedLoading: false,
-    events: [],
-    relatedEvents: [],
-  },
+  initialState: initialState,
 
   reducers: {
     setEvents: (state, action) => ({
       ...state,
       events: action.payload,
     }),
+
+    reset: () => initialState,
   },
 
   extraReducers: (builder) => {
@@ -134,6 +138,8 @@ const slice = createSlice({
     builder.addCase(deleteEvent.pending, pending).addCase(deleteEvent.fulfilled, fulfilledNoAction).addCase(deleteEvent.rejected, rejected);
   },
 });
+
+export const { reset } = slice.actions;
 
 export const selectEvents = (state) => state.database.events.events;
 export const selectRelatedEvents = (state) => state.database.events.relatedEvents;

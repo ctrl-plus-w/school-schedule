@@ -13,13 +13,19 @@ export const fetchSubjects = createAsyncThunk('subjects/fetchSubjects', async ()
   }
 });
 
+const initialState = {
+  error: '',
+  loading: false,
+  subjects: [],
+};
+
 const slice = createSlice({
   name: 'subjects',
 
-  initialState: {
-    error: '',
-    loading: false,
-    subjects: [],
+  initialState: initialState,
+
+  reducers: {
+    reset: () => initialState,
   },
 
   extraReducers: (builder) => {
@@ -30,6 +36,8 @@ const slice = createSlice({
     builder.addCase(fetchSubjects.pending, pending).addCase(fetchSubjects.fulfilled, fulfilled).addCase(fetchSubjects.rejected, rejected);
   },
 });
+
+export const { reset } = slice.actions;
 
 export const selectSubjects = (state) => state.database.subjects.subjects;
 

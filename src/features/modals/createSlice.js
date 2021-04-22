@@ -4,17 +4,19 @@ const setBodyOverflow = (hidden) => {
   document.body.style.overflow = hidden ? 'hidden' : '';
 };
 
+const initialState = {
+  visible: false,
+
+  title: '',
+  description: '',
+
+  events: [],
+};
+
 const slice = createSlice({
   name: 'create',
 
-  initialState: {
-    visible: false,
-
-    title: '',
-    description: '',
-
-    events: [],
-  },
+  initialState: initialState,
 
   reducers: {
     hide: (state) => {
@@ -26,10 +28,12 @@ const slice = createSlice({
       setBodyOverflow(true);
       return { ...state, ...action.payload, visible: true };
     },
+
+    reset: () => initialState,
   },
 });
 
-export const { show, hide, config } = slice.actions;
+export const { show, hide, config, reset } = slice.actions;
 
 export const selectInfos = (state) => state.modals.create;
 export const selectVisible = (state) => state.modals.create.visible;

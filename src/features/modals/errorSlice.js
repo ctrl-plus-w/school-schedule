@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  errors: [],
+};
+
 const slice = createSlice({
   name: 'error',
 
-  initialState: {
-    errors: [],
-  },
+  initialState: initialState,
 
   reducers: {
     addError: (state, action) => ({
@@ -15,10 +17,12 @@ const slice = createSlice({
     removeError: (state, action) => {
       state.errors.splice(action.payload, 1);
     },
+
+    reset: () => initialState,
   },
 });
 
-export const { addError, removeError } = slice.actions;
+export const { addError, removeError, reset } = slice.actions;
 
 export const selectErrors = (state) => state.modals.error.errors;
 

@@ -26,19 +26,23 @@ export const createLabel = createAsyncThunk('labels/createLabel', async (args, {
   }
 });
 
+const initialState = {
+  error: '',
+  loading: false,
+  labels: [],
+  created: false,
+};
+
 const slice = createSlice({
   name: 'labels',
 
-  initialState: {
-    error: '',
-    loading: false,
-    labels: [],
-    created: false,
-  },
+  initialState: initialState,
 
   reducers: {
     setLabels: (state, action) => ({ ...state, labels: action.payload }),
     resetCreated: (state) => ({ ...state, created: false }),
+
+    reset: () => initialState,
   },
 
   extraReducers: (builder) => {
@@ -58,7 +62,7 @@ const slice = createSlice({
   },
 });
 
-export const { resetCreated } = slice.actions;
+export const { resetCreated, reset } = slice.actions;
 
 export const selectLabels = (state) => state.database.labels.labels;
 export const selectCreated = (state) => state.database.labels.created;
