@@ -15,6 +15,7 @@ const Subjects = () => {
   const subjectsMapper = (subject) => ({
     id: subject.id,
     name: subject.subject_name,
+    color: subject.color,
   });
 
   const fields = [
@@ -25,6 +26,10 @@ const Subjects = () => {
     {
       name: 'Name',
       field: 'name',
+    },
+    {
+      name: 'Color',
+      field: 'color',
     },
   ];
 
