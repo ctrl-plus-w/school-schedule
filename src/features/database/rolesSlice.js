@@ -4,7 +4,7 @@ import client from '../../app/database';
 
 import { ROLES } from '../../graphql/roles';
 
-export const fetchRoles = createAsyncThunk('events/fetchRoles', async () => {
+export const fetchRoles = createAsyncThunk('roles/fetchRoles', async () => {
   try {
     const roles = await client.request(ROLES);
     return roles.roles;

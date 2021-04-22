@@ -4,7 +4,7 @@ import client from '../../app/database';
 
 import { SUBJECTS } from '../../graphql/subjects';
 
-export const fetchSubjects = createAsyncThunk('events/fetchSubjects', async () => {
+export const fetchSubjects = createAsyncThunk('subjects/fetchSubjects', async () => {
   try {
     const subjects = await client.request(SUBJECTS);
     return subjects.subjects;
