@@ -35,7 +35,7 @@ const Schedule = () => {
     subject: event.subject.subject_name,
     label: event.label.label_name,
     owner: { id: event.owner.id, name: event.owner.full_name },
-    color: 'red',
+    color: event.subject.color,
   });
 
   const dayObject = (event, events, relatedEvents) => ({ id: uuidv4(), date: setToMidnight(event), events, relatedEvents });

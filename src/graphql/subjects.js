@@ -5,6 +5,7 @@ export const SUBJECTS = gql`
     subjects {
       id
       subject_name
+      color
     }
   }
 `;

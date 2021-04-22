@@ -17,6 +17,7 @@ export const EVENTS = gql`
       }
       subject {
         subject_name
+        color
       }
     }
   }
@@ -39,6 +40,7 @@ export const OWNED_EVENTS = gql`
       }
       subject {
         subject_name
+        color
       }
     }
   }
@@ -61,6 +63,7 @@ export const LABEL_EVENTS = gql`
       }
       subject {
         subject_name
+        color
       }
     }
   }
@@ -83,6 +86,7 @@ export const LABEL_RELATED_EVENTS = gql`
       }
       subject {
         subject_name
+        color
       }
     }
   }
@@ -106,6 +110,7 @@ export const CREATE_EVENT = gql`
       }
       subject {
         subject_name
+        color
       }
       created_at
     }

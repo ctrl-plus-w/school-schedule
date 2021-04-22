@@ -23,7 +23,7 @@ const Schedule = () => {
     obligatory: event.obligatory,
     subject: event.subject.subject_name,
     owner: { name: event.owner.full_name },
-    color: 'red',
+    color: event.subject.color,
   });
 
   const days = getConsecutiveDays(14).reduce((acc, curr) => {

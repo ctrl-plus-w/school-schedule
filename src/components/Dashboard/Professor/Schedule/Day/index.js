@@ -87,7 +87,11 @@ const Day = (props) => {
       return curr.related ? (
         <div className={`event disabled ${type} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}></div>
       ) : (
-        <div className={`event ${type} ${curr.color} ${isOneSelected ? 'blur' : ''}`} key={curr.id} onClick={(e) => handleEventClick(e, curr)}>
+        <div
+          className={`event ${type} ${label.id ? curr.color : 'gray'} ${isOneSelected ? 'blur' : ''}`}
+          key={curr.id}
+          onClick={(e) => handleEventClick(e, curr)}
+        >
           {content && <h3 className='title'>{label.name ? curr.subject : curr.label}</h3>}
           {content && <p className='description'>{curr.start.toString}</p>}
         </div>
