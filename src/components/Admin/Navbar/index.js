@@ -19,8 +19,8 @@ const Navbar = () => {
     { path: '/roles', name: 'Roles' },
   ];
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     history.push('/auth');
   };
 

@@ -14,8 +14,8 @@ const Topbar = () => {
   const fullName = useSelector(selectName);
   const role = useSelector(selectRole);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     history.push('/auth');
   };
 

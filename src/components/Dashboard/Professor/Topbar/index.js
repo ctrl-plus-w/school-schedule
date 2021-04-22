@@ -34,8 +34,8 @@ const Topbar = () => {
 
   const labelObject = (l) => ({ id: l.id, name: l.label_name });
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logout());
     history.push('/auth');
   };
 
