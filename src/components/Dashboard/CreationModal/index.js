@@ -135,7 +135,7 @@ const CreationModal = () => {
 
     if (selectedEvents[day] && selectedEvents[day].length > 0)
       return (
-        <div className='day-container'>
+        <div className='day-container fields'>
           <h3 className='day-name'>
             {getWeekDay(new Date(day))} {new Date(day).getDate()} {getMonth(new Date(day))}
           </h3>
@@ -159,14 +159,14 @@ const CreationModal = () => {
 
           {getFirstDay()}
 
-          <div className='fields'>
+          <div className='submit-group'>
             <div className='form-group'>
               <Selector
                 items={subjects.map((s) => ({ id: s.id, name: s.subject_name }))}
                 selected={selected}
                 setSelected={handleSetSelected}
                 placeholder='Choisir un sujet'
-                className='field'
+                className='subject-selector'
                 onSubmit={handleSubmit}
                 noValidation
               />
