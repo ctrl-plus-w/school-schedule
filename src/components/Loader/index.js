@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 
 import './index.scss';
 
-const Loading = ({ loading }) => {
+const Loader = ({ loading }) => {
   return (
     <div className={`loading ${loading ? 'visible' : 'hidden'}`}>
-      <h1>Loading...</h1>
+      <div className='lds-ripple'>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };
 
-Loading.propTypes = {
+Loader.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default Loading;
+export default Loader;
