@@ -485,10 +485,77 @@
         cursor: pointer;
 
         &.red {
-          border-color: $red;
-          background-color: $red-light;
-          color: $red;
+          border-color: #c0392b;
+          background-color: #f8ceca;
+          color: #c0392b;
         }
+
+        &.light-blue {
+          border-color: #17c0eb;
+          background-color: #c7f1fb;
+          color: #17c0eb;
+        }
+
+        &.midnight-blue {
+          border-color: #2c3e50;
+          background-color: #b0c4d7;
+          color: #2c3e50;
+        }
+
+        &.blue {
+          border-color: #2980b9;
+          background-color: #b9e1fa;
+          color: #2980b9;
+        }
+
+        &.purple-light {
+          border-color: #8e44ad;
+          background-color: #e5cdef;
+          color: #8e44ad;
+        }
+
+        &.purple {
+          border-color: #7158e2;
+          background-color: #cec6f6;
+          color: #7158e2;
+        }
+
+        &.green-light {
+          border-color: #27ae60;
+          background-color: #c2f8d9;
+          color: #27ae60;
+        }
+
+        &.green {
+          border-color: #16a085;
+          background-color: #b5f4e7;
+          color: #16a085;
+        }
+
+        &.orange-light {
+          border-color: #f39c12;
+          background-color: #fbecd4;
+          color: #f39c12;
+        }
+
+        &.orange {
+          border-color: #d35400;
+          background-color: #feccab;
+          color: #d35400;
+        }
+
+        &.gray {
+          border-color: #7f8c8d;
+          background-color: #d5dede;
+          color: #7f8c8d;
+        }
+
+        // Template
+        // &. {
+        //   border-color: #;
+        //   background-color: #;
+        //   color: #;
+        // }
 
         &.disabled {
           border-color: $gray;
