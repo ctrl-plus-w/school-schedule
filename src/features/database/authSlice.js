@@ -65,13 +65,14 @@ export const verifyToken = createAsyncThunk('auth/verifyToken', async () => {
       token: request.data.verifyToken.token,
     };
   } catch (err) {
-    // Do nothing...
+    throw new Error();
   }
 });
 
 const initialState = {
   loading: false,
   error: '',
+  failed: false,
 
   id: '',
   fullName: '',
@@ -96,18 +97,20 @@ const slice = createSlice({
     const fulfilled = (state, action) => ({ ...state, ...action.payload, loading: false });
     const rejected = (state, action) => ({ ...state, error: action.error.message, loading: false });
 
+    const rejectedNoMessage = (state) => ({ ...state, failed: true, loading: false });
+
     builder.addCase(login.pending, pending).addCase(login.fulfilled, fulfilled).addCase(login.rejected, rejected);
 
-    builder.addCase(verifyToken.pending, pending).addCase(verifyToken.fulfilled, fulfilled).addCase(verifyToken.rejected, rejected);
+    builder.addCase(verifyToken.pending, pending).addCase(verifyToken.fulfilled, fulfilled).addCase(verifyToken.rejected, rejectedNoMessage);
 
     builder.addCase(logout.fulfilled, () => initialState);
   },
 });
 
-export const { setError } = slice.actions;
+export const { setError, setAuth } = slice.actions;
 
 export const isLoading = (state) => state.database.auth.loading;
-
+export const selectFailed = (state) => state.database.auth.failed;
 export const isLoggedIn = (state) => state.database.auth.token !== '';
 export const selectToken = (state) => state.database.auth.token;
 export const selectName = (state) => state.database.auth.fullName;
