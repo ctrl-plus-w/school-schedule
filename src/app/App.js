@@ -34,9 +34,11 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Make the name / role clickable to set the schedule to "Personal".
 // TODO : [x] Topbar selector, cancel the action when value is empty.
 // TODO : [x] Make a function to fetch the labels events and the label events.
-// TODO : [ ] Add colors for each subject and labels.
-// TODO : [ ] Make the events editable.
-// TODO : [ ] Save token.
+// TODO : [x] Add colors for each subject and labels.
+// TODO : [x] Make the events editable.
+// TODO : [x] Save token.
+// TODO : [x] Clear auth errors when logout.
+// TODO : [x] Clear selected events whend logout.
 
 // // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
 
