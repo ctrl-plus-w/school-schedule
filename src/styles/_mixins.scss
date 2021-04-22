@@ -89,6 +89,10 @@
   @include button($button-background--blue, $button-color--blue, $button-shadow--blue);
 }
 
+@mixin button--dark {
+  @include button(#69439b, white, #423764);
+}
+
 @mixin button--red {
   @include button($button-background--red, $button-color--red, $button-shadow--red);
 }
@@ -126,6 +130,27 @@
 
   &:focus {
     box-shadow: 0 0 0 3px $input-shadow;
+  }
+}
+
+@mixin input--dark {
+  font-size: 1rem;
+
+  padding: 0.65rem 1rem;
+
+  border: 1px solid #403955;
+  border-radius: 0.6rem;
+  transition: box-shadow 0.3s;
+
+  background: transparent;
+  color: white;
+
+  outline: none;
+  appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
+    box-shadow: 0 0 0 3px #222029;
   }
 }
 
