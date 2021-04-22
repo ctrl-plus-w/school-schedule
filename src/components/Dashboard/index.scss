@@ -64,6 +64,10 @@
       border-style: solid;
       border-radius: 0.2rem;
 
+      &.pointer {
+        cursor: pointer;
+      }
+
       &.black {
         background-color: rgb(189, 190, 204);
 
@@ -113,8 +117,29 @@
       justify-content: space-between;
       align-items: center;
 
-      .icon {
+      .icons {
         cursor: pointer;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          &:not(:last-child) {
+            margin-right: 0.5rem;
+          }
+
+          transition: transform 0.3s;
+
+          &.edit:hover {
+            transform: scale(1.1);
+          }
+
+          &.close:hover {
+            transform: rotate(90deg);
+          }
+        }
       }
     }
 
@@ -129,6 +154,25 @@
 
       .global-description {
         margin-bottom: 1rem;
+      }
+
+      .fields {
+        width: 100%;
+
+        .field {
+          display: flex;
+          flex-direction: column;
+
+          margin-top: 1em;
+
+          font-size: 1rem;
+          font-weight: 600;
+
+          input {
+            @include input--no-border;
+            padding: 0.35rem 0;
+          }
+        }
       }
 
       .day-container {
@@ -168,20 +212,6 @@
               flex-direction: row;
             }
 
-            .field {
-              display: flex;
-              flex-direction: column;
-
-              margin-top: 1em;
-
-              font-size: 1rem;
-              font-weight: 600;
-
-              input {
-                @include input--no-border;
-              }
-            }
-
             .pin {
               margin-left: 0.5rem;
               cursor: pointer;
@@ -190,7 +220,7 @@
         }
       }
 
-      .fields {
+      .submit-group {
         width: 100%;
 
         margin-top: 1rem;
@@ -200,7 +230,7 @@
           flex-direction: row;
         }
 
-        .field {
+        .subject-selector {
           width: 100%;
         }
 
@@ -256,17 +286,35 @@
 
         .join-class {
           @include button--blue;
-          margin-right: auto;
+        }
+
+        .edit-event {
+          @include button--green;
+        }
+
+        .cancel-edit {
+          @include button--red;
         }
 
         .delete-event {
           @include button--red;
-          margin-left: auto;
         }
 
         .join-class,
+        .edit-event,
+        .cancel-edit,
         .delete-event {
           width: auto;
+        }
+
+        .join-class,
+        .cancel-edit {
+          margin-right: auto;
+        }
+
+        .edit-event,
+        .delete-event {
+          margin-left: auto;
         }
       }
     }
