@@ -1,40 +1,38 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Route, Switch, useRouteMatch } from 'react-router';
 
-import { fetchLabels, selectLabels, isLoading } from '../../../features/database/labelsSlice';
+import { Plus } from 'react-feather';
 
-import Table from '../Table';
+import { fetchLabels } from '../../../features/database/labelsSlice';
+
+import List from './List';
+import Create from './Create';
+import { Link } from 'react-router-dom';
 
 const Users = () => {
+  const { path } = useRouteMatch();
   const dispatch = useDispatch();
+
   useEffect(() => dispatch(fetchLabels()), []);
-
-  const loading = useSelector(isLoading);
-  const labels = useSelector(selectLabels);
-
-  const labelsMapper = (label) => ({
-    id: label.id,
-    name: label.label_name,
-  });
-
-  const fields = [
-    {
-      name: 'ID',
-      field: 'id',
-    },
-    {
-      name: 'Name',
-      field: 'name',
-    },
-  ];
 
   return (
     <div className='category-container'>
       <header className='header'>
-        <h1>Labels</h1>
+        <div className='title'>
+          <Link to={`${path}`} className='link'>
+            <h1>Labels</h1>
+          </Link>
+          <Link to={`${path}/create`} className='link-icon'>
+            <Plus />
+          </Link>
+        </div>
       </header>
 
-      {loading || labels.length === 0 ? <h1>Loading</h1> : <Table fields={fields} items={labels.map(labelsMapper)} />}
+      <Switch>
+        <Route path={`${path}`} component={List} exact />
+        <Route path={`${path}/create`} component={Create} />
+      </Switch>
     </div>
   );
 };

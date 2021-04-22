@@ -80,5 +80,64 @@
 
     border-bottom: 1px solid rgb(40, 36, 51);
     background: rgb(20, 19, 24);
+
+    .title {
+      display: flex;
+      flex-direction: row;
+
+      align-items: center;
+
+      .link,
+      .link-icon {
+        color: white;
+
+        text-decoration: none;
+
+        outline: none;
+      }
+
+      .link-icon {
+        margin-left: 1rem;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transition: all 0.3s;
+
+        &:hover {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}
+
+.creation-form {
+  display: flex;
+  flex-direction: row;
+
+  padding: 4rem;
+
+  .form-control {
+    @include input--dark;
+
+    width: 18rem;
+  }
+
+  .submit-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    @include button--dark;
+
+    width: auto;
+
+    margin-left: 1rem;
+
+    svg {
+      margin-left: 0.5rem;
+    }
   }
 }
