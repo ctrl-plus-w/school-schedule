@@ -7,7 +7,17 @@ export const LOGIN = gql`
       full_name
       token
       role
-      token_expiration
+    }
+  }
+`;
+
+export const VERIFY_TOKEN = gql`
+  mutation VerifyToken {
+    verifyToken {
+      id
+      full_name
+      token
+      role
     }
   }
 `;

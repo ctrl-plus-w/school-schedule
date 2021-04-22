@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
-import Loading from '../../Loading';
+import Loader from '../../Loader';
 
 import { fetchEvents, isLoading } from '../../../features/database/eventsSlice';
 
@@ -18,7 +18,7 @@ const StudentDashboard = () => {
 
   return (
     <div className='root-container'>
-      <Loading loading={loading} />
+      <Loader loading={loading} />
       <Modal />
 
       <div className='container'>
