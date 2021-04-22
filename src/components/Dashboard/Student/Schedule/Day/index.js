@@ -28,8 +28,7 @@ const Day = (props) => {
       link: event.link,
       description: event.description,
       start: event.start.toString,
-      pin: event.obligatory ? 'Obligatoire' : '',
-      pinColor: 'red',
+      obligatory: event.obligatory,
       owner: event.owner,
     };
 

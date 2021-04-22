@@ -12,8 +12,7 @@ const initialState = {
   link: '',
   description: '',
   start: '',
-  pin: '',
-  pinColor: '',
+  obligatory: true,
   owner: {},
 };
 
