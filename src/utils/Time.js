@@ -34,21 +34,12 @@ class Time {
   }
 
   /**
-   * Get the date french formated to the Paris timezone.
-   * @param {Date} date
-   * @returns The date formated.
-   */
-  static getLocalDate(date) {
-    return date.toLocaleString('fr', { timeZone: 'Europe/Paris' });
-  }
-
-  /**
    * Only get the date of the date to locale string.
    * @param {Date} date
    * @returns A array of the day, the month and the year. (e.g. [1, 12, 2021])
    */
   static getLocalDateDate(date) {
-    return this.getLocalDate(date).split(' ')[0].split('/').map(parseFloat);
+    return date.toLocaleDateString().split(' ')[0].split('/').map(parseFloat);
   }
 
   /**
@@ -57,7 +48,7 @@ class Time {
    * @returns A array of the hour and the minute. (e.g. [1, 12])
    */
   static getLocalDateTime(date) {
-    return this.getLocalDate(date).split(' ')[1].split(':').map(parseFloat);
+    return date.toLocaleTimeString({ timeZone: 'Europe/Paris' }).split(':').map(parseFloat);
   }
 
   /**
