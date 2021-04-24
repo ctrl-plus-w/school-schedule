@@ -508,7 +508,8 @@
 
       position: relative;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
 
       height: 1 / $hours-amount * 100%;
       width: 100%;
@@ -520,10 +521,11 @@
 
       padding: 0.7rem 1rem;
 
-      @include media('<=tablet') {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+      &.start,
+      &.normal  {
+        @include media('<=LGDesktop') {
+          align-items: center;
+        }
       }
 
       &.normal,
