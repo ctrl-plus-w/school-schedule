@@ -523,7 +523,7 @@
 
       &.start,
       &.normal  {
-        @include media('<=LGDesktop') {
+        @include media('<=LGdesktop') {
           align-items: center;
         }
       }
