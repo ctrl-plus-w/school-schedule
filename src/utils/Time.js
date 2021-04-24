@@ -57,7 +57,7 @@ class Time {
    * @returns A array of the hour and the minute. (e.g. [1, 12])
    */
   static getLocalDateTime(date) {
-    return this.getLocalDate(date).split(' ')[2].split(':').map(parseFloat);
+    return this.getLocalDate(date).split(' ')[1].split(':').map(parseFloat);
   }
 
   /**
