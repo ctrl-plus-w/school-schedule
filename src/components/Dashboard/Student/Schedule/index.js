@@ -31,6 +31,7 @@ const Schedule = () => {
     owner: { name: event.owner.full_name },
     color: event.subject.color,
   });
+  
   return (
     <div className='grid grid-cols-custom grid-rows-custom gap-px h-full mt-8 bg-gray-300 p-px'>
       <TimeIndicator />

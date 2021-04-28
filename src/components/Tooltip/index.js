@@ -25,8 +25,6 @@ const Tooltip = () => {
 
   const style = { left: `${x}px`, top: `${y}px`, opacity: infos.visible ? '100%' : '0%' };
 
-  console.log(infos);
-
   return (
     <div className='absolute flex flex-col p-4 bg-black text-white pointer-events-none transition-opacity' style={style}>
       <div className='flex flex-col'>
