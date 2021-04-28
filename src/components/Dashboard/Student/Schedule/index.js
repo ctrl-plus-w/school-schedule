@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -6,8 +7,13 @@ import Time from '../../../../utils/Time';
 
 import TimeIndicator from '../../TimeIndicator';
 import Days from './Days';
+import Header from '../../Header';
+import Corner from '../../Corner';
+
 import { useSelector } from 'react-redux';
 import { selectEvents } from '../../../../features/database/eventsSlice';
+
+// TODO : [ ] Fetch the week day instead of the 5 next days. (if week end, fetch the next week)
 
 const Schedule = () => {
   const events = useSelector(selectEvents);
@@ -25,16 +31,13 @@ const Schedule = () => {
     owner: { name: event.owner.full_name },
     color: event.subject.color,
   });
-
-  const days = getConsecutiveDays(14).reduce((acc, curr) => {
-    const dayEvents = events.map(eventObject).filter((e) => sameDay(e.startDay, curr));
-    return [...acc, { id: uuidv4(), date: curr, events: dayEvents }];
-  }, []);
-
   return (
-    <div className='schedule'>
+    <div className='grid grid-cols-custom grid-rows-custom gap-px h-full mt-8 bg-gray-300 p-px'>
       <TimeIndicator />
-      <Days days={days} />
+      <Header />
+      <Corner />
+
+      <Days days={getConsecutiveDays(5)} events={events.map(eventObject)} />
     </div>
   );
 };

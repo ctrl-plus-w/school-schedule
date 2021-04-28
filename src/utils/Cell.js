@@ -1,27 +1,32 @@
-export const getCell = (prev, curr, next, cell) => {
-  if (!prev || prev.empty) {
-    if (next && next.subject === curr.subject && next.label === curr.label) return cell('start', true);
-    return cell('normal', true);
-  }
+import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-  if (!next || next.empty) {
-    if (prev.subject !== curr.subject || prev.label !== curr.label) return cell('end', true);
-    return cell('end');
-  }
+export const isHead = (prev, curr) => {
+  return prev && prev.empty && curr && !curr.empty;
+};
 
-  const eq = (pattern, field) => {
-    if (pattern === '===') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] === next[field];
-    if (pattern === '==!') return prev[field] === curr[field] && curr[field] === next[field] && prev[field] !== next[field];
-    if (pattern === '!!=') return prev[field] !== curr[field] && curr[field] !== next[field] && prev[field] === next[field];
-    if (pattern === '=!!') return prev[field] === curr[field] && curr[field] !== next[field] && prev[field] !== next[field];
-  };
+export const isHeadAlone = (prev, curr, next) => {
+  return prev && prev.empty && curr && !curr.empty && (!next || next.empty);
+};
 
-  // If next is an event and prev as well.
-  if (next && !next.empty && prev && !prev.empty) {
-    if (eq('=!!', 'label') || eq('=!!', 'subject')) return cell('end');
-    if (eq('===', 'subject') && eq('===', 'label')) return cell('middle');
-    if (eq('!!= ', 'label') || eq('!!=', 'subject')) return cell('end', true);
+export const getLastCloseEvent = (events, event) => {
+  const eventIndex = events.findIndex((e) => e.id === event.id);
+  const nextEvent = events[eventIndex + 1];
 
-    return cell('middle', true);
-  }
+  if (!nextEvent || nextEvent.empty) return event;
+  return getLastCloseEvent(events, nextEvent);
+};
+
+export const getLength = (events, event) => {
+  const lastCell = getLastCloseEvent(events, event);
+  const timeDifference = lastCell.start.hours - event.start.hours;
+  return timeDifference;
+};
+
+export const getLines = (amount = 4) => {
+  return new Array(amount)
+    .fill(0)
+    .map((_, i) => (
+      <div className={`w-px bg-gray-300 col-start-2=${(i + 1) * 2} col-end-${(i + 1) * 2 + 1} row-start-1 row-end-10`} key={uuidv4()}></div>
+    ));
 };

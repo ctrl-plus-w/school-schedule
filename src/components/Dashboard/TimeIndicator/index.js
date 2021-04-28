@@ -24,15 +24,13 @@ class TimeIndicator extends Component {
 
   render() {
     return (
-      <table className='time-indicator'>
-        <tbody>
-          {this.state.hours.map((hour) => (
-            <tr key={uuidv4()}>
-              <td>{hour.toString}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className='grid grid-cols-1 grid-rows-9 col-start-1 col-end-2 row-start-2 row-end-11 px-2 bg-white'>
+        {this.state.hours.map((hour, i) => (
+          <div key={uuidv4()} className={`col-start-1 row-start-${i} pt-2`}>
+            <p className='text-sm text-gray-400 font-bold text-center w-full'>{hour.toString}</p>
+          </div>
+        ))}
+      </div>
     );
   }
 }
