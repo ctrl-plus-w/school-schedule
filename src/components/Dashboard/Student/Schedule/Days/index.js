@@ -8,6 +8,8 @@ import { sameDay } from '../../../../../utils/Calendar';
 
 import Time from '../../../../../utils/Time';
 import { getLength, getLines, isHead, isHeadAlone } from '../../../../../utils/Cell';
+import { useDispatch } from 'react-redux';
+import { config, hide } from '../../../../../features/modals/tooltipSlice';
 
 // TODO : [ ] Add drag to go through days.
 // TODO : [x] Refactor and create context / hooks.
@@ -15,6 +17,24 @@ import { getLength, getLines, isHead, isHeadAlone } from '../../../../../utils/C
 // TODO : [ ] Handle click.
 
 const Days = (props) => {
+  const dispatch = useDispatch();
+
+  const handleMouseEnter = (event) => {
+    const payload = {
+      title: event.subject,
+      description: event.description || 'Aucune description.',
+
+      fieldName: 'Professeur',
+      fieldContent: event.owner.name,
+    };
+
+    dispatch(config(payload));
+  };
+
+  const handleMouseLeave = () => {
+    dispatch(hide());
+  };
+
   const dayMapper = (day) => {
     const condition = ({ startDay }) => sameDay(startDay, day);
     const dayEvents = getDayEvents(props.events.filter(condition), day);
@@ -36,7 +56,12 @@ const Days = (props) => {
     const emptyCell = () => <div className={`${classes}`} key={uuidv4()}></div>;
 
     const cell = (length) => (
-      <div className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''}`} key={uuidv4()}>
+      <div
+        className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''} cursor-pointer`}
+        key={uuidv4()}
+        onMouseEnter={() => handleMouseEnter(curr)}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className='flex flex-row justify-between w-full h-auto m-0.5 p-3 bg-red-200 text-red-800 border-t-2 border-solid border-red-800'>
           <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>

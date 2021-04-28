@@ -6,6 +6,7 @@ import Topbar from './Topbar';
 import Schedule from './Schedule';
 import Modal from '../Modal';
 import Loader from '../../Loader';
+import Tooltip from '../../Tooltip';
 
 import { fetchEvents, isLoading } from '../../../features/database/eventsSlice';
 
@@ -20,6 +21,7 @@ const StudentDashboard = () => {
     <div className='flex flex-col w-screen h-screen p-12 box-border'>
       <Loader loading={loading} />
       <Modal />
+      <Tooltip />
 
       <Topbar />
       <Schedule />
