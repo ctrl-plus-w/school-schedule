@@ -7,8 +7,6 @@ import Subjects from './Subjects';
 import Labels from './Labels';
 import Roles from './Roles';
 
-import './index.scss';
-
 // TODO : [ ] Make a smooth scroll for the tables.
 // TODO : [ ] Make a create user page.
 

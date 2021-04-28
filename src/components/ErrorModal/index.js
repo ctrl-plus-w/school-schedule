@@ -5,8 +5,6 @@ import Error from './Error';
 
 import { selectErrors } from '../../features/modals/errorSlice';
 
-import './index.scss';
-
 // TODO : [ ] Remove first errors if the errors amount is too hight (compare the modal content height and the window height);
 
 const ErrorModal = () => {

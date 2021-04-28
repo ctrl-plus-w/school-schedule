@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 
 import './main.scss';
-import '../components/Dashboard/index.scss';
 
 import PrivateRoute from '../components/PrivateRoute';
 

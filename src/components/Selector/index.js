@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Check } from 'react-feather';
 
-import './index.scss';
-
 // TODO : [ ] Don't show the dropdown if the list is empty.
 // TODO : [x] Reset fields when changing the visibility.
 

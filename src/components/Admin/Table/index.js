@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import useVerticalScroll from '../../../hooks/useVerticalScroll';
 
-import './index.scss';
-
 const MAX_LEN = 15;
 
 const Table = ({ fields, items }) => {

@@ -5,8 +5,6 @@ import { Link, useHistory } from 'react-router-dom';
 
 import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
 
-import './index.scss';
-
 // TODO : [x] Handle error messages.
 
 const ROLES_PATHS = {
