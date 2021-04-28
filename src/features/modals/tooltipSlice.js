@@ -20,7 +20,10 @@ const slice = createSlice({
       ...action.payload,
     }),
 
-    hide: () => initialState,
+    hide: (state) => ({
+      ...state,
+      visible: false,
+    }),
   },
 });
 
