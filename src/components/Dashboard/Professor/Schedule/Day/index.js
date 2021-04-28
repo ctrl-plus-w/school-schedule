@@ -8,7 +8,6 @@ import { getWeekDay, getMonth } from '../../../../../utils/Calendar';
 
 import { config } from '../../../../../features/modals/eventSlice';
 import { selectLabel, addEvent, removeEvent, selectEvents } from '../../../../../features/infos/infosSlice';
-import { getCell } from '../../../../../utils/Cell';
 
 // TODO : [x] Optimize.
 // TODO : [x] Block user from creating events in the past. (selection)
@@ -104,7 +103,7 @@ const Day = (props) => {
       return emptyCell('normal');
     }
 
-    return getCell(prev, curr, next, cell);
+    return '', prev, curr, next, cell;
   };
 
   return (
