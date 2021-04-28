@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
 
-import './styles/_global.scss';
+import './styles/index.css';
 
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
