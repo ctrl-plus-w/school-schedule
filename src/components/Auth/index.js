@@ -71,7 +71,7 @@ const Auth = () => {
         </label>
 
         <label className='form-control mt-2' htmlFor='password'>
-          <button type='button' className='input-icon' onClick={handleIconSwitch}>
+          <button type='button' className='input-icon' onClick={handleIconSwitch} tabIndex='-1'>
             {passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
 
