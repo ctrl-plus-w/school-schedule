@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { sameDay } from '../../../../../utils/Calendar';
 
 import Time from '../../../../../utils/Time';
-import { getLength, getLines, isHead, isHeadAlone } from '../../../../../utils/Cell';
+import { getColorStyle, getLength, getLines, isHead, isHeadAlone } from '../../../../../utils/Cell';
 import { useDispatch } from 'react-redux';
 import { config, hide } from '../../../../../features/modals/tooltipSlice';
 
@@ -62,7 +62,7 @@ const Days = (props) => {
         onMouseEnter={() => handleMouseEnter(curr)}
         onMouseLeave={handleMouseLeave}
       >
-        <div className='flex flex-row justify-between w-full h-auto m-0.5 p-3 bg-red-200 text-red-800 border-t-2 border-solid border-red-800'>
+        <div className={`flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid ${getColorStyle(curr.color)}`}>
           <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
