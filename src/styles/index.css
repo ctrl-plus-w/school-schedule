@@ -3,3 +3,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .form-control {
+    @apply flex flex-row-reverse relative font-sans text-base text-black border border-black border-solid rounded-sm w-full;
+  }
+
+  .input {
+    @apply w-full py-2 px-4;
+  }
+
+  .input-icon {
+    @apply py-2 px-4;
+  }
+
+  .input-icon + .input {
+    @apply pr-0;
+  }
+
+  .button  {
+    @apply font-sans text-base text-white bg-black py-2 px-4 rounded-sm w-full;
+  }
+
+  .error {
+    @apply w-full bg-red-300 border border-solid border-red-700 text-red-700 text-base font-bold p-4;
+  }
+}
