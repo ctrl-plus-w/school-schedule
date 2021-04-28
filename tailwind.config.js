@@ -346,6 +346,9 @@ module.exports = {
       5: '5',
       6: '6',
       7: '7',
+      8: '8',
+      9: '9',
+      10: '10',
     },
     gridRowEnd: {
       auto: 'auto',
@@ -356,6 +359,10 @@ module.exports = {
       5: '5',
       6: '6',
       7: '7',
+      8: '8',
+      9: '9',
+      10: '10',
+      11: '11',
     },
     gridTemplateColumns: {
       none: 'none',
@@ -371,6 +378,8 @@ module.exports = {
       10: 'repeat(10, minmax(0, 1fr))',
       11: 'repeat(11, minmax(0, 1fr))',
       12: 'repeat(12, minmax(0, 1fr))',
+      custom: 'auto 1fr 1fr 1fr 1fr 1fr',
+      schedule: '1fr auto 1fr auto 1fr auto 1fr auto 1fr',
     },
     gridTemplateRows: {
       none: 'none',
@@ -380,6 +389,10 @@ module.exports = {
       4: 'repeat(4, minmax(0, 1fr))',
       5: 'repeat(5, minmax(0, 1fr))',
       6: 'repeat(6, minmax(0, 1fr))',
+      7: 'repeat(7, minmax(0, 1fr))',
+      8: 'repeat(8, minmax(0, 1fr))',
+      9: 'repeat(9, minmax(0, 1fr))',
+      custom: 'auto 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr',
     },
     height: (theme) => ({
       auto: 'auto',
