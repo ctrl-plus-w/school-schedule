@@ -15,7 +15,7 @@ const Switch = ({ choices, choice, setChoice }) => {
   return (
     <div className='relative flex flex-row w-96 bg-gray-600 text-white rounded'>
       {Object.keys(choices).map((choiceKey) => (
-        <div className='flex items-center justify-center w-1/3 py- cursor-pointer z-20' key={choiceKey} onClick={() => handleClick(choiceKey)}>
+        <div className='flex items-center justify-center w-1/3 cursor-pointer z-20' key={choiceKey} onClick={() => handleClick(choiceKey)}>
           <p className='text-sm font-normal'>{choices[choiceKey]}</p>
         </div>
       ))}
