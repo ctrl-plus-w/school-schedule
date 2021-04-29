@@ -16,11 +16,7 @@ import { config, hide } from '../../../features/modals/tooltipSlice';
 
 import { selectRole } from '../../../features/database/authSlice';
 
-// TODO : [ ] Add drag to go through days.
-// TODO : [ ] Refactor and create context / hooks.
-// TODO : [ ] Set bodyHeight to 0 when modals shows.
-
-const Days = (props) => {
+const PlanSchedule = (props) => {
   const dispatch = useDispatch();
 
   const role = useSelector(selectRole);
@@ -98,9 +94,9 @@ const Days = (props) => {
   );
 };
 
-Days.propTypes = {
+PlanSchedule.propTypes = {
   days: PropTypes.array,
   events: PropTypes.array,
 };
 
-export default Days;
+export default PlanSchedule;

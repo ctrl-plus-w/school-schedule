@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Topbar from './Topbar';
-import Schedule from './Schedule';
+import Grid from './Grid';
 import Modal from '../Modal';
 import CreationModal from '../CreationModal';
 import Loader from '../../Loader';
@@ -25,7 +25,7 @@ const ProfessorDashboard = () => {
       <Tooltip />
 
       <Topbar />
-      <Schedule />
+      <Grid />
     </div>
   );
 };

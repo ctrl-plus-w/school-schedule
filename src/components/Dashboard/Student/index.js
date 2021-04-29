@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Topbar from './Topbar';
-import Schedule from './Schedule';
+import Grid from './Grid';
 import Modal from '../Modal';
 import Loader from '../../Loader';
 import Tooltip from '../../Tooltip';
@@ -24,7 +24,7 @@ const StudentDashboard = () => {
       <Tooltip />
 
       <Topbar />
-      <Schedule />
+      <Grid />
     </div>
   );
 };

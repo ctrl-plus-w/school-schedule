@@ -7,11 +7,11 @@ import Time from '../../../../utils/Time';
 import { selectEvents } from '../../../../features/database/eventsSlice';
 
 import TimeIndicator from '../../TimeIndicator';
-import Days from '../../Days';
+import Schedule from '../../Schedule';
 import Header from '../../Header';
 import Corner from '../../Corner';
 
-const Schedule = () => {
+const Grid = () => {
   const events = useSelector(selectEvents);
 
   const eventObject = (event) => ({
@@ -33,9 +33,9 @@ const Schedule = () => {
       <Header />
       <Corner />
 
-      <Days days={getConsecutiveDays(5)} events={events.map(eventObject)} />
+      <Schedule days={getConsecutiveDays(5)} events={events.map(eventObject)} />
     </div>
   );
 };
 
-export default Schedule;
+export default Grid;
