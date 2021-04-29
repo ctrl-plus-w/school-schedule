@@ -9,7 +9,7 @@ const initialState = {
 
   selectedEvents: {},
 
-  dashboardState: [],
+  dashboardState: 'SHOW',
 };
 
 const slice = createSlice({
