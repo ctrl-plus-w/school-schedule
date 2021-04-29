@@ -10,6 +10,7 @@ import Input from '../../../Input';
 
 import { selectName, logout } from '../../../../features/database/authSlice';
 import { fetchLabels } from '../../../../features/database/labelsSlice';
+import { selectDashboardState, DASHBOARD_STATES, switchDashboardState } from '../../../../features/infos/infosSlice';
 
 // TODO : [x] Put the switcher into a component.
 // TODO : [ ] Link switcher to a router / switch.
@@ -20,8 +21,8 @@ const Topbar = () => {
   const dispatch = useDispatch();
 
   const fullName = useSelector(selectName);
+  const dashboardState = useSelector(selectDashboardState);
 
-  const [choice, setChoice] = useState('');
   const [label, setLabel] = useState('');
 
   useEffect(() => dispatch(fetchLabels()), []);
@@ -39,7 +40,9 @@ const Topbar = () => {
     setLabel(event.target.value);
   };
 
-  const choices = ['Affichage', 'Édition', 'Planification'];
+  const handleSwitchState = (state) => {
+    dispatch(switchDashboardState(DASHBOARD_STATES[state]));
+  };
 
   return (
     <div className='flex flex-col w-full justify-between '>
@@ -55,7 +58,7 @@ const Topbar = () => {
       <div className='flex flex-row justify-between mt-4'>
         <Input value={label} onChange={handleInputChange} icon={<Search size={16} />} onClick={handleSetLabel} placeholder='Groupe' />
 
-        <Switch choices={choices} choice={choice} setChoice={setChoice} />
+        <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} />
 
         <DatePicker handleDateChange={handleDateChange} className='' />
       </div>
