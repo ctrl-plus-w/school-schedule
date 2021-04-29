@@ -22,7 +22,15 @@
   }
 
   .button  {
-    @apply font-sans text-base text-white bg-black py-2 px-4 rounded-sm w-full;
+    @apply font-sans text-base py-2 px-8 rounded-sm w-full;
+  }
+
+  .primary {
+    @apply text-white bg-black;
+  }
+
+  .secondary {
+    @apply text-black bg-white border border-solid border-black;
   }
 
   .error {
