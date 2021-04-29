@@ -6,6 +6,7 @@ import Schedule from './Schedule';
 import Modal from '../Modal';
 import CreationModal from '../CreationModal';
 import Loader from '../../Loader';
+import Tooltip from '../../Tooltip';
 
 import { isLoading, fetchOwnedEvents } from '../../../features/database/eventsSlice';
 
@@ -21,6 +22,7 @@ const ProfessorDashboard = () => {
       <Loader loading={loading && false} />
       <CreationModal />
       <Modal />
+      <Tooltip />
 
       <Topbar />
       <Schedule />
