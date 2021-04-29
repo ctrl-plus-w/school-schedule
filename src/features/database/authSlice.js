@@ -10,10 +10,8 @@ import { reset as resetSubjects } from './subjectsSlice';
 import { reset as resetUsers } from './usersSlice';
 import { reset as resetRoles } from './rolesSlice';
 
-import { reset as resetCreationModal } from '../modals/createSlice';
 import { reset as resetErrorModal } from '../modals/errorSlice';
-import { reset as resetModal } from '../modals/eventSlice';
-
+  
 const ROLES = {
   ADMIN: 'Admin',
   PROFESSOR: 'Enseignant',
@@ -29,9 +27,7 @@ export const logout = createAsyncThunk('auth/logout', async (_args, { dispatch }
   await dispatch(resetRoles());
   await dispatch(resetEvents());
 
-  await dispatch(resetCreationModal());
   await dispatch(resetErrorModal());
-  await dispatch(resetModal());
 
   return;
 });
