@@ -35,3 +35,11 @@ export const find = (events, base, index, curr = base) => {
  * @returns An array of three elements.
  */
 export const destructure = (array, i) => [array[i - 1], array[i], array[i + 1]];
+
+/**
+ * Check if an array contains another array. The format of the included array must be [Number, Number];
+ * @param {Array} array The array to find the other array in.
+ * @param {Array} includedArray The array that should be find. Format : [Number, Number]
+ * @returns A boolean.
+ */
+export const arrayInclude = (array, [col, row]) => array.some(([col_, row_]) => col_ === col && row_ === row);

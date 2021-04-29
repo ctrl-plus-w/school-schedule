@@ -1,28 +1,93 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { arrayInclude } from './Utils';
+
+/**
+ * Check if the current event is a head of an event list.
+ * @param {Object} prev The previous event.
+ * @param {Object} curr The current event.
+ * @returns A boolean.
+ */
 export const isHead = (prev, curr) => {
   return prev && prev.empty && curr && !curr.empty;
 };
 
+/**
+ * Check if the current event is a head and if this event is the only one.
+ * @param {Object} prev The previous event.
+ * @param {Object} curr The current event.
+ * @param {Object} next The next event.
+ * @returns A boolean.
+ */
 export const isHeadAlone = (prev, curr, next) => {
   return prev && prev.empty && curr && !curr.empty && (!next || next.empty);
 };
 
-export const getLastCloseEvent = (events, event) => {
+/**
+ * Check if the empty event is a head of selected events.
+ * @param {Array} selectedEvents The events.
+ * @param {Number} col The column of the event in the grid.
+ * @param {Number} row The row of the event in the grid.
+ * @returns A boolean.
+ */
+export const isEmptyHead = (selectedEvents, col, row) => {
+  return arrayInclude(selectedEvents, [col, row]) && !arrayInclude(selectedEvents, [col, row - 1]);
+};
+
+/**
+ * Check if the empty event is a head and if this event is the only one selected.
+ * @param {Array} selectedEvents The events.
+ * @param {Number} col The column of the event in the grid.
+ * @param {Number} row The row of the event in the grid.
+ * @returns A boolea,
+ */
+export const isEmptyHeadAlone = (selectedEvents, col, row) => {
+  return isEmptyHead(selectedEvents, col, row) && !arrayInclude(selectedEvents, [col, row + 1]);
+};
+
+/**
+ * Find the farthest event from the head.
+ * @param {Array} events The events to find in.
+ * @param {Object} event The head event.
+ * @returns An event.
+ */
+export const getFootEvent = (events, event) => {
   const eventIndex = events.findIndex((e) => e.id === event.id);
   const nextEvent = events[eventIndex + 1];
 
   if (!nextEvent || nextEvent.empty) return event;
-  return getLastCloseEvent(events, nextEvent);
+  return getFootEvent(events, nextEvent);
 };
 
+/**
+ * Find the farthest selected event from the head.
+ * @param {Array} events The events to find the foot in.
+ * @param {Array} coords The col and the row. Format : [col, row].
+ * @returns An object.
+ */
+export const getFoot = (events, [col, row]) => {
+  if (!events.some(([col_, row_]) => col_ === col && row_ === row + 1)) return row;
+  else return getFoot(events, [col, row + 1]);
+};
+
+/**
+ * Find the length between the head (the provided event) and the foot event.
+ * @param {Array} events The events.
+ * @param {Object} event The head event.
+ * @returns A number.
+ */
 export const getLength = (events, event) => {
-  const lastCell = getLastCloseEvent(events, event);
+  const lastCell = getFootEvent(events, event);
   const timeDifference = lastCell.start.hours - event.start.hours;
   return timeDifference;
 };
 
+/**
+ * Get the lines of the schedule grid.
+ * @param {Number} amount The amount of required lines.
+ * @returns An array of react components.
+ */
 export const getLines = (amount = 4) => {
   return new Array(amount)
     .fill(0)
@@ -31,6 +96,11 @@ export const getLines = (amount = 4) => {
     ));
 };
 
+/**
+ * Get the tailwind color classes depending on the color provided.
+ * @param {String} color The color.
+ * @returns A classname string.
+ */
 export const getColorStyle = (color) => {
   switch (color) {
     case 'green':
