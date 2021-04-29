@@ -4,7 +4,9 @@ import { Eye, EyeOff } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 
 import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
+
 import Input from '../Input';
+import Button from '../Button';
 
 // TODO : [x] Handle error messages.
 
@@ -54,21 +56,21 @@ const Auth = () => {
           Mot de passe oublié ?
         </Link>
 
-        <Input className='mt-4' type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Nom d'utilisateur" />
+        <Input className='mt-4' type='text' value={username} onChange={setUsername} placeholder="Nom d'utilisateur" />
 
         <Input
           className='mt-2'
           type={passwordInputType}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
           placeholder='Mot de passe'
           icon={passwordInputIcon}
           onClick={handleIconSwitch}
         />
 
-        <button type='submit' className='button mt-4'>
-          Connection
-        </button>
+        <Button type='submit' className='mt-4'>
+          Se connecter
+        </Button>
 
         <p className='error mt-8' style={{ opacity: error ? 1 : 0 }}>
           {error}
