@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Topbar from './Topbar';
 import Grid from './Grid';
 import Modal from '../Modal';
-import CreationModal from '../CreationModal';
+import PlanModal from '../PlanModal';
 import Loader from '../../Loader';
 import Tooltip from '../../Tooltip';
 
@@ -20,7 +20,7 @@ const ProfessorDashboard = () => {
   return (
     <div className='flex flex-col w-screen h-screen p-12 box-border'>
       <Loader loading={loading && false} />
-      <CreationModal />
+      <PlanModal />
       <Modal />
       <Tooltip />
 
