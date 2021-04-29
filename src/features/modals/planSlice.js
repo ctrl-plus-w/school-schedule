@@ -16,7 +16,7 @@ export const planEvent = createAsyncThunk('plan/event', async (args, { dispatch 
 const now = new Date();
 
 const initialState = {
-  visible: true,
+  visible: false,
 
   title: '',
   date: [getWeekDay(now), now.getDate(), getMonth(now)].join(' '),
