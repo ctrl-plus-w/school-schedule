@@ -87,6 +87,15 @@ class Time {
   static timeFromDate(date) {
     return new Time(this.getLocalHours(new Date(date)), this.getLocalMins(new Date(date)));
   }
+
+  /**
+   * Get a time string from a date. Format : hh:mm.
+   * @param {Date} date The date to get the time string from.
+   * @returns A string.
+   */
+  static timeStringFromDate(date) {
+    return [this.getLocalHours(date), this.getLocalMins(date)].join(':');
+  }
 }
 
 export default Time;
