@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { removeKey } from '../../utils/Utils';
 
-export const DASHBOARD_STATES = { SHOW: 'SHOW', EDIT: 'EDIT', PLAN: 'PLAN' };
+export const DASHBOARD_STATES = { SHOW: 'Affichage', EDIT: 'Édition', PLAN: 'Planification' };
 
 const initialState = {
   selectedLabel: {},
 
   selectedEvents: {},
 
-  dashboardState: 'SHOW',
+  dashboardState: DASHBOARD_STATES.SHOW,
 };
 
 const slice = createSlice({
@@ -54,7 +54,7 @@ const slice = createSlice({
     },
 
     switchDashboardState: (state, action) => {
-      if (action.payload in DASHBOARD_STATES) return { ...state, dashboardState: action.payload };
+      if (Object.values(DASHBOARD_STATES).includes(action.payload)) return { ...state, dashboardState: action.payload };
       return state;
     },
   },
@@ -62,6 +62,7 @@ const slice = createSlice({
 
 export const { setLabel, addEvent, removeEvent, editEvent, removeDay, resetEvents, switchDashboardState } = slice.actions;
 
+export const selectDashboardState = (state) => state.infos.dashboardState;
 export const selectEvents = (state) => state.infos.selectedEvents;
 export const selectLabel = (state) => state.infos.selectedLabel;
 
