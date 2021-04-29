@@ -1,9 +1,10 @@
-import React, { useState, createRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Eye, EyeOff } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 
 import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
+import Input from '../Input';
 
 // TODO : [x] Handle error messages.
 
@@ -22,30 +23,27 @@ const Auth = () => {
 
   useEffect(() => role && history.push(ROLES_PATHS[role]), [role]);
 
-  const defaultFocusField = createRef();
-
-  const [usernameInput, setUsernameInput] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const [passwordHidden, setPasswordHidden] = useState(true);
-
-  useEffect(() => {
-    defaultFocusField && defaultFocusField.current.focus();
-  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     const isEmpty = (str) => str.trim() === '';
 
-    if (isEmpty(usernameInput) || isEmpty(passwordInput)) dispatch(setError('Vous devez remplir tout les champs.'));
-    else dispatch(login({ username: usernameInput, password: passwordInput }));
+    if (isEmpty(username) || isEmpty(password)) dispatch(setError('Vous devez remplir tout les champs.'));
+    else dispatch(login({ username: username, password: password }));
   };
 
   const handleIconSwitch = (e) => {
     e.preventDefault();
     setPasswordHidden(!passwordHidden);
   };
+
+  const passwordInputType = passwordHidden ? 'password' : 'text';
+  const passwordInputIcon = passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />;
 
   return (
     <div className='flex justify-center items-center w-screen h-screen'>
@@ -56,36 +54,17 @@ const Auth = () => {
           Mot de passe oublié ?
         </Link>
 
-        <label className='form-control mt-4' htmlFor='username'>
-          <input
-            ref={defaultFocusField}
-            type='text'
-            className='input'
-            placeholder="Nom d'utilisateur"
-            name='username'
-            id='username'
-            autoComplete='off'
-            value={usernameInput}
-            onChange={(e) => setUsernameInput(e.target.value)}
-          />
-        </label>
+        <Input className='mt-4' type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Nom d'utilisateur" />
 
-        <label className='form-control mt-2' htmlFor='password'>
-          <button type='button' className='input-icon' onClick={handleIconSwitch} tabIndex='-1'>
-            {passwordHidden ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-
-          <input
-            type={passwordHidden ? 'password' : 'text'}
-            className='input'
-            placeholder='Mot de passe'
-            name='password'
-            id='password'
-            autoComplete='off'
-            value={passwordInput}
-            onChange={(e) => setPasswordInput(e.target.value)}
-          />
-        </label>
+        <Input
+          className='mt-2'
+          type={passwordInputType}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder='Mot de passe'
+          icon={passwordInputIcon}
+          onClick={handleIconSwitch}
+        />
 
         <button type='submit' className='button mt-4'>
           Connection
