@@ -1,43 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import Time from '../../../utils/Time';
-
-import ROLES from '../../../static/roles';
 
 import { getColorStyle, getLength, getLines, isHead, isHeadAlone } from '../../../utils/Cell';
 import { destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
 
-import { config, hide } from '../../../features/modals/tooltipSlice';
-
-import { selectRole } from '../../../features/database/authSlice';
-
 const EditSchedule = (props) => {
-  const dispatch = useDispatch();
-
-  const role = useSelector(selectRole);
-  const isStudent = role === ROLES.STUDENT;
-
-  const handleMouseEnter = (event) => {
-    const payload = {
-      title: event.subject,
-      description: event.description || 'Aucune description.',
-
-      fieldName: isStudent ? 'Professeur' : 'Groupe',
-      fieldContent: isStudent ? event.owner.name : event.label,
-    };
-
-    dispatch(config(payload));
-  };
-
-  const handleMouseLeave = () => {
-    dispatch(hide());
-  };
-
   const getDayEvents = (dayEvents, day) => {
     return new Array(9).fill(0).reduce((acc, curr, i) => {
       const condition = (event) => parseInt(event.start.hours) === i + 8;
@@ -62,14 +34,9 @@ const EditSchedule = (props) => {
     const emptyCell = () => <div className={`${classes}`} key={uuidv4()}></div>;
 
     const cell = (length) => (
-      <div
-        className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''} cursor-pointer`}
-        key={uuidv4()}
-        onMouseEnter={() => handleMouseEnter(curr)}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''}`} key={uuidv4()}>
         <div className={`flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid ${getColorStyle(curr.color)}`}>
-          <h3 className='text-normal font-bold'>{isStudent ? curr.subject : curr.label}</h3>
+          <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
       </div>

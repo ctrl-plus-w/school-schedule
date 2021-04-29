@@ -1,18 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getConsecutiveDays, resetHours } from '../../../../utils/Calendar';
-import Time from '../../../../utils/Time';
-
-import { selectEvents } from '../../../../features/database/eventsSlice';
-
 import TimeIndicator from '../../TimeIndicator';
-import Schedule from '../../Schedule';
 import Header from '../../Header';
 import Corner from '../../Corner';
 
+import Schedule from '../../Schedule';
+import EditSchedule from '../../EditSchedule';
+import PlanSchedule from '../../PlanSchedule';
+
+import { getConsecutiveDays, resetHours } from '../../../../utils/Calendar';
+import Time from '../../../../utils/Time';
+
+import { selectEvents, selectRelatedEvents } from '../../../../features/database/eventsSlice';
+import { selectDashboardState, DASHBOARD_STATES } from '../../../../features/infos/infosSlice';
+
 const Grid = () => {
   const events = useSelector(selectEvents);
+  const relatedEvents = useSelector(selectRelatedEvents);
+  const state = useSelector(selectDashboardState);
 
   const eventObject = (event) => ({
     id: event.id,
@@ -27,13 +33,19 @@ const Grid = () => {
     color: event.subject.color,
   });
 
+  const { SHOW, EDIT, PLAN } = DASHBOARD_STATES;
+
   return (
     <div className='grid grid-cols-custom grid-rows-custom gap-px h-full mt-8 bg-gray-300 p-px'>
       <TimeIndicator />
       <Header />
       <Corner />
 
-      <Schedule days={getConsecutiveDays(5)} events={events.map(eventObject)} />
+      {state === SHOW && <Schedule days={getConsecutiveDays(5)} events={events.map(eventObject)} />}
+
+      {state === EDIT && <EditSchedule days={getConsecutiveDays(5)} events={events.map(eventObject)} />}
+
+      {state === PLAN && <PlanSchedule days={getConsecutiveDays(5)} events={[...events, ...relatedEvents].map(eventObject)} />}
     </div>
   );
 };
