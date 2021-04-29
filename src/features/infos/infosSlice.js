@@ -5,7 +5,7 @@ import { removeKey } from '../../utils/Utils';
 export const DASHBOARD_STATES = { SHOW: 'Affichage', EDIT: 'Édition', PLAN: 'Planification' };
 
 const initialState = {
-  selectedLabel: {},
+  selectedLabel: '',
 
   selectedEvents: {},
 
