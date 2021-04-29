@@ -1,12 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
-import { getConsecutiveDays, resetHours, sameDay } from '../../../../utils/Calendar';
+import { getConsecutiveDays, resetHours } from '../../../../utils/Calendar';
 import Time from '../../../../utils/Time';
 
 import TimeIndicator from '../../TimeIndicator';
-import Days from './Days';
+import Days from '../../Days';
 import Header from '../../Header';
 import Corner from '../../Corner';
 

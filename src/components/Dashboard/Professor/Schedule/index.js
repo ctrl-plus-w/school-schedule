@@ -7,7 +7,7 @@ import Time from '../../../../utils/Time';
 import { selectEvents } from '../../../../features/database/eventsSlice';
 
 import TimeIndicator from '../../TimeIndicator';
-import Days from './Days';
+import Days from '../../Days';
 import Header from '../../Header';
 import Corner from '../../Corner';
 
