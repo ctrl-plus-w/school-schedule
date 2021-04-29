@@ -17,15 +17,13 @@ const ProfessorDashboard = () => {
   const loading = useSelector(isLoading);
 
   return (
-    <div className='root-container'>
+    <div className='flex flex-col w-screen h-screen p-12 box-border'>
       <Loader loading={loading && false} />
       <CreationModal />
       <Modal />
 
-      <div className='container'>
-        <Topbar />
-        <Schedule />
-      </div>
+      <Topbar />
+      <Schedule />
     </div>
   );
 };
