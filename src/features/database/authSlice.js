@@ -11,7 +11,7 @@ import { reset as resetUsers } from './usersSlice';
 import { reset as resetRoles } from './rolesSlice';
 
 import { reset as resetErrorModal } from '../modals/errorSlice';
-  
+
 const ROLES = {
   ADMIN: 'Admin',
   PROFESSOR: 'Enseignant',
@@ -41,7 +41,14 @@ export const login = createAsyncThunk('auth/login', async (args) => {
     await client.setHeader('Authorization', `Bearer ${token}`);
     await localStorage.setItem('token', token);
 
-    return { id: request.data.login.id, fullName: request.data.login.full_name, role: request.data.login.role, token: request.data.login.token };
+    return {
+      id: request.data.login.id,
+      fullName: request.data.login.full_name,
+      role: request.data.login.role,
+      token: request.data.login.token,
+      subjects: request.data.login.subjects,
+      labels: request.data.login.labels,
+    };
   } catch (err) {
     throw new Error(err?.response?.errors[0]?.message);
   }
@@ -59,6 +66,8 @@ export const verifyToken = createAsyncThunk('auth/verifyToken', async () => {
       fullName: request.data.verifyToken.full_name,
       role: request.data.verifyToken.role,
       token: request.data.verifyToken.token,
+      subjects: request.data.verifyToken.subjects,
+      labels: request.data.verifyToken.labels,
     };
   } catch (err) {
     throw new Error();
@@ -74,6 +83,8 @@ const initialState = {
   fullName: '',
   role: '',
   token: '',
+  subjects: [],
+  labels: [],
 };
 
 const slice = createSlice({
@@ -113,6 +124,8 @@ export const selectName = (state) => state.database.auth.fullName;
 export const selectRole = (state) => state.database.auth.role;
 export const selectId = (state) => state.database.auth.id;
 export const selectError = (state) => state.database.auth.error;
+export const selectSubjects = (state) => state.database.auth.subjects;
+export const selectLabels = (state) => state.database.auth.labels;
 
 export const isRole = (state) => ({
   isAdmin: state.database.auth.role === ROLES.ADMIN,

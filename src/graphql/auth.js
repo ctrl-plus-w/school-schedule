@@ -7,6 +7,16 @@ export const LOGIN = gql`
       full_name
       token
       role
+
+      subjects {
+        id
+        subject_name
+      }
+
+      labels {
+        id
+        label_name
+      }
     }
   }
 `;
@@ -18,6 +28,16 @@ export const VERIFY_TOKEN = gql`
       full_name
       token
       role
+
+      subjects {
+        id
+        subject_name
+      }
+
+      labels {
+        id
+        label_name
+      }
     }
   }
 `;
