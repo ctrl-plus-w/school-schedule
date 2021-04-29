@@ -26,7 +26,7 @@ class TimeIndicator extends Component {
     return (
       <div className='grid grid-cols-1 grid-rows-9 col-start-1 col-end-2 row-start-2 row-end-11 px-2 bg-white'>
         {this.state.hours.map((hour, i) => (
-          <div key={uuidv4()} className={`col-start-1 row-start-${i} pt-2`}>
+          <div key={uuidv4()} className={`col-start-1 row-start-${i + 1} pt-2`}>
             <p className='text-sm text-gray-400 font-bold text-center w-full'>{hour.toString}</p>
           </div>
         ))}
