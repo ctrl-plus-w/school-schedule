@@ -27,3 +27,11 @@ export const find = (events, base, index, curr = base) => {
   if (!next) return base === curr ? false : curr;
   return find(events, base, index, curr + index);
 };
+
+/**
+ * Get the `n - 1` to `n + 1` elements of the array at the `n` index.
+ * @param {array} array The array to get the elements from.
+ * @param {number} i The index of the middle element.
+ * @returns An array of three elements.
+ */
+export const destructure = (array, i) => [array[i - 1], array[i], array[i + 1]];

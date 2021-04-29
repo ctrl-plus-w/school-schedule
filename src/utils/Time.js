@@ -78,6 +78,15 @@ class Time {
     date.setHours(0, 0, 0, 0);
     return new Date(date);
   }
+
+  /**
+   * Get a Time class from a date.
+   * @param {Date} date The date object.
+   * @returns A Time class.
+   */
+  static timeFromDate(date) {
+    return new Time(this.getLocalHours(new Date(date)), this.getLocalMins(new Date(date)));
+  }
 }
 
 export default Time;
