@@ -72,9 +72,9 @@ export const incrementDate = (date, index) => {
 export const getRightSunday = (date) => {
   const weekDay = date.getDay();
 
-  if (weekDay === 0) return resetHours(date);
-  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, -weekDay));
-  if (weekDay === 6) return resetHours(incrementDate(date, 1));
+  if (weekDay === 0) return resetHours(incrementDate(date, 1));
+  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, -weekDay + 1));
+  if (weekDay === 6) return resetHours(incrementDate(date, 2));
 };
 
 /**
@@ -85,21 +85,37 @@ export const getRightSunday = (date) => {
 export const getRightFriday = (date) => {
   const weekDay = date.getDay();
 
-  if (weekDay === 6) return resetHours(incrementDate(date, 6));
-  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, 5 - weekDay));
-  if (weekDay === 0) return resetHours(incrementDate(date, 5));
+  if (weekDay === 6) return resetHours(incrementDate(date, 7));
+  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, 6 - weekDay));
+  if (weekDay === 0) return resetHours(incrementDate(date, 6));
 };
 
 /**
  * Return an object of the start and end date interval of the week.
  * @returns An object.
  */
-export const getWeekInterval = () => {
-  const date = new Date();
-
+export const getWeekInterval = (date = new Date()) => {
   // ! Get sunday at 00:00 instead of monday at 00:01.
   const start = getRightSunday(date).toISOString();
   const end = getRightFriday(date).toISOString();
 
   return { start, end };
+};
+
+/**
+ * Get the next monday from a date.
+ * @param {Date} date The reference date.
+ * @returns A date.
+ */
+export const getNextMonday = (date, baseDate = date) => {
+  return date.getDay() === 1 && date.getDate() !== baseDate.getDate() ? date : getNextMonday(new Date(date.setDate(date.getDate() + 1)), baseDate);
+};
+
+/**
+ * Get the last monday from a date.
+ * @param {Date} date The reference date.
+ * @returns A date.
+ */
+export const getLastMonday = (date, baseDate = date) => {
+  return date.getDay() === 1 && date.getDate() !== baseDate.getDate() ? date : getLastMonday(new Date(date.setDate(date.getDate() - 1)), baseDate);
 };
