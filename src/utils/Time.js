@@ -9,15 +9,6 @@ class Time {
     this._mins = mins;
   }
 
-  /**
-   * Format a number int a two digit number (e.g. 5 -> 05)
-   * @param {number} num
-   * @returns The number formated.
-   */
-  oneDigitToTwo(num) {
-    return num < 10 ? `0${num}` : `${num}`;
-  }
-
   get hours() {
     return this._hours;
   }
@@ -30,7 +21,16 @@ class Time {
    * Format : hh:mm.
    */
   get toString() {
-    return `${this.oneDigitToTwo(this.hours)}:${this.oneDigitToTwo(this.mins)}`;
+    return `${this.constructor.oneDigitToTwo(this.hours)}:${this.constructor.oneDigitToTwo(this.mins)}`;
+  }
+
+  /**
+   * Format a number int a two digit number (e.g. 5 -> 05)
+   * @param {number} num
+   * @returns The number formated.
+   */
+  static oneDigitToTwo(num) {
+    return num < 10 ? `0${num}` : `${num}`;
   }
 
   /**
