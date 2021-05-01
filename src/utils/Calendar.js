@@ -53,3 +53,53 @@ export const resetHours = (date) => {
   date.setHours(0, 0, 0, 0);
   return date;
 };
+
+/**
+ * Increment the days numbers of a date.
+ * @param {Date} date The date to increment the days.
+ * @param {Number} index The amount of days to increment.
+ * @returns A date.
+ */
+export const incrementDate = (date, index) => {
+  return new Date(date.setDate(date.getDate() + index));
+};
+
+/**
+ * Get the next sunday if the week end, else get the previous one.
+ * @param {Date} date The reference date.
+ * @returns A date.
+ */
+export const getRightSunday = (date) => {
+  const weekDay = date.getDay();
+
+  if (weekDay === 0) return resetHours(date);
+  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, -weekDay));
+  if (weekDay === 6) return resetHours(incrementDate(date, 1));
+};
+
+/**
+ * Get the next friday.
+ * @param {Date} date The reference date.
+ * @returns A date.
+ */
+export const getRightFriday = (date) => {
+  const weekDay = date.getDay();
+
+  if (weekDay === 6) return resetHours(incrementDate(date, 6));
+  if (weekDay >= 1 && weekDay <= 5) return resetHours(incrementDate(date, 5 - weekDay));
+  if (weekDay === 0) return resetHours(incrementDate(date, 5));
+};
+
+/**
+ * Return an object of the start and end date interval of the week.
+ * @returns An object.
+ */
+export const getWeekInterval = () => {
+  const date = new Date();
+
+  // ! Get sunday at 00:00 instead of monday at 00:01.
+  const start = getRightSunday(date).toISOString();
+  const end = getRightFriday(date).toISOString();
+
+  return { start, end };
+};
