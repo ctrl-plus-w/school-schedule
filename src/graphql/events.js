@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 export const EVENTS = gql`
-  query {
-    userEvents {
+  query Events($start: String!, $end: String!) {
+    userEvents(start: $start, end: $end) {
       id
       start
       description
@@ -24,8 +24,8 @@ export const EVENTS = gql`
 `;
 
 export const OWNED_EVENTS = gql`
-  query {
-    ownedEvents {
+  query Events($start: String!, $end: String!) {
+    ownedEvents(start: $start, end: $end) {
       id
       start
       description
@@ -47,8 +47,8 @@ export const OWNED_EVENTS = gql`
 `;
 
 export const LABEL_EVENTS = gql`
-  query Events($id: ID!) {
-    labelEvents(id: $id) {
+  query Events($id: ID!, $start: String!, $end: String!) {
+    labelEvents(id: $id, start: $start, end: $end) {
       id
       start
       description
@@ -70,8 +70,8 @@ export const LABEL_EVENTS = gql`
 `;
 
 export const LABEL_RELATED_EVENTS = gql`
-  query Events($id: ID!) {
-    labelRelatedEvents(id: $id) {
+  query Events($id: ID!, $start: String!, $end: String!) {
+    labelRelatedEvents(id: $id, start: $start, end: $end) {
       id
       start
       description
