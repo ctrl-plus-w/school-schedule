@@ -44,7 +44,7 @@ const DatePicker = ({ className }) => {
       </div>
 
       <div className='flex bg-black mx-3 px-4 py-2 rounded-sm'>
-        <p className='text-normal font-bold my-auto'>
+        <p className='text-normal font-bold my-auto w-28 text-center'>
           {formatDate(start)} - {formatDate(new Date(end.setDate(end.getDate() - 1)))}
         </p>
       </div>
