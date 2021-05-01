@@ -37,6 +37,11 @@ import ErrorModal from '../components/ErrorModal';
 // TODO : [x] Clear auth errors when logout.
 // TODO : [x] Clear selected events whend logout.
 
+// TODO : [x] Make the label selection.
+// TODO : [x] Check if the events empty when reloading.
+// TODO : [ ] Make the edition modal work.
+// TODO : [ ] Work on the animations.
+
 // // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
 
 const App = () => {
