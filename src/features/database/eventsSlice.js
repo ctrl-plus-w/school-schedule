@@ -6,16 +6,17 @@ import client from '../../app/database';
 
 import { EVENTS, OWNED_EVENTS, LABEL_EVENTS, LABEL_RELATED_EVENTS, CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from '../../graphql/events';
 
-import { getWeekInterval } from '../../utils/Calendar';
+import { selectWeekInterval } from '../infos/infosSlice';
 
 export const fetchAllLabelEvents = async (dispatch, id) => {
   await dispatch(fetchLabelEvents({ id }));
   await dispatch(fetchLabelRelatedEvents({ id }));
 };
 
-export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch }) => {
+export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, { dispatch, getState }) => {
   try {
-    const events = await client.request(EVENTS, getWeekInterval());
+    const weekInterval = selectWeekInterval(getState());
+    const events = await client.request(EVENTS, weekInterval);
     return events.userEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
@@ -24,9 +25,10 @@ export const fetchEvents = createAsyncThunk('events/fetchEvents', async (_args, 
   }
 });
 
-export const fetchOwnedEvents = createAsyncThunk('events/fetchOwnedEvents', async (_args, { dispatch }) => {
+export const fetchOwnedEvents = createAsyncThunk('events/fetchOwnedEvents', async (_args, { dispatch, getState }) => {
   try {
-    const events = await client.request(OWNED_EVENTS, getWeekInterval());
+    const weekInterval = selectWeekInterval(getState());
+    const events = await client.request(OWNED_EVENTS, weekInterval);
     return events.ownedEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
@@ -35,9 +37,10 @@ export const fetchOwnedEvents = createAsyncThunk('events/fetchOwnedEvents', asyn
   }
 });
 
-export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', async (args, { dispatch }) => {
+export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', async (args, { dispatch, getState }) => {
   try {
-    const events = await client.request(LABEL_EVENTS, { ...args, ...getWeekInterval() });
+    const weekInterval = selectWeekInterval(getState());
+    const events = await client.request(LABEL_EVENTS, { ...args, ...weekInterval });
     return events.labelEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
@@ -46,9 +49,10 @@ export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', asyn
   }
 });
 
-export const fetchLabelRelatedEvents = createAsyncThunk('events/fetchLabelRelatedEvents', async (args, { dispatch }) => {
+export const fetchLabelRelatedEvents = createAsyncThunk('events/fetchLabelRelatedEvents', async (args, { dispatch, getState }) => {
   try {
-    const events = await client.request(LABEL_RELATED_EVENTS, { ...args, ...getWeekInterval() });
+    const weekInterval = selectWeekInterval(getState());
+    const events = await client.request(LABEL_RELATED_EVENTS, { ...args, weekInterval });
     return events.labelRelatedEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
