@@ -1,8 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { removeKey } from '../../utils/Utils';
+import { fetchLabelEvents } from '../database/eventsSlice';
+import { selectLabels } from '../database/labelsSlice';
 
 export const DASHBOARD_STATES = { SHOW: 'Affichage', EDIT: 'Édition', PLAN: 'Planification' };
+
+export const setLabelAndFetch = createAsyncThunk('infos/setLabelAndFetch', async (arg, { dispatch, getState }) => {
+  const labels = selectLabels(getState());
+  const label = labels.find((l) => l.label_name === arg);
+
+  await dispatch(fetchLabelEvents({ id: label.id }));
+  return arg;
+});
 
 const initialState = {
   selectedLabel: '',
@@ -57,6 +67,11 @@ const slice = createSlice({
       if (Object.values(DASHBOARD_STATES).includes(action.payload)) return { ...state, dashboardState: action.payload };
       return state;
     },
+  },
+
+  extraReducers: (builder) => {
+    const fulfilled = (state, action) => ({ ...state, selectedLabel: action.payload });
+    builder.addCase(setLabelAndFetch.fulfilled, fulfilled);
   },
 });
 
