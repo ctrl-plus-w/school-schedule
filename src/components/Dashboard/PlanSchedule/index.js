@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { gsap, Expo } from 'gsap/all';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Plus } from 'react-feather';
 
@@ -12,14 +13,37 @@ import { getLength, getLines, isEmptyHead, isEmptyHeadAlone, isHead, isHeadAlone
 import { arrayInclude, destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
 import { config } from '../../../features/modals/planSlice';
-import useAnimation from '../../../hooks/useAnimation';
 
 const PlanSchedule = (props) => {
   const dispatch = useDispatch();
 
   const [selectedEvents, setSelectedEvents] = useState([]);
 
-  const elements = useAnimation(props.days);
+  const databaseLoading = ({ events, labels, users, subjects, roles }) =>
+    events.loading || labels.loading || users.loading || subjects.loading || roles.loading;
+
+  const loading = useSelector(({ database }) => databaseLoading(database));
+
+  const elements = [];
+
+  useEffect(() => {
+    console.log('d');
+    if (!loading) {
+      gsap.from(elements, {
+        duration: 0.6,
+        transform: 'scale(0.9)',
+        opacity: 1,
+        ease: Expo.ease,
+      });
+    } else {
+      gsap.to(elements, {
+        duration: 0.4,
+        transform: 'scale(0.8)',
+        opacity: 0,
+        ease: Expo.ease,
+      });
+    }
+  }, [props.days]);
 
   const handlePlanEvent = (e, event, duration) => {
     e.preventDefault();
@@ -85,7 +109,7 @@ const PlanSchedule = (props) => {
 
     const cell = (length) => (
       <div className={`flex ${classes} ${`row-end-${length ? row + length + 1 : row + 1}`} cursor-not-allowed`} key={uuidv4()}>
-        <div ref={(div) => (elements[i] = div)} className={`event border-solid bg-gray-400 rounded`}></div>
+        <div ref={(div) => (elements[i] = div)} className={`event scale-100 opacity-100 border-solid bg-gray-400 rounded`}></div>
       </div>
     );
 
