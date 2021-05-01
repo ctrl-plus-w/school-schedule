@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { LogOut, Search } from 'react-feather';
+import { LogOut } from 'react-feather';
 
 import Switch from '../../../Switch';
 import DatePicker from '../../../DatePicker';
-import Input from '../../../Input';
+import Dropdown from '../../../Dropdown';
 
 import { selectName, logout } from '../../../../features/database/authSlice';
-import { fetchLabels } from '../../../../features/database/labelsSlice';
-import { selectDashboardState, DASHBOARD_STATES, switchDashboardState, selectLabel } from '../../../../features/infos/infosSlice';
+import { fetchLabels, selectLabels } from '../../../../features/database/labelsSlice';
+import { selectDashboardState, DASHBOARD_STATES, switchDashboardState, selectLabel, setLabelAndFetch } from '../../../../features/infos/infosSlice';
 
 // TODO : [x] Put the switcher into a component.
 // TODO : [ ] Link switcher to a router / switch.
@@ -23,8 +23,10 @@ const Topbar = () => {
   const fullName = useSelector(selectName);
   const dashboardState = useSelector(selectDashboardState);
 
-  const [labelInput, setLabelInput] = useState('');
   const label = useSelector(selectLabel);
+  const labels = useSelector(selectLabels);
+
+  const [labelLoading, setLabelLoading] = useState(false);
 
   useEffect(() => dispatch(fetchLabels()), []);
 
@@ -35,7 +37,11 @@ const Topbar = () => {
 
   const handleDateChange = () => {};
 
-  const handleSetLabel = () => {};
+  const handleSetLabel = async (val) => {
+    await setLabelLoading(true);
+    await dispatch(setLabelAndFetch(val));
+    setLabelLoading(false);
+  };
 
   const handleSwitchState = (state) => {
     dispatch(switchDashboardState(DASHBOARD_STATES[state]));
@@ -53,7 +59,7 @@ const Topbar = () => {
       </div>
 
       <div className='flex flex-row justify-between mt-4'>
-        <Input value={labelInput} onChange={setLabelInput} icon={<Search size={16} />} onClick={handleSetLabel} placeholder='Groupe' />
+        <Dropdown options={labels.map(({ label_name }) => label_name)} onSubmit={handleSetLabel} placeholder='Groupe' loading={labelLoading} />
 
         <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} disabled={label ? -1 : 2} />
 
