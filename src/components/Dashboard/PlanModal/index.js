@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { X } from 'react-feather';
+import { Check, Loader, X } from 'react-feather';
 
 import Input from '../../Input';
 import Textarea from '../../Textarea';
@@ -11,27 +11,76 @@ import RadioGroup from '../../RadioGroup';
 
 import { hide, selectInfos } from '../../../features/modals/planSlice';
 import { selectSubjects } from '../../../features/database/authSlice';
+import { createEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+import { selectLabels } from '../../../features/database/labelsSlice';
+import { selectLabel, switchDashboardState, DASHBOARD_STATES } from '../../../features/infos/infosSlice';
+
+import { getMonth, getWeekDay } from '../../../utils/Calendar';
+import Time from '../../../utils/Time';
 
 const PlanModal = () => {
   const dispatch = useDispatch();
 
   const infos = useSelector(selectInfos);
 
+  const labels = useSelector(selectLabels);
+  const label = useSelector(selectLabel);
+
   const subjects = useSelector(selectSubjects);
   const subjectsName = subjects.map(({ subject_name }) => subject_name);
 
+  const [loading, setLoading] = useState(false);
+
   const [link, setLink] = useState('');
   const [description, setDescription] = useState('');
-  const [obligatory, setObligatory] = useState(infos.obligatory);
+  const [obligatory, setObligatory] = useState(false);
 
   const [subject, setSubject] = useState(subjectsName[0]);
+
+  const formatDate = (date) => {
+    return [getWeekDay(new Date(date)), new Date(date).getDate(), getMonth(new Date(date))].join(' ');
+  };
+
+  const formatAllTime = (time, duration) => {
+    const formatTime = (hours, mins) => [Time.oneDigitToTwo(hours), Time.oneDigitToTwo(mins)].join(':');
+    return [formatTime(time[0], time[1]), formatTime(time[0] + duration, time[1])].join(' - ');
+  };
 
   const handleClose = () => {
     dispatch(hide());
   };
 
-  const handlePlanEvent = () => {
-    alert('Planing the event.');
+  const handlePlanEvent = async (event) => {
+    event.preventDefault();
+
+    const labelId = labels.find((l) => l.label_name === label)?.id;
+    const subjectId = subjects.find((s) => s.subject_name === subject)?.id;
+
+    if (!labelId || !subjectId) return;
+
+    setLoading(true);
+
+    for (let i = 0; i < infos.duration; i++) {
+      const date = new Date(infos.startDate);
+      date.setHours(infos.startTime[0] + i, infos.startTime[1], 0, 0);
+
+      const payload = {
+        start: date,
+        link: link,
+        description: description,
+        obligatory: obligatory,
+        label_id: labelId,
+        subject_id: subjectId,
+      };
+
+      // ! Don't remove the await.
+      await dispatch(createEvent(payload));
+    }
+
+    setLoading(false);
+    await dispatch(hide());
+    await dispatch(fetchLabelEvents({ id: labelId }));
+    await dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));
   };
 
   return (
@@ -48,8 +97,8 @@ const PlanModal = () => {
             <X onClick={handleClose} className='cursor-pointer' />
           </div>
           <div className='flex flex-row justify-between'>
-            <p className='text-base text-black font-normal'>{infos.date}</p>
-            <p className='text-base text-black font-normal'>{infos.time}</p>
+            <p className='text-base text-black font-normal'>{formatDate(infos.startDate)}</p>
+            <p className='text-base text-black font-normal'>{formatAllTime(infos.startTime, infos.duration)}</p>
           </div>
         </header>
 
@@ -66,7 +115,8 @@ const PlanModal = () => {
           </Button>
 
           <Button type='submit' className='w-auto'>
-            Modifier
+            Créer
+            {loading ? <Loader className='ml-2 animate-spin' size={22} /> : <Check className='ml-2' size={22} />}
           </Button>
         </footer>
       </div>

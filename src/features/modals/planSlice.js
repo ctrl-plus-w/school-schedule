@@ -1,6 +1,3 @@
-import { getMonth, getWeekDay } from '../../utils/Calendar';
-import Time from '../../utils/Time';
-
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const planEvent = createAsyncThunk('plan/event', async (args, { dispatch }) => {
@@ -19,14 +16,9 @@ const initialState = {
   visible: false,
 
   title: '',
-  date: [getWeekDay(now), now.getDate(), getMonth(now)].join(' '),
-  time: Time.timeStringFromDate(now),
-
-  obligatory: true,
-  description: '',
-  link: '',
-
-  subjects: [],
+  startDate: now.toISOString(),
+  startTime: [8, 0],
+  duration: 1,
 };
 
 const slice = createSlice({
