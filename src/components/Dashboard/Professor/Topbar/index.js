@@ -35,8 +35,6 @@ const Topbar = () => {
     history.push('/auth');
   };
 
-  const handleDateChange = () => {};
-
   const handleSetLabel = async (val) => {
     await setLabelLoading(true);
     await dispatch(setLabelAndFetch(val));
@@ -63,7 +61,7 @@ const Topbar = () => {
 
         <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} disabled={label ? -1 : 2} />
 
-        <DatePicker handleDateChange={handleDateChange} className='' />
+        <DatePicker />
       </div>
     </div>
   );
