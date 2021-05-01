@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Eye, EyeOff } from 'react-feather';
+import { Check, Eye, EyeOff, Loader } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 
 import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
@@ -25,6 +25,7 @@ const Auth = () => {
 
   useEffect(() => role && history.push(ROLES_PATHS[role]), [role]);
 
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,8 +36,13 @@ const Auth = () => {
 
     const isEmpty = (str) => str.trim() === '';
 
-    if (isEmpty(username) || isEmpty(password)) dispatch(setError('Vous devez remplir tout les champs.'));
-    else dispatch(login({ username: username, password: password }));
+    if (isEmpty(username) || isEmpty(password)) {
+      await dispatch(setError('Vous devez remplir tout les champs.'));
+    } else {
+      setLoading(true);
+      await dispatch(login({ username: username, password: password }));
+    }
+    setLoading(false);
   };
 
   const handleIconSwitch = (e) => {
@@ -70,6 +76,7 @@ const Auth = () => {
 
         <Button type='submit' className='mt-4'>
           Se connecter
+          {loading ? <Loader size={22} className='ml-2 animate-spin' /> : <Check size={22} className='ml-2' />}
         </Button>
 
         <p className='error mt-8' style={{ opacity: error ? 1 : 0 }}>
