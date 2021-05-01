@@ -23,7 +23,7 @@ const ErrorEl = ({ title, message, id }) => {
   const handleClick = () => dispatch(removeError(id));
 
   return (
-    <div className='error flex flex-col mt-4'>
+    <div className='error flex flex-col mt-4 pointer-events-auto'>
       <div className='flex items-center justify-between'>
         <h2 className='error-title'>{title}</h2>
         <X size={20} onClick={handleClick} />
