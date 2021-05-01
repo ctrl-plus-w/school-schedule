@@ -26,7 +26,7 @@ const Tooltip = () => {
   const style = { left: `${x}px`, top: `${y}px`, opacity: infos.visible ? '100%' : '0%' };
 
   return (
-    <div className='absolute flex flex-col p-4 bg-black text-white pointer-events-none transition-opacity' style={style}>
+    <div className='absolute flex flex-col p-4 bg-black text-white pointer-events-none transition-opacity z-50' style={style}>
       <div className='flex flex-col'>
         <p className='text-lg font-bold'>{infos.title}</p>
         <p className='text-base font-normal'>{infos.description}</p>
