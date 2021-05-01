@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ChevronLeft, ChevronRight } from 'react-feather';
 
-import { selectWeekInterval, setWeekIntervalAndFetch } from '../../features/infos/infosSlice';
+import { selectWeekInterval, setWeekIntervalAndFetch, switchDashboardState, DASHBOARD_STATES } from '../../features/infos/infosSlice';
 import { getLastMonday, getMonth, getNextMonday, getWeekInterval } from '../../utils/Calendar';
 
 const DatePicker = ({ className }) => {
@@ -15,22 +15,17 @@ const DatePicker = ({ className }) => {
   const start = new Date(weekInterval.start);
   const end = new Date(weekInterval.end);
 
-  const nextWeek = async () => {
+  const nextWeek = () => changeWeekInterval(getNextMonday);
+  const previousWeek = () => changeWeekInterval(getLastMonday);
+
+  const changeWeekInterval = async (getMonday) => {
     const day = new Date(weekInterval.start);
-    const referenceDay = getNextMonday(day);
+    const referenceDay = getMonday(day);
 
     const newWeekInterval = getWeekInterval(referenceDay);
 
     await dispatch(setWeekIntervalAndFetch(newWeekInterval));
-  };
-
-  const previousWeek = async () => {
-    const day = new Date(weekInterval.start);
-    const referenceDay = getLastMonday(day);
-
-    const newWeekInterval = getWeekInterval(referenceDay);
-
-    await dispatch(setWeekIntervalAndFetch(newWeekInterval));
+    await dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));
   };
 
   const formatDate = (date) => {
