@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getWeekInterval } from '../../utils/Calendar';
 
 import { removeKey } from '../../utils/Utils';
-import { fetchLabelEvents } from '../database/eventsSlice';
+import { selectRole } from '../database/authSlice';
+import { fetchEvents, fetchLabelEvents, fetchOwnedEvents } from '../database/eventsSlice';
 import { selectLabels } from '../database/labelsSlice';
+
+import ROLES from '../../static/roles';
 
 export const DASHBOARD_STATES = { SHOW: 'Affichage', EDIT: 'Édition', PLAN: 'Planification' };
 
@@ -14,12 +18,31 @@ export const setLabelAndFetch = createAsyncThunk('infos/setLabelAndFetch', async
   return arg;
 });
 
+export const setWeekIntervalAndFetch = createAsyncThunk('infos/setWeekIntervalAndFetch', async (args, { dispatch, getState }) => {
+  const labels = selectLabels(getState());
+  const labelName = selectLabel(getState());
+  const role = selectRole(getState());
+
+  const label = labels.find((l) => l.label_name === labelName);
+
+  await dispatch(setWeekInterval(args));
+
+  if (label) {
+    await dispatch(fetchLabelEvents({ id: label.id }));
+  } else {
+    if (role === ROLES.STUDENT) await dispatch(fetchEvents());
+    else await dispatch(fetchOwnedEvents());
+  }
+});
+
 const initialState = {
   selectedLabel: '',
 
   selectedEvents: {},
 
   dashboardState: DASHBOARD_STATES.SHOW,
+
+  weekInterval: getWeekInterval(),
 };
 
 const slice = createSlice({
@@ -67,6 +90,10 @@ const slice = createSlice({
       if (Object.values(DASHBOARD_STATES).includes(action.payload)) return { ...state, dashboardState: action.payload };
       return state;
     },
+
+    setWeekInterval: (state, action) => {
+      state.weekInterval = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -75,10 +102,11 @@ const slice = createSlice({
   },
 });
 
-export const { setLabel, addEvent, removeEvent, editEvent, removeDay, resetEvents, switchDashboardState } = slice.actions;
+export const { setLabel, addEvent, removeEvent, editEvent, removeDay, resetEvents, switchDashboardState, setWeekInterval } = slice.actions;
 
 export const selectDashboardState = (state) => state.infos.dashboardState;
 export const selectEvents = (state) => state.infos.selectedEvents;
 export const selectLabel = (state) => state.infos.selectedLabel;
+export const selectWeekInterval = (state) => state.infos.weekInterval;
 
 export default slice.reducer;
