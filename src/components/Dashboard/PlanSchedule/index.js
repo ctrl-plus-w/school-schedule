@@ -12,10 +12,14 @@ import { getLength, getLines, isEmptyHead, isEmptyHeadAlone, isHead, isHeadAlone
 import { arrayInclude, destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
 import { config } from '../../../features/modals/planSlice';
+import useAnimation from '../../../hooks/useAnimation';
 
 const PlanSchedule = (props) => {
   const dispatch = useDispatch();
+
   const [selectedEvents, setSelectedEvents] = useState([]);
+
+  const elements = useAnimation(props.days);
 
   const handlePlanEvent = (e, event, duration) => {
     e.preventDefault();
@@ -81,7 +85,7 @@ const PlanSchedule = (props) => {
 
     const cell = (length) => (
       <div className={`flex ${classes} ${`row-end-${length ? row + length + 1 : row + 1}`} cursor-not-allowed`} key={uuidv4()}>
-        <div className={`flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid bg-gray-400 rounded`}></div>
+        <div ref={(div) => (elements[i] = div)} className={`event border-solid bg-gray-400 rounded`}></div>
       </div>
     );
 
@@ -102,7 +106,7 @@ const PlanSchedule = (props) => {
   };
 
   return (
-    <div className='grid grid-cols-schedule grid-rows-9 col-start-2 col-end-7 row-start-2 row-end-11 bg-white h-full'>
+    <div className='schedule'>
       {props.days.map(dayMapper)}
       {getLines()}
     </div>

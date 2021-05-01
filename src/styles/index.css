@@ -36,4 +36,12 @@
   .error {
     @apply w-full bg-red-300 border border-solid border-red-700 text-red-700 text-base font-bold p-4;
   }
+
+  .schedule {
+    @apply grid grid-cols-schedule grid-rows-9 col-start-2 col-end-7 row-start-2 row-end-11 bg-white h-full;
+  }
+
+  .event {
+    @apply flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid transform scale-90 opacity-50;
+  }
 }

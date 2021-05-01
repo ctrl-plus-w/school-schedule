@@ -8,8 +8,11 @@ import Time from '../../../utils/Time';
 import { getColorStyle, getLength, getLines, isHead, isHeadAlone } from '../../../utils/Cell';
 import { destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
+import useAnimation from '../../../hooks/useAnimation';
 
 const EditSchedule = (props) => {
+  const elements = useAnimation(props.days);
+
   const getDayEvents = (dayEvents, day) => {
     return new Array(9).fill(0).reduce((acc, curr, i) => {
       const condition = (event) => parseInt(event.start.hours) === i + 8;
@@ -35,7 +38,7 @@ const EditSchedule = (props) => {
 
     const cell = (length) => (
       <div className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''}`} key={uuidv4()}>
-        <div className={`flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid ${getColorStyle(curr.color)}`}>
+        <div ref={(div) => (elements[i] = div)} className={`event ${getColorStyle(curr.color)}`}>
           <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
@@ -54,7 +57,7 @@ const EditSchedule = (props) => {
   };
 
   return (
-    <div className='grid grid-cols-schedule grid-rows-9 col-start-2 col-end-7 row-start-2 row-end-11 bg-white h-full'>
+    <div className='schedule'>
       {props.days.map(dayMapper)}
       {getLines()}
     </div>

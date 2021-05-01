@@ -15,12 +15,14 @@ import { sameDay } from '../../../utils/Calendar';
 import { config, hide } from '../../../features/modals/tooltipSlice';
 
 import { selectRole } from '../../../features/database/authSlice';
+import useAnimation from '../../../hooks/useAnimation';
 
 const Schedule = (props) => {
   const dispatch = useDispatch();
-
   const role = useSelector(selectRole);
   const isStudent = role === ROLES.STUDENT;
+
+  const elements = useAnimation(props.days);
 
   const handleMouseEnter = (event) => {
     const payload = {
@@ -68,7 +70,7 @@ const Schedule = (props) => {
         onMouseEnter={() => handleMouseEnter(curr)}
         onMouseLeave={handleMouseLeave}
       >
-        <div className={`flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid ${getColorStyle(curr.color)}`}>
+        <div ref={(div) => (elements[i] = div)} className={`event ${getColorStyle(curr.color)}`}>
           <h3 className='text-normal font-bold'>{isStudent ? curr.subject : curr.label}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
@@ -87,7 +89,7 @@ const Schedule = (props) => {
   };
 
   return (
-    <div className='grid grid-cols-schedule grid-rows-9 col-start-2 col-end-7 row-start-2 row-end-11 bg-white h-full'>
+    <div className='schedule'>
       {props.days.map(dayMapper)}
       {getLines()}
     </div>
