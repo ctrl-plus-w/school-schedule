@@ -25,6 +25,16 @@ export const isHeadAlone = (prev, curr, next) => {
 };
 
 /**
+ * Check if the prev and the current events aren't empty.
+ * @param {Object} prev The previous event.
+ * @param {Object} curr The current event.
+ * @returns A boolea.
+ */
+export const isBody = (prev, curr) => {
+  return prev && !prev.empty && curr && !curr.empty;
+};
+
+/**
  * Check if the empty event is a head of selected events.
  * @param {Array} selectedEvents The events.
  * @param {Number} col The column of the event in the grid.
@@ -52,33 +62,33 @@ export const isEmptyHeadAlone = (selectedEvents, col, row) => {
  * @param {Object} event The head event.
  * @returns An event.
  */
-export const getFootEvent = (events, event) => {
+export const getTailEvent = (events, event) => {
   const eventIndex = events.findIndex((e) => e.id === event.id);
   const nextEvent = events[eventIndex + 1];
 
   if (!nextEvent || nextEvent.empty) return event;
-  return getFootEvent(events, nextEvent);
+  return getTailEvent(events, nextEvent);
 };
 
 /**
  * Find the farthest selected event from the head.
- * @param {Array} events The events to find the foot in.
+ * @param {Array} events The events to find the tail in.
  * @param {Array} coords The col and the row. Format : [col, row].
  * @returns An object.
  */
-export const getFoot = (events, [col, row]) => {
+export const getTail = (events, [col, row]) => {
   if (!events.some(([col_, row_]) => col_ === col && row_ === row + 1)) return row;
-  else return getFoot(events, [col, row + 1]);
+  else return getTail(events, [col, row + 1]);
 };
 
 /**
- * Find the length between the head (the provided event) and the foot event.
+ * Find the length between the head (the provided event) and the tail event.
  * @param {Array} events The events.
  * @param {Object} event The head event.
  * @returns A number.
  */
 export const getLength = (events, event) => {
-  const lastCell = getFootEvent(events, event);
+  const lastCell = getTailEvent(events, event);
   const timeDifference = lastCell.start.hours - event.start.hours;
   return timeDifference;
 };
