@@ -22,7 +22,7 @@
   }
 
   .button  {
-    @apply font-sans text-base py-2 px-8 rounded-sm w-full;
+    @apply flex flex-row items-center justify-center font-sans text-base py-2 px-8 rounded-sm w-full;
   }
 
   .primary {
