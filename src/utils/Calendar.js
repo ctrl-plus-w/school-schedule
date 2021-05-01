@@ -41,7 +41,7 @@ export const getWeekDay = (date) => {
  * @returns A string.
  */
 export const getMonth = (date) => {
-  return MONTHS[date.getDay()];
+  return MONTHS[date.getMonth()];
 };
 
 /**
