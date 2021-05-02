@@ -43,7 +43,6 @@ export const isHead = (prev, curr) => {
  * @returns A boolean.
  */
 export const isHeadAlone = (prev, curr, next) => {
-  console.log(curr);
   if (!isHead(prev, curr)) return false;
 
   if (!next || next.empty) return true;
