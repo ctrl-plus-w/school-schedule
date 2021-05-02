@@ -141,6 +141,8 @@ export const getColorStyle = (color) => {
       return 'bg-indigo-200 border-indigo-800 text-indigo-800';
     case 'pink':
       return 'bg-pink-200 border-pink-800 text-pink-800';
+    case 'gray':
+      return 'bg-gray-200 border-gray-800 text-gray-800';
     default:
       return 'bg-gray-200 border-gray-800 text-gray-800';
   }
