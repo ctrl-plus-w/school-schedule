@@ -151,9 +151,6 @@ const slice = createSlice({
     // Create event.
     builder.addCase(createEvent.pending, pending).addCase(createEvent.fulfilled, fulfilledNoAction).addCase(createEvent.rejected, rejected);
 
-    // Update event.
-    builder.addCase(updateEvent.pending, pending).addCase(updateEvent.fulfilled, fulfilledNoAction).addCase(updateEvent.rejected, rejected);
-
     // Delete event.
     builder.addCase(deleteEvent.pending, pending).addCase(deleteEvent.fulfilled, fulfilledNoAction).addCase(deleteEvent.rejected, rejected);
   },
