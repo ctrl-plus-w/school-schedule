@@ -14,7 +14,7 @@ import { fetchLabelEvents, fetchOwnedEvents, updateEvent } from '../../../featur
 import { DASHBOARD_STATES, selectLabel, switchDashboardState } from '../../../features/infos/infosSlice';
 import { selectLabels } from '../../../features/database/labelsSlice';
 
-const Modal = () => {
+const EditModal = () => {
   const dispatch = useDispatch();
 
   const infos = useSelector(selectInfos);
@@ -105,4 +105,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default EditModal;

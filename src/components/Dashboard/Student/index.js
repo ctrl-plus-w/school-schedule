@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Topbar from './Topbar';
 import Grid from './Grid';
-import Modal from '../Modal';
+import EditModal from '../EditModal';
 import Loader from '../../Loader';
 import Tooltip from '../../Tooltip';
 
@@ -20,7 +20,7 @@ const StudentDashboard = () => {
   return (
     <div className='flex flex-col w-screen h-screen p-12 box-border'>
       <Loader loading={loading} />
-      <Modal />
+      <EditModal />
       <Tooltip />
 
       <Topbar />
