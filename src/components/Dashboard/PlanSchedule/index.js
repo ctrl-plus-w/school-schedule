@@ -27,7 +27,6 @@ const PlanSchedule = (props) => {
   const elements = [];
 
   useEffect(() => {
-    console.log('d');
     if (!loading) {
       gsap.from(elements, {
         duration: 0.6,
