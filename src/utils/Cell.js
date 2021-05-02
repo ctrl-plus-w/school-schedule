@@ -94,6 +94,20 @@ export const getLength = (events, event) => {
 };
 
 /**
+ * Get all the ids of the event list (by close relation).
+ * @param {Array} events The events.
+ * @param {Object} event The head event.
+ * @returns An array.
+ */
+export const getBodyIds = (events, event) => {
+  const evIndex = events.findIndex(({ id }) => id === event.id);
+  const nextEvent = events[evIndex + 1];
+
+  if (!nextEvent || nextEvent.empty) return [event.id];
+  return [event.id, ...getBodyIds(events, nextEvent)];
+};
+
+/**
  * Get the lines of the schedule grid.
  * @param {Number} amount The amount of required lines.
  * @returns An array of react components.
