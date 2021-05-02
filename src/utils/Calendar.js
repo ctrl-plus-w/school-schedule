@@ -2,17 +2,16 @@ const WEEK_DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'
 const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'];
 
 /**
- * Get an array of consecutive days.
- * @param {number} days
+ * Get an array of consecutive days from the gived date.
+ * @param {Date} startDate The date from where the others should start.
+ * @param {Number} days The amount of days you want.
  * @returns An array.
  */
-export const getConsecutiveDays = (days = 14) => {
-  let today = new Date();
-
-  return new Array(days).fill(0).reduce((curr, acc, i) => {
+export const getConsecutiveDays = (startDate, days) => {
+  return new Array(days).fill(0).reduce((acc, _, i) => {
     const t = new Date();
-    t.setDate(today.getDate() + i);
-    return [...curr, t];
+    t.setDate(startDate.getDate() + i);
+    return [...acc, resetHours(t)];
   }, []);
 };
 

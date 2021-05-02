@@ -10,9 +10,11 @@ import Corner from '../../Corner';
 
 import { useSelector } from 'react-redux';
 import { selectEvents } from '../../../../features/database/eventsSlice';
+import { selectWeekInterval } from '../../../../features/infos/infosSlice';
 
 const Grid = () => {
   const events = useSelector(selectEvents);
+  const weekInterval = useSelector(selectWeekInterval);
 
   const eventObject = (event) => ({
     id: event.id,
@@ -32,7 +34,7 @@ const Grid = () => {
       <Header />
       <Corner />
 
-      <Schedule days={getConsecutiveDays(5)} events={events.map(eventObject)} />
+      <Schedule days={getConsecutiveDays(new Date(weekInterval.start), 5)} events={events.map(eventObject)} />
     </div>
   );
 };
