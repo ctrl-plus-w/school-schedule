@@ -42,7 +42,7 @@
   }
 
   .event {
-    @apply flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid transform scale-90 opacity-50;
+    @apply flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid transform scale-90 opacity-0;
   }
 
   .link-animation {
