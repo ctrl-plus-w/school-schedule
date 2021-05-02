@@ -1,18 +1,9 @@
-const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
-
-export const editEvent = createAsyncThunk('edit/event', async (args, { dispatch }) => {
-  try {
-    args;
-    // Make the request...
-  } catch (err) {
-    dispatch;
-    // Throw an error...
-  }
-});
+const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = {
   visible: false,
 
+  ids: [],
   title: '',
 
   obligatory: true,
