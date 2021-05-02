@@ -116,7 +116,7 @@ export const getLines = (amount = 4) => {
   return new Array(amount)
     .fill(0)
     .map((_, i) => (
-      <div className={`w-px bg-gray-300 col-start-2=${(i + 1) * 2} col-end-${(i + 1) * 2 + 1} row-start-1 row-end-10`} key={uuidv4()}></div>
+      <div className={`w-px bg-gray-300 col-start-${(i + 1) * 2} col-end-${(i + 1) * 2 + 1} row-start-1 row-end-10`} key={uuidv4()}></div>
     ));
 };
 
