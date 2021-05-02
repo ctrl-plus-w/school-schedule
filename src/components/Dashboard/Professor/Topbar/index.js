@@ -50,7 +50,7 @@ const Topbar = () => {
       <div className='flex flex-col'>
         <div className='flex flex-row items-center'>
           <h2 className='text-3xl text-black font-bold'>{fullName}</h2>
-          <LogOut className='relative top-px ml-3 cursor-pointer' onClick={handleLogout} />
+          <LogOut className='relative top-px ml-3 cursor-pointer transition-all hover:text-blue-500' onClick={handleLogout} />
         </div>
 
         <h3 className='text-lg text-black font-normal'>Histoire, Spé Histoire, Spé Géo</h3>

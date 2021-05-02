@@ -34,7 +34,7 @@ const DatePicker = ({ className }) => {
 
   return (
     <div className={`flex flex-row justify-center text-white ${className ? className : ''}`}>
-      <div className='flex items-center bg-black px-2 rounded-sm cursor-pointer' onClick={previousWeek}>
+      <div className='flex items-center bg-black px-2 rounded-sm cursor-pointer transition-all hover:ring hover:ring-gray-300' onClick={previousWeek}>
         <ChevronLeft size={26} />
       </div>
 
@@ -44,7 +44,7 @@ const DatePicker = ({ className }) => {
         </p>
       </div>
 
-      <div className='flex items-center bg-black px-2 rounded-sm cursor-pointer' onClick={nextWeek}>
+      <div className='flex items-center bg-black px-2 rounded-sm cursor-pointer transition-all hover:ring hover:ring-gray-300' onClick={nextWeek}>
         <ChevronRight size={26} />
       </div>
     </div>

@@ -46,7 +46,7 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
     <form onSubmit={(e) => handleSubmit(e, value)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <label className={`relative flex flex-col w-auto ${className ? className : ''}`} htmlFor={id}>
         {label && <span className='text-base text-black font-bold mb-2'>{label}</span>}
-        <div className='form-control'>
+        <div className={`form-control transition-all ${visible ? 'ring ring-gray-300' : ''}`}>
           <button type='submit' className='input-icon' tabIndex='-1'>
             {loading ? <Loader className='animate-spin' /> : <Search />}
           </button>

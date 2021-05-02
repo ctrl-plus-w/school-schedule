@@ -55,17 +55,17 @@ const Auth = () => {
 
   return (
     <div className='flex justify-center items-center w-screen h-screen'>
-      <form className='flex flex-col w-1/4 min-w-large p-16' onSubmit={handleFormSubmit}>
+      <form className='flex flex-col items-start w-1/4 min-w-large p-16' onSubmit={handleFormSubmit}>
         <h1 className='text-3xl font-bold text-black'>Connection</h1>
 
-        <Link to='/missed-password' className='text-base font-normal text-blue-600'>
+        <Link to='/missed-password' className='block text-base font-normal text-blue-600 link-animation'>
           Mot de passe oublié ?
         </Link>
 
-        <Input className='mt-4' type='text' value={username} onChange={setUsername} placeholder="Nom d'utilisateur" />
+        <Input className='mt-4 w-full' type='text' value={username} onChange={setUsername} placeholder="Nom d'utilisateur" />
 
         <Input
-          className='mt-2'
+          className='mt-2 w-full'
           type={passwordInputType}
           value={password}
           onChange={setPassword}

@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 
 const Button = ({ type, onClick, children, className, secondary = false }) => {
   return (
-    <button className={`button ${secondary ? 'secondary' : 'primary'} ${className ? className : ''}`} type={type} onClick={onClick}>
+    <button
+      className={`button transition-all hover:ring hover:ring-gray-400 outline-none ${secondary ? 'secondary' : 'primary'} ${
+        className ? className : ''
+      }`}
+      type={type}
+      onClick={onClick}
+    >
       {children}
     </button>
   );
