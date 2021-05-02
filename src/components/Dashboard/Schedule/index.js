@@ -15,11 +15,16 @@ import { sameDay } from '../../../utils/Calendar';
 import { config, hide } from '../../../features/modals/tooltipSlice';
 
 import { selectRole } from '../../../features/database/authSlice';
+import { selectLabel } from '../../../features/infos/infosSlice';
+
 import useAnimation from '../../../hooks/useAnimation';
 
 const Schedule = (props) => {
   const dispatch = useDispatch();
+
   const role = useSelector(selectRole);
+  const label = useSelector(selectLabel);
+
   const isStudent = role === ROLES.STUDENT;
 
   useAnimation(props.events);
@@ -78,7 +83,7 @@ const Schedule = (props) => {
         onClick={() => handleClick(curr)}
       >
         <div className={`event ${getColorStyle(curr.color)}`}>
-          <h3 className='text-normal font-bold'>{isStudent ? curr.subject : curr.label}</h3>
+          <h3 className='text-normal font-bold'>{isStudent || label ? curr.subject : curr.label}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
       </div>

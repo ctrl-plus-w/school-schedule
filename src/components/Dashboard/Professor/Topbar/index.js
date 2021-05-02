@@ -56,7 +56,12 @@ const Topbar = () => {
       </div>
 
       <div className='flex flex-row justify-between mt-4'>
-        <Dropdown options={labels.map(({ label_name }) => label_name)} onSubmit={handleSetLabel} placeholder='Groupe' loading={labelLoading} />
+        <Dropdown
+          options={labels.map(({ label_name }) => label_name)}
+          onSubmit={handleSetLabel}
+          placeholder={label ? label : 'Groupe'}
+          loading={labelLoading}
+        />
 
         <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} disabled={label ? -1 : 2} />
 
