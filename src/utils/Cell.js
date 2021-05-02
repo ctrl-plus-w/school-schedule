@@ -4,13 +4,35 @@ import { v4 as uuidv4 } from 'uuid';
 import { arrayInclude } from './Utils';
 
 /**
+ * Check if every `property` given of the objects are equals.
+ * @param {Object} obj1 The first object to compare.
+ * @param {Object} obj2 The second object to compare.
+ * @param {Array} properties The properties to compare.
+ * @returns A boolean.
+ */
+export const arePropertyEquals = (obj1, obj2, properties) => {
+  for (const property of properties) if (isDifferent(obj1, obj2, property)) return false;
+  return true;
+};
+
+export const isDifferent = (obj1, obj2, property) => {
+  return obj1[property] !== obj2[property];
+};
+
+/**
  * Check if the current event is a head of an event list.
  * @param {Object} prev The previous event.
  * @param {Object} curr The current event.
  * @returns A boolean.
  */
 export const isHead = (prev, curr) => {
-  return prev && prev.empty && curr && !curr.empty;
+  if (!prev || !curr || curr.empty) return false;
+
+  if (prev.empty && !curr.empty) return true;
+  if (isDifferent(curr.owner, prev.owner, 'name')) return true;
+  if (!arePropertyEquals(prev, curr, ['description', 'link', 'obligatory', 'subject'])) return true;
+
+  return false;
 };
 
 /**
@@ -21,7 +43,14 @@ export const isHead = (prev, curr) => {
  * @returns A boolean.
  */
 export const isHeadAlone = (prev, curr, next) => {
-  return prev && prev.empty && curr && !curr.empty && (!next || next.empty);
+  console.log(curr);
+  if (!isHead(prev, curr)) return false;
+
+  if (!next || next.empty) return true;
+  if (isDifferent(curr.owner, next.owner, 'name')) return true;
+  if (!arePropertyEquals(curr, next, ['description', 'link', 'obligatory', 'subject'])) return true;
+
+  return false;
 };
 
 /**
