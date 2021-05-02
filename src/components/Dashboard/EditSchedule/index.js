@@ -1,17 +1,38 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import Time from '../../../utils/Time';
-
-import { getColorStyle, getLength, getLines, isHead, isHeadAlone } from '../../../utils/Cell';
-import { destructure } from '../../../utils/Utils';
-import { sameDay } from '../../../utils/Calendar';
 import useAnimation from '../../../hooks/useAnimation';
 
+import Time from '../../../utils/Time';
+
+import { getColorStyle, getLength, getLines, isHead, isHeadAlone, getBodyIds } from '../../../utils/Cell';
+import { destructure } from '../../../utils/Utils';
+import { sameDay } from '../../../utils/Calendar';
+import { config } from '../../../features/modals/editSlice';
+
 const EditSchedule = (props) => {
+  const dispatch = useDispatch();
+
   const elements = useAnimation(props.days);
+
+  const handleEditEvent = (e, event, ids) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const payload = {
+      ids: ids,
+      title: event.label,
+      description: event.description,
+      obligatory: event.obligatory,
+      link: event.link,
+    };
+
+    dispatch(config(payload));
+  };
 
   const getDayEvents = (dayEvents, day) => {
     return new Array(9).fill(0).reduce((acc, curr, i) => {
@@ -36,9 +57,13 @@ const EditSchedule = (props) => {
 
     const emptyCell = () => <div className={`${classes}`} key={uuidv4()}></div>;
 
-    const cell = (length) => (
-      <div className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''}`} key={uuidv4()}>
-        <div ref={(div) => (elements[i] = div)} className={`event ${getColorStyle(curr.color)}`}>
+    const cell = (bodyIds) => (
+      <div className={`flex ${classes} ${bodyIds ? `row-end-${row + bodyIds.length}` : ''}`} key={uuidv4()}>
+        <div
+          ref={(div) => (elements[i] = div)}
+          className={`event cursor-pointer ${getColorStyle(curr.color)}`}
+          onClick={(e) => handleEditEvent(e, curr, bodyIds)}
+        >
           <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
@@ -46,7 +71,7 @@ const EditSchedule = (props) => {
     );
 
     if (isHeadAlone(prev, curr, next)) return cell();
-    if (isHead(prev, curr)) return cell(getLength(eventsArray, curr));
+    if (isHead(prev, curr)) return cell(getBodyIds(eventsArray, curr));
     if (curr.empty) return emptyCell();
   };
 
