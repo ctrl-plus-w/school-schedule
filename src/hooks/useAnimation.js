@@ -1,15 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { gsap, Expo } from 'gsap/all';
 
-const useAnimation = (days) => {
+const useAnimation = (events) => {
   const elements = [];
 
-  const databaseLoading = ({ events, labels, users, subjects, roles }) =>
-    events.loading || labels.loading || users.loading || subjects.loading || roles.loading;
+  const database = useSelector((state) => state.database);
+  const databaseSlices = Object.values(database);
+  const loadingArray = databaseSlices.map((slice) => slice.loading);
+  const loading = loadingArray.reduce((acc, curr) => acc && curr, false);
 
-  const loading = useSelector(({ database }) => databaseLoading(database));
+  const pushElement = (element) => {
+    elements.push(element);
+  };
 
   useEffect(() => {
     if (!loading) {
@@ -27,9 +32,9 @@ const useAnimation = (days) => {
         ease: Expo.ease,
       });
     }
-  }, [days]);
+  }, [events]);
 
-  return elements;
+  return { pushElement };
 };
 
 export default useAnimation;

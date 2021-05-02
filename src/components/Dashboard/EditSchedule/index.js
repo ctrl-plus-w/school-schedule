@@ -17,7 +17,7 @@ import { config } from '../../../features/modals/editSlice';
 const EditSchedule = (props) => {
   const dispatch = useDispatch();
 
-  const elements = useAnimation(props.days);
+  const { pushElement } = useAnimation(props.days);
 
   const handleEditEvent = (e, event, ids) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ const EditSchedule = (props) => {
     const cell = (bodyIds) => (
       <div className={`flex ${classes} ${bodyIds ? `row-end-${row + bodyIds.length}` : ''}`} key={uuidv4()}>
         <div
-          ref={(div) => (elements[i] = div)}
+          ref={pushElement}
           className={`event cursor-pointer ${getColorStyle(curr.color)}`}
           onClick={(e) => handleEditEvent(e, curr, bodyIds || [curr.id])}
         >
