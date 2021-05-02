@@ -92,7 +92,7 @@ const PlanSchedule = (props) => {
 
     const emptyCell = (selected, rowEnd) => (
       <div
-        className={`flex ${classes} ${rowEnd ? `row-end-${rowEnd}` : row + 1} cursor-pointer`}
+        className={`flex ${classes} ${rowEnd ? `row-end-${rowEnd}` : `row-end-${row + 1}`} cursor-pointer`}
         key={uuidv4()}
         onClick={() => handleSelect({ column, row })}
       >
