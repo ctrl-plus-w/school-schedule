@@ -28,9 +28,9 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
   const getAditionalClasses = (i) => {
     let classes = [];
 
-    if (options.length > 1) {
+    if (availableOptions.length > 1) {
       if (i === 0) classes.push('pt-2');
-      if (i === options.length - 1) classes.push('pb-2');
+      if (i === availableOptions.length - 1) classes.push('pb-2');
     }
 
     return classes.join(' ');
