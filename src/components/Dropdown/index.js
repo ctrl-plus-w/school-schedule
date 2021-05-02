@@ -29,6 +29,7 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
     onSubmit(value);
 
     setVisible(false);
+    input.current.blur();
   };
 
   const getAditionalClasses = (i) => {
@@ -65,7 +66,7 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
         </div>
 
         {dropdownActive && (
-          <ul className='absolute flex flex-col top-full left-0 w-full h-auto mt-4 py-1 list-none border border-black border-solid bg-white '>
+          <ul className='absolute flex flex-col top-full left-0 w-full h-auto mt-4 py-1 list-none border border-black border-solid bg-white z-50'>
             {availableOptions.map((option, i) => (
               <li className={`flex py-1 px-4 cursor-pointer ${getAditionalClasses(i)}`} key={option} onClick={(e) => handleSubmit(e, option)}>
                 <p className='text-base text-gray-600 font-normal hover:text-purple-600 transition-all'>{option}</p>
