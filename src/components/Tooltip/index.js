@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectInfos } from '../../features/modals/tooltipSlice';
+import Badge from '../Badge';
 
 const Tooltip = () => {
   const [x, setX] = useState(-1000);
@@ -26,7 +27,10 @@ const Tooltip = () => {
   return (
     <div className='absolute flex flex-col p-4 bg-black text-white pointer-events-none transition-opacity z-50' style={style}>
       <div className='flex flex-col'>
-        <p className='text-lg font-bold'>{infos.title}</p>
+        <div className='flex items-center mb-0.5'>
+          <p className='text-lg font-bold'>{infos.title}</p>
+          <Badge content={infos.obligatory ? 'Obligatoire' : 'Facultatif'} className='ml-2' />
+        </div>
         <p className='text-base font-normal'>{infos.description}</p>
       </div>
 
