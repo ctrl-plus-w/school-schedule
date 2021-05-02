@@ -40,6 +40,10 @@ const Schedule = (props) => {
     dispatch(hide());
   };
 
+  const handleClick = (event) => {
+    if (event.link) window.open(event.link, '_blank');
+  };
+
   const getDayEvents = (dayEvents, day) => {
     return new Array(9).fill(0).reduce((acc, curr, i) => {
       const condition = (event) => parseInt(event.start.hours) === i + 8;
@@ -65,10 +69,11 @@ const Schedule = (props) => {
 
     const cell = (length) => (
       <div
-        className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''} cursor-pointer`}
+        className={`flex ${classes} ${length ? `row-end-${row + length + 1}` : ''} ${curr.link ? 'cursor-pointer' : 'cursor-default'}`}
         key={uuidv4()}
         onMouseEnter={() => handleMouseEnter(curr)}
         onMouseLeave={handleMouseLeave}
+        onClick={() => handleClick(curr)}
       >
         <div ref={(div) => (elements[i] = div)} className={`event ${getColorStyle(curr.color)}`}>
           <h3 className='text-normal font-bold'>{isStudent ? curr.subject : curr.label}</h3>
