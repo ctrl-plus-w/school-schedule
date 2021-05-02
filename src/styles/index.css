@@ -44,4 +44,22 @@
   .event {
     @apply flex justify-between w-full h-auto m-0.5 p-3 border-t-2 border-solid transform scale-90 opacity-50;
   }
+
+  .link-animation {
+    @apply relative;
+  }
+
+  .link-animation::before {
+    content: '';
+
+    @apply absolute top-full left-0 w-full h-px pointer-events-none bg-blue-600 transition-transform duration-700;
+
+    transform-origin: 100% 50%;
+    transform: scale3d(0, 1, 1);
+  }
+
+  .link-animation:hover::before {
+    transform-origin: 0% 50%;
+    transform: scale3d(1, 1, 1);
+  }
 }
