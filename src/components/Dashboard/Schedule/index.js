@@ -22,7 +22,7 @@ const Schedule = (props) => {
   const role = useSelector(selectRole);
   const isStudent = role === ROLES.STUDENT;
 
-  const { pushElement } = useAnimation(props.events);
+  useAnimation(props.events);
 
   const handleMouseEnter = (event) => {
     const payload = {
@@ -77,7 +77,7 @@ const Schedule = (props) => {
         onMouseLeave={handleMouseLeave}
         onClick={() => handleClick(curr)}
       >
-        <div ref={pushElement} className={`event ${getColorStyle(curr.color)}`}>
+        <div className={`event ${getColorStyle(curr.color)}`}>
           <h3 className='text-normal font-bold'>{isStudent ? curr.subject : curr.label}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
         </div>
