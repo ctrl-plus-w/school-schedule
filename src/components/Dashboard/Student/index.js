@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 
 import Topbar from './Topbar';
 import Grid from './Grid';
-import EditModal from '../EditModal';
 import Tooltip from '../../Tooltip';
 
 import { fetchEvents } from '../../../features/database/eventsSlice';
@@ -16,7 +15,6 @@ const StudentDashboard = () => {
 
   return (
     <div className='flex flex-col w-screen h-screen p-12 box-border'>
-      <EditModal />
       <Tooltip />
 
       <Topbar />
