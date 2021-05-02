@@ -1,7 +1,38 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  purge: {
+    content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+    options: {
+      safelist: [
+        'col-start-1',
+        'col-start-3',
+        'col-start-5',
+        'col-start-7',
+        'col-start-9',
+        'row-start-1',
+        'row-start-2',
+        'row-start-3',
+        'row-start-4',
+        'row-start-5',
+        'row-start-6',
+        'row-start-7',
+        'row-start-8',
+        'row-start-9',
+        'row-end-1',
+        'row-end-2',
+        'row-end-3',
+        'row-end-4',
+        'row-end-5',
+        'row-end-6',
+        'row-end-7',
+        'row-end-8',
+        'row-end-9',
+        'left-1/3',
+        'left-2/3',
+      ],
+    },
+  },
   presets: [],
   darkMode: false, // or 'media' or 'class'
 
