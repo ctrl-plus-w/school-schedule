@@ -7,6 +7,8 @@ const initialState = {
 
   fieldName: '',
   fieldContent: '',
+
+  obligatory: false,
 };
 
 const slice = createSlice({

@@ -31,6 +31,8 @@ const Schedule = (props) => {
 
       fieldName: isStudent ? 'Professeur' : 'Groupe',
       fieldContent: isStudent ? event.owner.name : event.label,
+
+      obligatory: event.obligatory,
     };
 
     dispatch(config(payload));
