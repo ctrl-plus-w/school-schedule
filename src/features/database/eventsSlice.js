@@ -52,7 +52,7 @@ export const fetchLabelEvents = createAsyncThunk('events/fetchLabelEvents', asyn
 export const fetchLabelRelatedEvents = createAsyncThunk('events/fetchLabelRelatedEvents', async (args, { dispatch, getState }) => {
   try {
     const weekInterval = selectWeekInterval(getState());
-    const events = await client.request(LABEL_RELATED_EVENTS, { ...args, weekInterval });
+    const events = await client.request(LABEL_RELATED_EVENTS, { ...args, ...weekInterval });
     return events.labelRelatedEvents;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
