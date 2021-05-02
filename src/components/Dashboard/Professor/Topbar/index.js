@@ -12,10 +12,6 @@ import { selectName, logout } from '../../../../features/database/authSlice';
 import { fetchLabels, selectLabels } from '../../../../features/database/labelsSlice';
 import { selectDashboardState, DASHBOARD_STATES, switchDashboardState, selectLabel, setLabelAndFetch } from '../../../../features/infos/infosSlice';
 
-// TODO : [x] Put the switcher into a component.
-// TODO : [ ] Link switcher to a router / switch.
-// TODO : [x] Make a selector element (date).
-
 const Topbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();

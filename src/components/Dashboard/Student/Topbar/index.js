@@ -9,8 +9,6 @@ import { selectName, logout } from '../../../../features/database/authSlice';
 
 import DatePicker from '../../../DatePicker';
 
-// TODO : [ ] Fetch the user labels.
-
 const Topbar = () => {
   const dispatch = useDispatch();
   const history = useHistory();

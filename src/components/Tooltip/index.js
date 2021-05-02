@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 
 import { selectInfos } from '../../features/modals/tooltipSlice';
 
-// TODO : [ ] Add the badge.
-
 const Tooltip = () => {
   const [x, setX] = useState(-1000);
   const [y, setY] = useState(-1000);

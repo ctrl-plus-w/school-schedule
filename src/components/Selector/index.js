@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Check } from 'react-feather';
 
-// TODO : [ ] Don't show the dropdown if the list is empty.
-// TODO : [x] Reset fields when changing the visibility.
-
 const Selector = ({ items, selected, setSelected, placeholder, className, noValidation, onSubmit }) => {
   const [value, setValue] = useState('');
   const [completion, setCompletion] = useState('');

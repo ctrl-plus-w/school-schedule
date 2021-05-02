@@ -11,8 +11,6 @@ import Corner from '../../Corner';
 import { useSelector } from 'react-redux';
 import { selectEvents } from '../../../../features/database/eventsSlice';
 
-// TODO : [ ] Fetch the week day instead of the 5 next days. (if week end, fetch the next week)
-
 const Grid = () => {
   const events = useSelector(selectEvents);
 

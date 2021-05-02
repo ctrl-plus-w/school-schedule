@@ -8,8 +8,6 @@ import { login, selectError, selectRole, setError } from '../../features/databas
 import Input from '../Input';
 import Button from '../Button';
 
-// TODO : [x] Handle error messages.
-
 const ROLES_PATHS = {
   Élève: 'schedule',
   Enseignant: 'dashboard',
