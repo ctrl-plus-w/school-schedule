@@ -26,9 +26,10 @@ export const isDifferent = (obj1, obj2, property) => {
  * @returns A boolean.
  */
 export const isHead = (prev, curr) => {
-  if (!prev || !curr || curr.empty) return false;
+  if (!curr || curr.empty) return false;
+  if ((!prev || prev.empty) && curr) return curr;
 
-  if (prev.empty && !curr.empty) return true;
+  if (prev && prev.empty && !curr.empty) return true;
   if (isDifferent(curr.owner, prev.owner, 'name')) return true;
   if (!arePropertyEquals(prev, curr, ['description', 'link', 'obligatory', 'subject'])) return true;
 
