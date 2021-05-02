@@ -62,7 +62,7 @@ const EditSchedule = (props) => {
         <div
           ref={(div) => (elements[i] = div)}
           className={`event cursor-pointer ${getColorStyle(curr.color)}`}
-          onClick={(e) => handleEditEvent(e, curr, bodyIds)}
+          onClick={(e) => handleEditEvent(e, curr, bodyIds || [curr.id])}
         >
           <h3 className='text-normal font-bold'>{curr.subject}</h3>
           <p className='text-normal'>{curr.start.toString}</p>
