@@ -39,8 +39,10 @@ import ErrorModal from '../components/ErrorModal';
 
 // TODO : [x] Make the label selection.
 // TODO : [x] Check if the events empty when reloading.
-// TODO : [ ] Make the edition modal work.
-// TODO : [ ] Work on the animations.
+// TODO : [x]  Make the edition modal work.
+// TODO : [x] Work on the animations.
+// TODO : [x] Problem when creating the events.
+// TODO : [x] Planification tab enabled while on the personal schedule.
 
 // // TODO : [ ] Make a subsriber to refect events when created (only for the selected label).
 
