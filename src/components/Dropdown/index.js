@@ -8,21 +8,27 @@ import { v4 } from 'uuid';
 const Dropdown = ({ options, placeholder, onSubmit, className, label, loading }) => {
   const [id] = useState(v4());
 
+  const [hover, setHover] = useState(false);
   const [value, setValue] = useState('');
   const [availableOptions, setAvailableOptions] = useState([]);
   const [visible, setVisible] = useState(false);
 
   const input = createRef();
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    setAvailableOptions(options.filter((option) => option.startsWith(e.target.value)));
+  const dropdownActive = visible && availableOptions.length > 0 && value.length > 0;
+
+  const handleChange = (value) => {
+    setValue(value);
+    setAvailableOptions(options.filter((option) => option.startsWith(value)));
   };
 
   const handleSubmit = (e, value) => {
     e.preventDefault();
+
+    handleChange(value);
     onSubmit(value);
-    input.current.blur();
+
+    setVisible(false);
   };
 
   const getAditionalClasses = (i) => {
@@ -37,7 +43,7 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e, value)}>
+    <form onSubmit={(e) => handleSubmit(e, value)} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <label className={`relative flex flex-col w-auto ${className ? className : ''}`} htmlFor={id}>
         {label && <span className='text-base text-black font-bold mb-2'>{label}</span>}
         <div className='form-control'>
@@ -52,16 +58,16 @@ const Dropdown = ({ options, placeholder, onSubmit, className, label, loading })
             id={id}
             placeholder={placeholder}
             value={value}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.value)}
             onFocus={() => setVisible(true)}
-            onBlur={() => setVisible(false)}
+            onBlur={() => !hover && setVisible(false)}
           />
         </div>
 
-        {visible && availableOptions.length > 0 && value.length > 0 && (
+        {dropdownActive && (
           <ul className='absolute flex flex-col top-full left-0 w-full h-auto mt-4 py-1 list-none border border-black border-solid bg-white '>
             {availableOptions.map((option, i) => (
-              <li className={`py-1 px-4 cursor-pointer ${getAditionalClasses(i)}`} key={option} onClick={(e) => handleSubmit(e, option)}>
+              <li className={`flex py-1 px-4 cursor-pointer ${getAditionalClasses(i)}`} key={option} onClick={(e) => handleSubmit(e, option)}>
                 <p className='text-base text-gray-600 font-normal hover:text-purple-600 transition-all'>{option}</p>
               </li>
             ))}
