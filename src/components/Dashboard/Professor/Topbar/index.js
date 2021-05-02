@@ -8,7 +8,7 @@ import Switch from '../../../Switch';
 import DatePicker from '../../../DatePicker';
 import Dropdown from '../../../Dropdown';
 
-import { selectName, logout } from '../../../../features/database/authSlice';
+import { selectName, logout, selectSubjects } from '../../../../features/database/authSlice';
 import { fetchLabels, selectLabels } from '../../../../features/database/labelsSlice';
 import { selectDashboardState, DASHBOARD_STATES, switchDashboardState, selectLabel, setLabelAndFetch } from '../../../../features/infos/infosSlice';
 
@@ -21,6 +21,7 @@ const Topbar = () => {
 
   const label = useSelector(selectLabel);
   const labels = useSelector(selectLabels);
+  const subjects = useSelector(selectSubjects);
 
   const [labelLoading, setLabelLoading] = useState(false);
 
@@ -49,7 +50,9 @@ const Topbar = () => {
           <LogOut className='relative top-px ml-3 cursor-pointer transition-all hover:text-blue-500' onClick={handleLogout} />
         </div>
 
-        <h3 className='text-lg text-black font-normal'>Histoire, Spé Histoire, Spé Géo</h3>
+        <h3 className='text-lg text-black font-normal'>
+          {subjects.length ? subjects.map((subject) => subject.subject_name).join(', ') : "Vous n'êtes assigné à aucune matières."}
+        </h3>
       </div>
 
       <div className='flex flex-row justify-between mt-4'>
