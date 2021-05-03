@@ -21,7 +21,9 @@ const EditModal = () => {
   const label = useSelector(selectLabel);
   const labels = useSelector(selectLabels);
 
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [link, setLink] = useState('');
   const [description, setDescription] = useState('');
   const [obligatory, setObligatory] = useState(false);
@@ -53,7 +55,8 @@ const EditModal = () => {
     };
 
     // Enable the loading.
-    setLoading(true);
+    if (edit) setLoading(true);
+    else setDeleteLoading(true);
 
     // Update the events.
     // !Keep the await.
@@ -69,7 +72,8 @@ const EditModal = () => {
     else dispatch(fetchOwnedEvents());
 
     // Disable the loading.
-    setLoading(false);
+    if (edit) setLoading(false);
+    else setDeleteLoading(false);
   };
 
   const handleSubmit = async (event) => {
@@ -104,6 +108,7 @@ const EditModal = () => {
             type='button'
             className='w-auto mr-12 border-red-600 text-red-600 hover:bg-red-600 hover:text-white'
             onClick={handleDeleteEvent}
+            loading={loading}
             secondary
           >
             Supprimer
