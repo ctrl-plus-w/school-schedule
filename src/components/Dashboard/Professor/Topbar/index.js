@@ -8,7 +8,7 @@ import Switch from '../../../Switch';
 import DatePicker from '../../../DatePicker';
 import Dropdown from '../../../Dropdown';
 
-import { animateIn, animateOut } from '../../../../hooks/useAnimation';
+import { animateOut } from '../../../../hooks/useAnimation';
 
 import { selectName, logout, selectSubjects } from '../../../../features/database/authSlice';
 import { fetchLabels, selectLabels } from '../../../../features/database/labelsSlice';
@@ -51,15 +51,11 @@ const Topbar = () => {
   const handleSwitchState = async (state) => {
     await animateOut();
     await dispatch(switchDashboardState(DASHBOARD_STATES[state]));
-
-    if (DASHBOARD_STATES[state] === DASHBOARD_STATES.PLAN) {
-      animateIn();
-    }
   };
 
   return (
     <div className='flex flex-col w-full justify-between '>
-      <div className='flex flex-col'>
+      <div className='flex flex-col items-start'>
         <div className='flex flex-row items-center'>
           <h2 className='text-3xl text-black font-bold cursor-pointer' onClick={handleSetOwnSchedule}>
             {fullName}
