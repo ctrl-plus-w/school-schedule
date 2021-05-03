@@ -118,3 +118,12 @@ export const getNextMonday = (date, baseDate = date) => {
 export const getLastMonday = (date, baseDate = date) => {
   return date.getDay() === 1 && date.getDate() !== baseDate.getDate() ? date : getLastMonday(new Date(date.setDate(date.getDate() - 1)), baseDate);
 };
+
+/**
+ * Check if the given date is before today or is today.
+ * @param {Date} date The date to compare.
+ * @returns A boolean/
+ */
+export const isAfterToday = (date) => {
+  return date.getTime() > new Date().getTime();
+};

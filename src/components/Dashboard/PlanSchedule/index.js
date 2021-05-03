@@ -10,7 +10,7 @@ import { animateIn } from '../../../hooks/useAnimation';
 
 import Time from '../../../utils/Time';
 import { arrayInclude, destructure } from '../../../utils/Utils';
-import { sameDay } from '../../../utils/Calendar';
+import { isAfterToday, sameDay } from '../../../utils/Calendar';
 import { getLength, getLines, isEmptyHead, isEmptyHeadAlone, isHead, isHeadAlone, getTail, isBody } from '../../../utils/Cell';
 
 import { config } from '../../../features/modals/planSlice';
@@ -79,11 +79,13 @@ const PlanSchedule = (props) => {
 
     const classes = `col-start-${column} row-start-${row}`;
 
+    const isSelectable = isAfterToday(curr.startDay);
+
     const emptyCell = (selected, rowEnd) => (
       <div
-        className={`flex ${classes} ${rowEnd ? `row-end-${rowEnd}` : `row-end-${row + 1}`} cursor-pointer`}
+        className={`flex ${classes} ${rowEnd ? `row-end-${rowEnd}` : `row-end-${row + 1}`} ${isSelectable ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         key={uuidv4()}
-        onClick={() => handleSelect({ column, row })}
+        onClick={() => isSelectable && handleSelect({ column, row })}
       >
         <div
           className={`selected-event flex justify-end items-end w-full h-auto m-0.5 p-2 rounded ${
