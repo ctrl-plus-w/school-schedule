@@ -22,10 +22,17 @@ const PlanSchedule = (props) => {
 
   const [firstRender, setFirstRender] = useState(true);
 
-  useEffect(async () => {
-    await animateIn();
-    await setFirstRender(false);
-  });
+  useEffect(() => {
+    let mounted = true;
+
+    animateIn().then(() => {
+      if (mounted) setFirstRender(false);
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handlePlanEvent = (e, event, duration) => {
     e.preventDefault();
@@ -128,4 +135,4 @@ PlanSchedule.propTypes = {
   events: PropTypes.array,
 };
 
-export default PlanSchedule;
+export default React.memo(PlanSchedule);

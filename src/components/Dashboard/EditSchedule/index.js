@@ -92,4 +92,4 @@ EditSchedule.propTypes = {
   events: PropTypes.array,
 };
 
-export default EditSchedule;
+export default React.memo(EditSchedule);

@@ -36,4 +36,4 @@ Switch.propTypes = {
   disabled: PropTypes.number,
 };
 
-export default Switch;
+export default React.memo(Switch);

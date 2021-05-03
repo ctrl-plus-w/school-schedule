@@ -88,4 +88,4 @@ Dropdown.propTypes = {
   loading: PropTypes.bool,
 };
 
-export default Dropdown;
+export default React.memo(Dropdown);

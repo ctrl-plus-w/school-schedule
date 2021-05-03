@@ -14,4 +14,4 @@ Badge.propTypes = {
   className: PropTypes.any,
 };
 
-export default Badge;
+export default React.memo(Badge);

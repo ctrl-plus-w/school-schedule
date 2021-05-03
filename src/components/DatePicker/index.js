@@ -61,4 +61,4 @@ DatePicker.propTypes = {
   className: PropTypes.any,
 };
 
-export default DatePicker;
+export default React.memo(DatePicker);

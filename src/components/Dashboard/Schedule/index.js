@@ -115,4 +115,4 @@ Schedule.propTypes = {
   events: PropTypes.array,
 };
 
-export default Schedule;
+export default React.memo(Schedule);
