@@ -10,7 +10,7 @@ import SwitchButton from '../../SwitchButton';
 import Button from '../../Button';
 
 import { hide, selectInfos } from '../../../features/modals/editSlice';
-import { fetchLabelEvents, fetchOwnedEvents, updateEvent } from '../../../features/database/eventsSlice';
+import { deleteEvent, fetchLabelEvents, fetchOwnedEvents, updateEvent } from '../../../features/database/eventsSlice';
 import { DASHBOARD_STATES, selectLabel, switchDashboardState } from '../../../features/infos/infosSlice';
 import { selectLabels } from '../../../features/database/labelsSlice';
 
@@ -38,10 +38,13 @@ const EditModal = () => {
     dispatch(hide());
   };
 
-  const handleSubmit = async (event) => {
+  const handleDeleteEvent = async (event) => {
     event.preventDefault();
+    makeModifications(false);
+  };
 
-    const labelId = labels.find(({ label_name }) => label === label_name);
+  const makeModifications = async (edit) => {
+    const labelId = labels.find(({ label_name }) => label === label_name)?.id;
 
     const payload = {
       description: description,
@@ -54,7 +57,8 @@ const EditModal = () => {
 
     // Update the events.
     // !Keep the await.
-    for (const id of infos.ids) await dispatch(updateEvent({ id, ...payload }));
+    if (edit) for (const id of infos.ids) await dispatch(updateEvent({ id, ...payload }));
+    else for (const id of infos.ids) await dispatch(deleteEvent({ id }));
 
     // Hide the modal and switch to the show tab.
     dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));
@@ -68,6 +72,11 @@ const EditModal = () => {
     setLoading(false);
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    makeModifications(true);
+  };
+
   return (
     <form
       className={`absolute justify-center items-center w-screen h-screen top-0 left-0 bg-black bg-opacity-50 z-50 ${
@@ -78,7 +87,7 @@ const EditModal = () => {
       <div className='flex flex-col min-w-medium p-8 bg-white border border-solid border-black'>
         <header className='flex flex-col'>
           <div className='flex justify-between'>
-            <h1 className='text-2xl text-black font-bold'>{infos.title}</h1>
+            <h2 className='text-2xl text-black font-bold'>{infos.title}</h2>
             <X onClick={handleClose} className='cursor-pointer' />
           </div>
           <p className='text-base text-black font-normal'>{infos.description || 'Aucune description...'}</p>
@@ -91,13 +100,17 @@ const EditModal = () => {
         </main>
 
         <footer className='flex flex-row justify-between mt-6'>
-          <Button type='button' className='w-auto mr-12' secondary>
-            Annuler
+          <Button
+            type='button'
+            className='w-auto mr-12 border-red-600 text-red-600 hover:bg-red-600 hover:text-white'
+            onClick={handleDeleteEvent}
+            secondary
+          >
+            Supprimer
           </Button>
 
-          <Button type='submit' className='w-auto'>
+          <Button type='submit' className='w-auto' loading={loading}>
             Modifier
-            {loading ? <Loader size={22} className='ml-2 animate-spin' /> : <Check size={22} className='ml-2' />}
           </Button>
         </footer>
       </div>
