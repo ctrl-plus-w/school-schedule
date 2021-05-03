@@ -39,10 +39,12 @@ const Topbar = () => {
   };
 
   const handleSetOwnSchedule = async () => {
+    await animation.animateOut();
     await dispatch(setEmptyLabelAndFetch());
   };
 
   const handleSetLabel = async (val) => {
+    await animation.animateOut();
     await setLabelLoading(true);
     await dispatch(setLabelAndFetch(val));
     setLabelLoading(false);

@@ -3,7 +3,7 @@ import { getWeekInterval } from '../../utils/Calendar';
 
 import { removeKey } from '../../utils/Utils';
 import { selectRole } from '../database/authSlice';
-import { fetchEvents, fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents } from '../database/eventsSlice';
+import { fetchEvents, fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents, reset } from '../database/eventsSlice';
 import { selectLabels } from '../database/labelsSlice';
 
 import ROLES from '../../static/roles';
@@ -19,6 +19,7 @@ export const setLabelAndFetch = createAsyncThunk('infos/setLabelAndFetch', async
   const labels = selectLabels(getState());
   const label = labels.find((l) => l.label_name === arg);
 
+  await dispatch(reset());
   await dispatch(fetchLabelEvents({ id: label.id }));
   await dispatch(fetchLabelRelatedEvents({ id: label.id }));
 
