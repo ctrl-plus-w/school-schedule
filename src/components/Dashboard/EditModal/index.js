@@ -108,7 +108,7 @@ const EditModal = () => {
             type='button'
             className='w-auto mr-12 border-red-600 text-red-600 hover:bg-red-600 hover:text-white'
             onClick={handleDeleteEvent}
-            loading={loading}
+            loading={deleteLoading}
             secondary
           >
             Supprimer
