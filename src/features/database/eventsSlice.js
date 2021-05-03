@@ -160,6 +160,7 @@ export const { reset } = slice.actions;
 
 export const selectEvents = (state) => state.database.events.events;
 export const selectRelatedEvents = (state) => state.database.events.relatedEvents;
+export const selectLoading = (state) => state.database.events.loading || state.database.events.relatedLoading;
 
 export const isLoading = (state) => state.database.events.loading;
 

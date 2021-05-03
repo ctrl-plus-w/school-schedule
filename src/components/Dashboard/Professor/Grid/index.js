@@ -12,7 +12,7 @@ import PlanSchedule from '../../PlanSchedule';
 import { getConsecutiveDays, resetHours } from '../../../../utils/Calendar';
 import Time from '../../../../utils/Time';
 
-import { selectEvents, selectRelatedEvents } from '../../../../features/database/eventsSlice';
+import { selectEvents, selectLoading, selectRelatedEvents } from '../../../../features/database/eventsSlice';
 import { selectDashboardState, DASHBOARD_STATES, selectWeekInterval } from '../../../../features/infos/infosSlice';
 
 const Grid = () => {
@@ -20,6 +20,8 @@ const Grid = () => {
   const relatedEvents = useSelector(selectRelatedEvents);
   const state = useSelector(selectDashboardState);
   const weekInterval = useSelector(selectWeekInterval);
+
+  const loading = useSelector(selectLoading);
 
   const eventObject = (event) => ({
     id: event.id,
@@ -44,11 +46,11 @@ const Grid = () => {
       <Header />
       <Corner />
 
-      {state === SHOW && <Schedule days={consecutiveDays} events={events.map(eventObject)} />}
+      {state === SHOW && <Schedule days={consecutiveDays} events={loading ? [] : events.map(eventObject)} />}
 
-      {state === EDIT && <EditSchedule days={consecutiveDays} events={events.map(eventObject)} />}
+      {state === EDIT && <EditSchedule days={consecutiveDays} events={loading ? [] : events.map(eventObject)} />}
 
-      {state === PLAN && <PlanSchedule days={consecutiveDays} events={[...events, ...relatedEvents].map(eventObject)} />}
+      {state === PLAN && <PlanSchedule days={consecutiveDays} events={loading ? [] : [...events, ...relatedEvents].map(eventObject)} />}
     </div>
   );
 };
