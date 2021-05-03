@@ -101,6 +101,10 @@ const slice = createSlice({
     setWeekInterval: (state, action) => {
       state.weekInterval = action.payload;
     },
+
+    resetInfos: () => {
+      return initialState;
+    },
   },
 
   extraReducers: (builder) => {
@@ -114,7 +118,17 @@ const slice = createSlice({
   },
 });
 
-export const { setLabel, addEvent, removeEvent, editEvent, removeDay, resetEvents, switchDashboardState, setWeekInterval } = slice.actions;
+export const {
+  setLabel,
+  addEvent,
+  removeEvent,
+  editEvent,
+  removeDay,
+  resetEvents,
+  switchDashboardState,
+  setWeekInterval,
+  resetInfos,
+} = slice.actions;
 
 export const selectDashboardState = (state) => state.infos.dashboardState;
 export const selectEvents = (state) => state.infos.selectedEvents;

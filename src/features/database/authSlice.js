@@ -11,6 +11,7 @@ import { reset as resetUsers } from './usersSlice';
 import { reset as resetRoles } from './rolesSlice';
 
 import { reset as resetErrorModal } from '../modals/errorSlice';
+import { resetInfos } from '../infos/infosSlice';
 
 const ROLES = {
   ADMIN: 'Admin',
@@ -26,6 +27,7 @@ export const logout = createAsyncThunk('auth/logout', async (_args, { dispatch }
   await dispatch(resetUsers());
   await dispatch(resetRoles());
   await dispatch(resetEvents());
+  await dispatch(resetInfos());
 
   await dispatch(resetErrorModal());
 
