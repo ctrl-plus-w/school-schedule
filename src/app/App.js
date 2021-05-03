@@ -12,6 +12,7 @@ import ProfessorDashboard from '../components/Dashboard/Professor';
 import StudentDashboard from '../components/Dashboard/Student';
 
 import ErrorModal from '../components/ErrorModal';
+import ErrorPage from '../components/ErrorPage';
 
 const App = () => {
   return (
@@ -29,6 +30,10 @@ const App = () => {
         <PrivateRoute path='/schedule' component={StudentDashboard} />
 
         <PrivateRoute path='/admin' component={Admin} />
+
+        <Route path='*'>
+          <ErrorPage message="Cette page n'existe pas !" />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

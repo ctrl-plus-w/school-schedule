@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
-import Forbidden from '../Forbidden';
+import ErrorPage from '../ErrorPage';
 import Loader from '../Loader';
 
 import { isLoggedIn, selectRole, verifyToken, selectFailed } from '../../features/database/authSlice';
@@ -13,8 +13,14 @@ import ROLES from '../../static/roles';
 const PrivateRoute = ({ path, component }) => {
   const dispatch = useDispatch();
 
-  const reject = () => <Route path={path} component={Forbidden} />;
+  const reject = () => (
+    <Route path={path}>
+      <ErrorPage message="Vous n'avez pas accès à cette page !" />
+    </Route>
+  );
+
   const resolve = () => <Route path={path} component={component} />;
+
   const pending = () => <Loader loading={true} />;
 
   const logged = useSelector(isLoggedIn);
