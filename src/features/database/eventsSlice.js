@@ -78,7 +78,7 @@ export const updateEvent = createAsyncThunk('events/updateEvent', async (args, {
     return events;
   } catch (err) {
     const message = err?.response?.errors[0]?.message;
-    dispatch(addError({ title: 'Erreur (createEvent)', message }));
+    dispatch(addError({ title: 'Erreur (updateEvent)', message }));
     throw new Error(message);
   }
 });
