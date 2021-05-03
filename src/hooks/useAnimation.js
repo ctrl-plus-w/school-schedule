@@ -1,15 +1,10 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import { gsap, Expo } from 'gsap/all';
 
 const useAnimation = (events = []) => {
-  const database = useSelector((state) => state.database);
-  const databaseSlices = Object.values(database);
-  const slicesLoading = databaseSlices.map((slice) => slice.loading);
-  const loading = slicesLoading.reduce((acc, curr) => acc && curr, false);
-
-  useEffect(() => events.length && !loading && animateIn(), [events]);
+  useEffect(() => animateIn(), [events]);
 
   const animateIn = () => {
     gsap.to('.event', {
