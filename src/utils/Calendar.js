@@ -9,7 +9,7 @@ const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'
  */
 export const getConsecutiveDays = (startDate, days) => {
   return new Array(days).fill(0).reduce((acc, _, i) => {
-    const t = new Date();
+    const t = new Date(startDate.getTime());
     t.setDate(startDate.getDate() + i);
     return [...acc, resetHours(t)];
   }, []);
