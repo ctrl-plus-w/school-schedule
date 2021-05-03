@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -9,7 +8,7 @@ import { animateIn } from '../../../hooks/useAnimation';
 
 import Time from '../../../utils/Time';
 
-import { getColorStyle, getLength, getLines, isHead, isHeadAlone, getBodyIds } from '../../../utils/Cell';
+import { getColorStyle, getLines, isHead, isHeadAlone, getBodyIds } from '../../../utils/Cell';
 import { destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
 import { config } from '../../../features/modals/editSlice';
