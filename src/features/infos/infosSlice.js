@@ -3,7 +3,7 @@ import { getWeekInterval } from '../../utils/Calendar';
 
 import { removeKey } from '../../utils/Utils';
 import { selectRole } from '../database/authSlice';
-import { fetchEvents, fetchLabelEvents, fetchLabelRelatedEvents, fetchOwnedEvents, reset } from '../database/eventsSlice';
+import { fetchAllLabelEvents, fetchEvents, fetchOwnedEvents, reset } from '../database/eventsSlice';
 import { selectLabels } from '../database/labelsSlice';
 
 import ROLES from '../../static/roles';
@@ -20,8 +20,7 @@ export const setLabelAndFetch = createAsyncThunk('infos/setLabelAndFetch', async
   const label = labels.find((l) => l.label_name === arg);
 
   await dispatch(reset());
-  await dispatch(fetchLabelEvents({ id: label.id }));
-  await dispatch(fetchLabelRelatedEvents({ id: label.id }));
+  await fetchAllLabelEvents(dispatch, label.id);
 
   return arg;
 });
@@ -35,12 +34,9 @@ export const setWeekIntervalAndFetch = createAsyncThunk('infos/setWeekIntervalAn
 
   await dispatch(setWeekInterval(args));
 
-  if (label) {
-    await dispatch(fetchLabelEvents({ id: label.id }));
-  } else {
-    if (role === ROLES.STUDENT) await dispatch(fetchEvents());
-    else await dispatch(fetchOwnedEvents());
-  }
+  if (label) return fetchAllLabelEvents(dispatch, label.id);
+  if (role === ROLES.STUDENT) return dispatch(fetchEvents());
+  await dispatch(fetchOwnedEvents());
 });
 
 const initialState = {

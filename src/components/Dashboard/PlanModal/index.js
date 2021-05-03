@@ -11,9 +11,9 @@ import RadioGroup from '../../RadioGroup';
 
 import { hide, selectInfos } from '../../../features/modals/planSlice';
 import { selectSubjects } from '../../../features/database/authSlice';
-import { createEvent, fetchLabelEvents } from '../../../features/database/eventsSlice';
+import { createEvent, fetchAllLabelEvents } from '../../../features/database/eventsSlice';
 import { selectLabels } from '../../../features/database/labelsSlice';
-import { selectLabel, switchDashboardState, DASHBOARD_STATES } from '../../../features/infos/infosSlice';
+import { selectLabel } from '../../../features/infos/infosSlice';
 
 import { getMonth, getWeekDay } from '../../../utils/Calendar';
 import Time from '../../../utils/Time';
@@ -79,8 +79,7 @@ const PlanModal = () => {
 
     setLoading(false);
     await dispatch(hide());
-    await dispatch(fetchLabelEvents({ id: labelId }));
-    await dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));
+    await fetchAllLabelEvents(dispatch, labelId);
   };
 
   return (

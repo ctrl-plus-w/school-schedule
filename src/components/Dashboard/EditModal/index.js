@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Check, X, Loader } from 'react-feather';
+import { X } from 'react-feather';
 
 import Input from '../../Input';
 import Textarea from '../../Textarea';
@@ -10,9 +9,10 @@ import SwitchButton from '../../SwitchButton';
 import Button from '../../Button';
 
 import { hide, selectInfos } from '../../../features/modals/editSlice';
-import { deleteEvent, fetchLabelEvents, fetchOwnedEvents, updateEvent } from '../../../features/database/eventsSlice';
+import { deleteEvent, fetchAllLabelEvents, fetchOwnedEvents, updateEvent } from '../../../features/database/eventsSlice';
 import { DASHBOARD_STATES, selectLabel, switchDashboardState } from '../../../features/infos/infosSlice';
 import { selectLabels } from '../../../features/database/labelsSlice';
+import useAnimation from '../../../hooks/useAnimation';
 
 const EditModal = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,8 @@ const EditModal = () => {
   const infos = useSelector(selectInfos);
   const label = useSelector(selectLabel);
   const labels = useSelector(selectLabels);
+
+  const { animateOut } = useAnimation();
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,13 +65,14 @@ const EditModal = () => {
     if (edit) for (const id of infos.ids) await dispatch(updateEvent({ id, ...payload }));
     else for (const id of infos.ids) await dispatch(deleteEvent({ id }));
 
+    // Fetch the newly updated events.
+    if (label) fetchAllLabelEvents(dispatch, labelId);
+    else dispatch(fetchOwnedEvents());
+
     // Hide the modal and switch to the show tab.
     dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));
     dispatch(hide());
-
-    // Fetch the newly updated events.
-    if (label) dispatch(fetchLabelEvents({ id: labelId }));
-    else dispatch(fetchOwnedEvents());
+    await animateOut();
 
     // Disable the loading.
     if (edit) setLoading(false);
