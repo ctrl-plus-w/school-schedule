@@ -28,7 +28,7 @@ const DatePicker = ({ className }) => {
 
     const newWeekInterval = getWeekInterval(referenceDay);
 
-    animation.animateOut();
+    await animation.animateOut();
 
     await dispatch(setWeekIntervalAndFetch(newWeekInterval));
     await dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));

@@ -15,8 +15,8 @@ const useAnimation = (events = []) => {
     });
   };
 
-  const animateOut = () => {
-    gsap.to('.event', {
+  const animateOut = async () => {
+    await gsap.to('.event', {
       duration: 0.2,
       transform: 'scale(0.9)',
       opacity: 0,
