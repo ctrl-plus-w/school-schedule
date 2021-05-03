@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Check, Loader, X } from 'react-feather';
+import { X } from 'react-feather';
 
 import Input from '../../Input';
 import Textarea from '../../Textarea';
@@ -114,9 +114,8 @@ const PlanModal = () => {
             Annuler
           </Button>
 
-          <Button type='submit' className='w-auto'>
+          <Button type='submit' className='w-auto' loading={loading}>
             Créer
-            {loading ? <Loader className='ml-2 animate-spin' size={22} /> : <Check className='ml-2' size={22} />}
           </Button>
         </footer>
       </div>

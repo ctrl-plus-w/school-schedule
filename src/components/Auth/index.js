@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Check, Eye, EyeOff, Loader } from 'react-feather';
+import { Eye, EyeOff } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 
 import { login, selectError, selectRole, setError } from '../../features/database/authSlice';
@@ -72,9 +72,8 @@ const Auth = () => {
           onClick={handleIconSwitch}
         />
 
-        <Button type='submit' className='mt-4'>
+        <Button type='submit' className='mt-4' loading={loading}>
           Se connecter
-          {loading ? <Loader size={22} className='ml-2 animate-spin' /> : <Check size={22} className='ml-2' />}
         </Button>
 
         <p className='error mt-8' style={{ opacity: error ? 1 : 0 }}>
