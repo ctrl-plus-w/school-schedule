@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { ChevronLeft, ChevronRight } from 'react-feather';
 
+import { animateOut } from '../../hooks/useAnimation';
+
 import { getLastMonday, getMonth, getNextMonday, getWeekInterval } from '../../utils/Calendar';
 
 import { selectWeekInterval, setWeekIntervalAndFetch, switchDashboardState, DASHBOARD_STATES } from '../../features/infos/infosSlice';
 
-import useAnimation from '../../hooks/useAnimation';
-
 const DatePicker = ({ className }) => {
   const dispatch = useDispatch();
-  const animation = useAnimation();
 
   const weekInterval = useSelector(selectWeekInterval);
 
@@ -28,7 +27,7 @@ const DatePicker = ({ className }) => {
 
     const newWeekInterval = getWeekInterval(referenceDay);
 
-    await animation.animateOut();
+    await animateOut();
 
     await dispatch(setWeekIntervalAndFetch(newWeekInterval));
     await dispatch(switchDashboardState(DASHBOARD_STATES.SHOW));

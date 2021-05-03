@@ -8,11 +8,12 @@ import Textarea from '../../Textarea';
 import SwitchButton from '../../SwitchButton';
 import Button from '../../Button';
 
+import { animateOut } from '../../../hooks/useAnimation';
+
 import { hide, selectInfos } from '../../../features/modals/editSlice';
 import { deleteEvent, fetchAllLabelEvents, fetchOwnedEvents, updateEvent } from '../../../features/database/eventsSlice';
 import { DASHBOARD_STATES, selectLabel, switchDashboardState } from '../../../features/infos/infosSlice';
 import { selectLabels } from '../../../features/database/labelsSlice';
-import useAnimation from '../../../hooks/useAnimation';
 
 const EditModal = () => {
   const dispatch = useDispatch();
@@ -20,8 +21,6 @@ const EditModal = () => {
   const infos = useSelector(selectInfos);
   const label = useSelector(selectLabel);
   const labels = useSelector(selectLabels);
-
-  const { animateOut } = useAnimation();
 
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [loading, setLoading] = useState(false);

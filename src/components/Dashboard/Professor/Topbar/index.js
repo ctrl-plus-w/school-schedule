@@ -8,19 +8,17 @@ import Switch from '../../../Switch';
 import DatePicker from '../../../DatePicker';
 import Dropdown from '../../../Dropdown';
 
+import { animateIn, animateOut } from '../../../../hooks/useAnimation';
+
 import { selectName, logout, selectSubjects } from '../../../../features/database/authSlice';
 import { fetchLabels, selectLabels } from '../../../../features/database/labelsSlice';
-
 import { switchDashboardState, setLabelAndFetch, setEmptyLabelAndFetch } from '../../../../features/infos/infosSlice';
 import { selectLabel, selectDashboardState } from '../../../../features/infos/infosSlice';
 import { DASHBOARD_STATES } from '../../../../features/infos/infosSlice';
-import useAnimation from '../../../../hooks/useAnimation';
 
 const Topbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const animation = useAnimation();
 
   const fullName = useSelector(selectName);
   const dashboardState = useSelector(selectDashboardState);
@@ -39,20 +37,24 @@ const Topbar = () => {
   };
 
   const handleSetOwnSchedule = async () => {
-    await animation.animateOut();
+    await animateOut();
     await dispatch(setEmptyLabelAndFetch());
   };
 
   const handleSetLabel = async (val) => {
-    await animation.animateOut();
+    await animateOut();
     await setLabelLoading(true);
     await dispatch(setLabelAndFetch(val));
     setLabelLoading(false);
   };
 
   const handleSwitchState = async (state) => {
-    await animation.animateOut();
+    await animateOut();
     await dispatch(switchDashboardState(DASHBOARD_STATES[state]));
+
+    if (DASHBOARD_STATES[state] === DASHBOARD_STATES.PLAN) {
+      animateIn();
+    }
   };
 
   return (

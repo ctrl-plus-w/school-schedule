@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
@@ -6,20 +6,26 @@ import { Plus } from 'react-feather';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import Time from '../../../utils/Time';
+import { animateIn } from '../../../hooks/useAnimation';
 
-import { getLength, getLines, isEmptyHead, isEmptyHeadAlone, isHead, isHeadAlone, getTail, isBody } from '../../../utils/Cell';
+import Time from '../../../utils/Time';
 import { arrayInclude, destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
+import { getLength, getLines, isEmptyHead, isEmptyHeadAlone, isHead, isHeadAlone, getTail, isBody } from '../../../utils/Cell';
+
 import { config } from '../../../features/modals/planSlice';
-import useAnimation from '../../../hooks/useAnimation';
 
 const PlanSchedule = (props) => {
   const dispatch = useDispatch();
 
   const [selectedEvents, setSelectedEvents] = useState([]);
 
-  useAnimation(props.events);
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(async () => {
+    await animateIn();
+    await setFirstRender(false);
+  });
 
   const handlePlanEvent = (e, event, duration) => {
     e.preventDefault();
@@ -72,7 +78,11 @@ const PlanSchedule = (props) => {
         key={uuidv4()}
         onClick={() => handleSelect({ column, row })}
       >
-        <div className={`flex justify-end items-end w-full h-auto m-0.5 p-2 rounded ${selected ? 'border-2 border-dashed border-purple-500' : ''}`}>
+        <div
+          className={`selected-event flex justify-end items-end w-full h-auto m-0.5 p-2 rounded ${
+            selected ? 'border-2 border-dashed border-purple-500' : ''
+          }`}
+        >
           {selected && (
             <Plus
               className='relative text-purple-500 p-2 hover:bg-purple-200 rounded-full transition-all box-content z-30'
@@ -85,7 +95,7 @@ const PlanSchedule = (props) => {
 
     const cell = (length) => (
       <div className={`flex ${classes} ${`row-end-${length ? row + length + 1 : row + 1}`} cursor-not-allowed`} key={uuidv4()}>
-        <div className={`event border-solid bg-gray-400 rounded`}></div>
+        <div className={`event ${selectedEvents.length || !firstRender ? 'scale-100 opacity-100' : ''} border-solid bg-gray-400 rounded`}></div>
       </div>
     );
 

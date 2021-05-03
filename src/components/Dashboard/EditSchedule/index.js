@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import useAnimation from '../../../hooks/useAnimation';
+import { animateIn } from '../../../hooks/useAnimation';
 
 import Time from '../../../utils/Time';
 
@@ -17,7 +17,9 @@ import { config } from '../../../features/modals/editSlice';
 const EditSchedule = (props) => {
   const dispatch = useDispatch();
 
-  useAnimation(props.events);
+  useEffect(() => {
+    animateIn();
+  });
 
   const handleEditEvent = (e, event, ids) => {
     e.preventDefault();

@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,16 +9,15 @@ import Time from '../../../utils/Time';
 
 import ROLES from '../../../static/roles';
 
+import { animateIn } from '../../../hooks/useAnimation';
+
 import { getColorStyle, getLength, getLines, isHead, isHeadAlone } from '../../../utils/Cell';
 import { destructure } from '../../../utils/Utils';
 import { sameDay } from '../../../utils/Calendar';
 
 import { config, hide } from '../../../features/modals/tooltipSlice';
-
 import { selectRole } from '../../../features/database/authSlice';
 import { selectLabel } from '../../../features/infos/infosSlice';
-
-import useAnimation from '../../../hooks/useAnimation';
 
 const Schedule = (props) => {
   const dispatch = useDispatch();
@@ -27,7 +27,9 @@ const Schedule = (props) => {
 
   const isStudent = role === ROLES.STUDENT;
 
-  useAnimation(props.events);
+  useEffect(() => {
+    animateIn();
+  });
 
   const handleMouseEnter = (event) => {
     const payload = {
