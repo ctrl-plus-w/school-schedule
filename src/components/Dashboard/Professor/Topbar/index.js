@@ -80,7 +80,9 @@ const Topbar = () => {
           loading={labelLoading}
         />
 
-        <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} disabled={label ? -1 : 2} />
+        {subjects.length > 0 && (
+          <Switch choices={DASHBOARD_STATES} choice={dashboardState} setChoice={handleSwitchState} disabled={!label ? 2 : -1} />
+        )}
 
         <DatePicker />
       </div>
