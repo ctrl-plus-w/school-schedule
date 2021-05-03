@@ -14,10 +14,13 @@ import { fetchLabels, selectLabels } from '../../../../features/database/labelsS
 import { switchDashboardState, setLabelAndFetch, setEmptyLabelAndFetch } from '../../../../features/infos/infosSlice';
 import { selectLabel, selectDashboardState } from '../../../../features/infos/infosSlice';
 import { DASHBOARD_STATES } from '../../../../features/infos/infosSlice';
+import useAnimation from '../../../../hooks/useAnimation';
 
 const Topbar = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const animation = useAnimation();
 
   const fullName = useSelector(selectName);
   const dashboardState = useSelector(selectDashboardState);
@@ -45,8 +48,9 @@ const Topbar = () => {
     setLabelLoading(false);
   };
 
-  const handleSwitchState = (state) => {
-    dispatch(switchDashboardState(DASHBOARD_STATES[state]));
+  const handleSwitchState = async (state) => {
+    await animation.animateOut();
+    await dispatch(switchDashboardState(DASHBOARD_STATES[state]));
   };
 
   return (
