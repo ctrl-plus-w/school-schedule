@@ -14,12 +14,14 @@ import Time from '../../../../utils/Time';
 
 import { selectEvents, selectLoading, selectRelatedEvents } from '../../../../features/database/eventsSlice';
 import { selectDashboardState, DASHBOARD_STATES, selectWeekInterval } from '../../../../features/infos/infosSlice';
+import { selectId } from '../../../../features/database/authSlice';
 
 const Grid = () => {
   const events = useSelector(selectEvents);
   const relatedEvents = useSelector(selectRelatedEvents);
   const state = useSelector(selectDashboardState);
   const weekInterval = useSelector(selectWeekInterval);
+  const userId = useSelector(selectId);
 
   const loading = useSelector(selectLoading);
 
@@ -48,7 +50,7 @@ const Grid = () => {
 
       {state === SHOW && <Schedule days={consecutiveDays} events={loading ? [] : events.map(eventObject)} />}
 
-      {state === EDIT && <EditSchedule days={consecutiveDays} events={loading ? [] : events.map(eventObject)} />}
+      {state === EDIT && <EditSchedule days={consecutiveDays} events={loading ? [] : events.map(eventObject).filter((e) => e.owner.id === userId)} />}
 
       {state === PLAN && <PlanSchedule days={consecutiveDays} events={loading ? [] : [...events, ...relatedEvents].map(eventObject)} />}
     </div>
