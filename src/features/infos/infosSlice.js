@@ -10,6 +10,11 @@ import ROLES from '../../static/roles';
 
 export const DASHBOARD_STATES = { SHOW: 'Affichage', EDIT: 'Édition', PLAN: 'Planification' };
 
+export const setEmptyLabelAndFetch = createAsyncThunk('infos/setEmptyLabelAndFetch', async (_arg, { dispatch }) => {
+  await dispatch(fetchOwnedEvents());
+  return '';
+});
+
 export const setLabelAndFetch = createAsyncThunk('infos/setLabelAndFetch', async (arg, { dispatch, getState }) => {
   const labels = selectLabels(getState());
   const label = labels.find((l) => l.label_name === arg);
@@ -100,7 +105,12 @@ const slice = createSlice({
 
   extraReducers: (builder) => {
     const fulfilled = (state, action) => ({ ...state, selectedLabel: action.payload });
+
+    // Set label and fetch reducer.
     builder.addCase(setLabelAndFetch.fulfilled, fulfilled);
+
+    // Set empty label and fetch reducer.
+    builder.addCase(setEmptyLabelAndFetch.fulfilled, fulfilled);
   },
 });
 
