@@ -3,26 +3,28 @@ import { useEffect } from 'react';
 
 import { gsap, Expo } from 'gsap/all';
 
+export const animateOut = async () => {
+  await gsap.to('.event', {
+    duration: 0.2,
+    scale: 1,
+    opacity: 0,
+    ease: Expo.ease,
+  });
+};
+
+export const animateIn = async () => {
+  await gsap.to('.event', {
+    duration: 0.6,
+    scale: 1,
+    opacity: 1,
+    ease: Expo.ease,
+  });
+};
+
 const useAnimation = (events = []) => {
-  useEffect(() => animateIn(), [events]);
-
-  const animateIn = () => {
-    gsap.to('.event', {
-      duration: 0.6,
-      transform: 'scale(1)',
-      opacity: 1,
-      ease: Expo.ease,
-    });
-  };
-
-  const animateOut = async () => {
-    await gsap.to('.event', {
-      duration: 0.2,
-      transform: 'scale(0.9)',
-      opacity: 0,
-      ease: Expo.ease,
-    });
-  };
+  useEffect(() => {
+    animateIn();
+  }, [events]);
 
   return { animateIn, animateOut };
 };
