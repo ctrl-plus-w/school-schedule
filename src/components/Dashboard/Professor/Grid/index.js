@@ -43,7 +43,7 @@ const Grid = () => {
   const consecutiveDays = getConsecutiveDays(new Date(weekInterval.start), 5);
 
   return (
-    <div className='grid grid-cols-custom grid-rows-custom gap-px h-full mt-8 bg-gray-300 p-px'>
+    <div className='grid grid-cols-custom grid-rows-custom gap-px mt-8 bg-gray-300 p-px overflow-hidden'>
       <TimeIndicator />
       <Header />
       <Corner />
