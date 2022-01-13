@@ -15,3 +15,15 @@ I started this project only to gain experience because, I think it would be too 
 # Installation
 
 1. Modify the server url `src/app/database.js`
+
+2. Build the server
+
+```
+npm run build
+```
+
+3. Start the server
+
+```
+server -s build
+```
